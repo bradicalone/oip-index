@@ -45,7 +45,7 @@ class Artifact {
 		this.publisherName = pubName;
 	}
 	getPublisherName(){
-		return this.publisherName
+		return this.publisherName || this.getMainAddress()
 	}
 	setMainAddress(address){
 		this.artifact.floAddress = address;
