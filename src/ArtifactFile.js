@@ -1,5 +1,3 @@
-import Artifact from './Artifact.js';
-
 module.exports =
 class ArtifactFile {
 	constructor(json, parent){
@@ -19,8 +17,6 @@ class ArtifactFile {
 		// If we are, compare the class names
 		if (parent && typeof parent === "object" && parent.getClassName() === "Artifact") {
 			this.parent = parent;
-		} else {
-			this.parent = new Artifact();
 		}
 	}
 	setFilename(filename){
@@ -119,7 +115,11 @@ class ArtifactFile {
 			return this.file.scale
 		} else {
 			// If the local file scale is undefined, return the parent scale
-			return this.parent.getPaymentScale();
+			if (this.parent)
+				return this.parent.getPaymentScale();
+			else
+				return 1
+			// Default return one if we can't get the parents payment scale, and our payment scale is not set either
 		}
 	}
 	setSuggestedPlayCost(suggestedPlayCostFiat){
