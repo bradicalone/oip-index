@@ -108,6 +108,8 @@ class Artifact {
 	/**
 	 * Set the TXID of the Artifact
 	 * @param {string} txid - The TXID that identifies the Artifact
+	 * @example
+	 * artifact.setTXID("1cb19b83dd20614d05ea64fffb111d588cf513ee65aa488953944fc7fe95e2c4")
 	 */
 	setTXID(txid){
 		this.txid = txid;
@@ -115,19 +117,25 @@ class Artifact {
 	/** 
 	 * Get the TXID of the Artifact
 	 * @return {string} Returns the TXID of the artifact, or `undefined` if the txid has not been set
+	 * @example
+	 * var txid = artifact.getTXID()
 	 */
 	getTXID(){
 		return this.txid;
 	}
 	/**
-	 * Set the Publisher name String
+	 * Set the Publisher name String, please note that this does not set it when you publish to the blockchain!
 	 * @param {string} publisherName - The Publisher Name you wish to set the Artifact to
+	 * @example
+	 * artifact.setPublisherName("My Publisher Name")
 	 */
 	setPublisherName(pubName){
 		this.publisherName = pubName;
 	}
 	/**
 	 * Get the Publisher Name for the Artifact
+	 * @example
+	 * var pubName = artifact.getPublisherName()
 	 * @return {string} Returns the Publisher Name if defined, or the Main Address if the publisher name is undefined
 	 */
 	getPublisherName(){
@@ -135,6 +143,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Main Address that you will be signing the Artifact with
+	 * @example
+	 * artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
 	 * @param {string} address - The Main Address that will be signing the Artifact
 	 */
 	setMainAddress(address){
@@ -142,6 +152,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Main Address that the Artifact is signed with
+	 * @example
+	 * var mainAddress = artifact.getMainAddress()
 	 * @return {string}
 	 */
 	getMainAddress(){
@@ -149,6 +161,8 @@ class Artifact {
 	}
 	/**
 	 * Set publish/signature timestamp for the Artifact
+	 * @example
+	 * artifact.setTimestamp(Date.now())
 	 * @param {number} time - The Timestamp you wish to set the Artifact to
 	 */
 	setTimestamp(time){
@@ -157,6 +171,8 @@ class Artifact {
 	}
 	/**
 	 * Get the publish/signature timestamp for the Artifact
+	 * @example
+	 * var timestamp = artifact.getTimestamp()
 	 * @return {number} Returns `undefined` if timestamp is not yet set
 	 */
 	getTimestamp(){
@@ -164,6 +180,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Artifact Title
+	 * @example
+	 * artifact.setTitle("Example Title")
 	 * @param {string} title - The desired Title you wish to set the Artifact to
 	 */
 	setTitle(title){
@@ -171,6 +189,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Artifact Title
+	 * @example
+	 * var title = artifact.getTitle()
 	 * @return {string}
 	 */
 	getTitle(){
@@ -178,6 +198,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Description of the Artifact
+	 * @example
+	 * artifact.setDescription("My Description")
 	 * @param {string} description - The Description you wish to set
 	 */
 	setDescription(description){
@@ -185,6 +207,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Description of the Artifact
+	 * @example
+	 * var description = artifact.getDescription()
 	 * @return {string}
 	 */
 	getDescription(){
@@ -192,6 +216,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Type of the Artifact
+	 * @example
+	 * artifact.setType("Video")
 	 * @param {string} type - Must be one of the following supported Artifact Main Types ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
 	 */
 	setType(type){
@@ -205,6 +231,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Type of the Artifact
+	 * @example
+	 * var type = artifact.getType()
 	 * @return {string}
 	 */
 	getType(){
@@ -212,6 +240,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Subtype of the Artifact
+	 * @example
+	 * artifact.setSubtype("Album")
 	 * @param {string} subtype - The desired Subtype for the Artifact
 	 */
 	setSubtype(subtype){
@@ -221,6 +251,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Subtype of the Artifact
+	 * @example
+	 * var subtype = artifact.getSubtype()
 	 * @return {string}
 	 */
 	getSubtype(){
@@ -228,6 +260,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Year that the content was originally published
+	 * @example
+	 * artifact.setYear(2018)
 	 * @param {number} year - The Year that the content was originally published
 	 */
 	setYear(year){
@@ -236,6 +270,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Year that the content was originally published
+	 * @example
+	 * var year = artifact.getYear()
 	 * @return {number}
 	 */
 	getYear(){
@@ -243,6 +279,8 @@ class Artifact {
 	}
 	/**
 	 * Set if the Artifact is NSFW
+	 * @example
+	 * artifact.setNSFW(true)
 	 * @param {Boolean} nsfwToggle - `true` or `false` depending on the content of the Artifact
 	 */
 	setNSFW(nsfwToggle){
@@ -250,6 +288,8 @@ class Artifact {
 	}
 	/**
 	 * Get if the Artifact is marked NSFW 
+	 * @example
+	 * var nsfw = artifact.getNSFW()
 	 * @return {Boolean}
 	 */
 	getNSFW(){
@@ -257,7 +297,9 @@ class Artifact {
 	}
 	/**
 	 * Set the Tags for the Artifact
-	 * @param {Array.<string>|string} tags - Pass in either an Array of tags, or a comma seperated tag string
+	 * @example
+	 * artifact.setTags(["Tag 1", "Tag 2", "Tag 3"])
+	 * @param {Array.<string>} tags - Pass in an Array of tags
 	 */
 	setTags(tags){
 		if (Array.isArray(tags)){
@@ -272,6 +314,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Tags for the Artifact
+	 * @example
+	 * var tags = artifact.getTags()
 	 * @return {Array.<string>}
 	 */
 	getTags(){
@@ -280,6 +324,8 @@ class Artifact {
 	/**
 	 * Set a specific Detail on the Artifact
 	 * @param {string} detail - Where should we place this detail (i.e. "artist")
+	 * @example
+	 * artifact.setDetail("artist", "Artist Name")
 	 * @param {Object} info - The item you wish to set to the detail node
 	 */
 	setDetail(detail, info){
@@ -288,6 +334,8 @@ class Artifact {
 	/**
 	 * Get a specific Detail back from the Artifact
 	 * @param  {string} detail - The detail you want pack (i.e. "artist")
+	 * @example
+	 * var artist = artifact.getDetail("artist")
 	 * @return {Object}
 	 */
 	getDetail(detail){
@@ -295,6 +343,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Signature of the Artifact
+	 * @example
+	 * artifact.setSignature("IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=")
 	 * @param {string} signature - The signature of the Artifact
 	 */
 	setSignature(signature){
@@ -302,6 +352,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Signature of the Artifact
+	 * @example
+	 * var signature = artifact.getSignature()
 	 * @return {string} Returns `undefined` if signature is not set
 	 */
 	getSignature(){
@@ -309,6 +361,10 @@ class Artifact {
 	}
 	/**
 	 * Set the Storage Network of the Artifact
+	 * @example <caption>Set Network to IPFS</caption
+	 * artifact.setNetwork("IPFS")
+	 * @example <caption>Set Network to Storj (Support coming Soon)</caption
+	 * artifact.setNetwork("Storj")
 	 * @param {string} network - The Storage Network where we can find the file at Location
 	 */
 	setNetwork(network){
@@ -319,6 +375,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Storage Network for the Artifact
+	 * @example
+	 * var mainAddress = artifact.getMainAddress()
 	 * @return {string}
 	 */
 	getNetwork(){
@@ -326,6 +384,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Storage Location
+	 * @example
+	 * artifact.setLocation("QmNmVHfXuh5Tub76H1fog7wSM8of4Njfm2j1oTg8ZYUBZm")
 	 * @param {string} location - The Location of the files on the Storage Network
 	 */
 	setLocation(location){
@@ -333,6 +393,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Storage Location
+	 * @example
+	 * var location = artifact.getLocation()
 	 * @return {string}
 	 */
 	getLocation(){
@@ -340,6 +402,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Fiat to be used in Payment Calculations. Only "usd" is supported right now.
+	 * @example
+	 * artifact.setPaymentFiat("usd")
 	 * @param {string} fiat - The Fiat type you wish to accept
 	 */
 	setPaymentFiat(fiat){
@@ -347,6 +411,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Fiat type to be used in Payment Calculations
+	 * @example
+	 * var fiat = artifact.getPaymentFiat()
 	 * @return {string} Returns undefined if no fiat is set
 	 */
 	getPaymentFiat(){
@@ -354,6 +420,8 @@ class Artifact {
 	}
 	/**
 	 * Set the Payment Scale to use in Payment Calculations
+	 * @example
+	 * artifact.setPaymentScale(1000)
 	 * @param {number} newScale - The new Scale that should be used
 	 */
 	setPaymentScale(newScale){
@@ -361,6 +429,8 @@ class Artifact {
 	}
 	/**
 	 * Get the payment scale for use in Payment Calculations
+	 * @example
+	 * var scale = artifact.getPaymentScale()
 	 * @return {number} Returns 1 if no payment scale is set (aka, 1:1 scale)
 	 */
 	getPaymentScale(){
@@ -384,6 +454,8 @@ class Artifact {
 	}
 	/**
 	 * Set suggested tip values to use. These tip values are the fiat value, divided by the scale you set.
+	 * @example
+	 * artifact.setSuggestedTip([10, 100, 1000])
 	 * @param {Array<number>} suggestedTipArray - The Suggested Tips you wish to define
 	 */
 	setSuggestedTip(suggestedTipArray){
@@ -391,6 +463,8 @@ class Artifact {
 	}
 	/**
 	 * Get what the user has defined as their suggested tip values
+	 * @example
+	 * var tips = artifact.getSuggestedTip()
 	 * @return {Array<number>}
 	 */
 	getSuggestedTip(){
@@ -428,6 +502,8 @@ class Artifact {
 	}
 	/**
 	 * Get the Addresses to send Payment to
+	 * @example
+	 * var addresses = artifact.getPaymentAddresses()
 	 * @return {Array.<PaymentPair>}
 	 */
 	getPaymentAddresses(){
@@ -435,6 +511,8 @@ class Artifact {
 	}
 	/**
 	 * Set the cut you want to send to Retailers for selling your content
+	 * @example
+	 * artifact.setRetailerCut(10)
 	 * @param {number} newCut - The new cut you want sent to Retailers
 	 */
 	setRetailerCut(newCut){
@@ -443,6 +521,8 @@ class Artifact {
 	}
 	/**
 	 * Get the cut that the user wants to send to Retailers for selling their content
+	 * @example
+	 * var retailerCut = artifact.getRetailerCut()
 	 * @return {number}
 	 */
 	getRetailerCut(){
@@ -450,6 +530,8 @@ class Artifact {
 	}
 	/**
 	 * Set the cut you want to send to Promoters for sharing your content
+	 * @example
+	 * artifact.setPromoterCut(10)
 	 * @param {number} newCut - The new cut you want sent to Retailers
 	 */
 	setPromoterCut(newCut){
@@ -458,6 +540,8 @@ class Artifact {
 	}
 	/**
 	 * Get the cut that the user wants to send to Promoters for sharing their content
+	 * @example
+	 * var promoterCut = artifact.getPromoterCut()
 	 * @return {number}
 	 */
 	getPromoterCut(){
@@ -465,6 +549,8 @@ class Artifact {
 	}
 	/**
 	 * Set the maximum discount percent that Retailers can discount your content by during a sale
+	 * @example
+	 * artifact.setMaxDiscount(20)
 	 * @param {number} newMax - The new maximim discount percentage
 	 */
 	setMaxDiscount(newMax){
@@ -473,6 +559,8 @@ class Artifact {
 	}
 	/**
 	 * Get the maximum discount percent that Retailers can discount the content by during a sale
+	 * @example
+	 * var maxDiscount = artifact.getMaxDiscount()
 	 * @return {number}
 	 */
 	getMaxDiscount(){
