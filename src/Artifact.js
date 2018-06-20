@@ -109,8 +109,8 @@ class Artifact {
 		if (Array.isArray(tags)){
 			this.artifact.info.tags = tags;
 		} else {
-			if (tags.split(",").length > 1){
-				this.artifact.info.tags = tags.split(",")
+			if (tags.split(", ").length > 1){
+				this.artifact.info.tags = tags.split(", ")
 			} else {
 				this.artifact.info.tags = [tags]
 			}
