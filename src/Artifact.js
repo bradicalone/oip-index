@@ -162,7 +162,7 @@ class Artifact {
 		if (this.artifact.payment.scale){
 			if (typeof this.artifact.payment.scale === "string"){
 				if (isNaN(this.artifact.payment.scale) && this.artifact.payment.scale.split(":").length === 2){
-					return this.artifact.payment.scale.split(":")[1]
+					return parseInt(this.artifact.payment.scale.split(":")[0])
 				} else if (!isNaN(this.artifact.payment.scale)){
 					return parseInt(this.artifact.payment.scale)
 				}
