@@ -661,7 +661,7 @@ class Artifact {
 			return this.Multiparts;
 		} else {
 			// Too short to be a multipart!
-			return [];
+			return;
 		}
 	}
 	fromMultiparts(multipartArray){
