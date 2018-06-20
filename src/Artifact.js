@@ -265,16 +265,15 @@ class Artifact {
 	isPaid(){
 		let files = this.getFiles();
 
-		let paid = false;
-
 		if (files){
 			for (var file of files){
-				if (file.isPaid())
-					paid = true;
+				if (file.isPaid()){
+					return true;
+				}
 			}
 		}
 
-		return paid;
+		return false;
 	}
 	toJSON(){
 		this.artifact.storage.files = [];
