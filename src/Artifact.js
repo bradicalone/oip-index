@@ -70,7 +70,7 @@ class Artifact {
 		this.artifact.info.description = description;
 	}
 	getDescription(){
-		return this.artifact.info.description
+		return this.artifact.info.description || ""
 	}
 	setType(type){
 		type = this.capitalizeFirstLetter(type);
