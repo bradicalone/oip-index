@@ -280,7 +280,7 @@ class Artifact {
 	/**
 	 * Set a specific Detail on the Artifact
 	 * @param {string} detail - Where should we place this detail (i.e. "artist")
-	 * @param {Any Type} info - The item you wish to set to the detail node
+	 * @param {Object} info - The item you wish to set to the detail node
 	 */
 	setDetail(detail, info){
 		this.artifact.details[detail] = info
@@ -288,7 +288,7 @@ class Artifact {
 	/**
 	 * Get a specific Detail back from the Artifact
 	 * @param  {string} detail - The detail you want pack (i.e. "artist")
-	 * @return {[type]}
+	 * @return {Object}
 	 */
 	getDetail(detail){
 		return this.artifact.details[detail]
@@ -491,7 +491,7 @@ class Artifact {
 	}
 	/**
 	 * Get all the Files on the Artifact
-	 * @return {Array.<ArtifactFile}
+	 * @return {Array.<ArtifactFile>}
 	 */
 	getFiles(){
 		return this.FileObjects
