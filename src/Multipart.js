@@ -30,6 +30,9 @@ class Multipart {
 		return this.prefix;
 	}
 	setPartNumber(partNumber){
+		if (partNumber > 0)
+			this.hasJSONPrefix = false;
+
 		this.partNumber = partNumber;
 	}
 	getPartNumber(){
@@ -104,7 +107,6 @@ class Multipart {
 			return {success: false, message: "Must have a Publisher Address!"}
 		}
 		if (this.getFirstPartTXID() === "" && this.getPartNumber() !== 0){
-			console.log(this.getFirstPartTXID(), this.getPartNumber())
 			return {success: false, message: "Only the first part in a multipart message can have a blank first part TXID!"}
 		}
 		if (!this.validateSignature()){
