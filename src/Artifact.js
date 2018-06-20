@@ -25,7 +25,7 @@ class Artifact {
 		if (input){
 			// If we are being passed in an array, it might be multiparts so try to load from that
 			if (Array.isArray(input) && input.length > 1 && input[0] instanceof Multipart){
-				this.fromMultipart(input)
+				this.fromMultiparts(input)
 			} else if (typeof input === "string") {
 				try {
 					this.fromJSON(JSON.parse(input))
