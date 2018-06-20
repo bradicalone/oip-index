@@ -196,22 +196,7 @@ class Artifact {
 		this.artifact.payment.addresses.push(tmpObj)
 	}
 	getPaymentAddresses(){
-		return this.artifact.payment.addresses
-	}
-	setMultiwalletAddress(address){
-		this.artifact.payment.shortMW = address
-	}
-	getMultiwalletAddress(){
-		return this.artifact.payment.shortMW
-	}
-	addSupportedMWCoin(coin){
-		if (!this.artifact.payment.coins)
-			this.artifact.payment.coins = [];
-
-		this.artifact.payment.coins.push(coin);
-	}
-	getSupportedMWCoins(){
-		return this.artifact.payment.coins
+		return this.artifact.payment.addresses || []
 	}
 	setRetailerCut(newCut){
 		this.artifact.payment.retailer = newCut;
