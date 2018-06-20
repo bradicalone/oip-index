@@ -231,10 +231,17 @@ class Artifact {
 	}
 	getThumbnail(){
 		for (var file of this.getFiles()){
-			if (file.getType() === "Image" && file.getSubtype() === "Thumbnail"){
+			if (file.getType() === "Image" && file.getSubtype() === "Thumbnail" && file.getSuggestedPlayCost() === 0){
 				return file;
 			}
 		}
+
+		for (var file of this.getFiles()){
+			if (file.getType() === "Image" && file.getSuggestedPlayCost() === 0){
+				return file;
+			}
+		}
+
 		return undefined;
 	}
 	getDuration(){
