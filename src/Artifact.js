@@ -64,7 +64,7 @@ class Artifact {
 		this.artifact.info.title = title;
 	}
 	getTitle(){
-		return this.artifact.info.title
+		return this.artifact.info.title || ""
 	}
 	setDescription(description){
 		this.artifact.info.description = description;
