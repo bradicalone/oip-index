@@ -54,7 +54,8 @@ class Artifact {
 		return this.artifact.floAddress	
 	}
 	setTimestamp(time){
-		this.artifact.timestamp = time;
+		if (typeof time === "number")
+			this.artifact.timestamp = time;
 	}
 	getTimestamp(){
 		return this.artifact.timestamp
