@@ -93,7 +93,8 @@ class Artifact {
 		return this.artifact.subtype
 	}
 	setYear(year){
-		this.artifact.info.year = year;
+		if (typeof year === "number")
+			this.artifact.info.year = year;
 	}
 	getYear(){
 		return this.artifact.info.year
