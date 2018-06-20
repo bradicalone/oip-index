@@ -12,6 +12,11 @@ class Multipart {
 		// This is used to track a reference if someone pulled a multipart from an endpoint
 		this.txid = ""
 
+		// Track if we should log the JSON prefix 
+		// (don't write prefix if we were created from a Multipart string that doesn't contain a JSON prefix)
+		// Aka, this is for supporting legacy artifacts
+		this.hasJSONPrefix = true;
+
 		if (txid)
 			this.setTXID(txid)
 
@@ -77,7 +82,7 @@ class Multipart {
 		return this.txid;
 	}
 	addJSONIdentifier(){
-		if (this.getPartNumber() === 0)
+		if (this.getPartNumber() === 0 && this.hasJSONPrefix)
 			return "json:"
 
 		return ""
@@ -170,6 +175,7 @@ class Multipart {
 						i += 6;
 					} else {
 						i++;
+						this.hasJSONPrefix = false;
 					}
 				}
 			} else {
