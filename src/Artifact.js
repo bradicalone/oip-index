@@ -203,21 +203,21 @@ class Artifact {
 			this.artifact.payment.retailer = newCut;
 	}
 	getRetailerCut(){
-		return this.artifact.payment.retailer
+		return this.artifact.payment.retailer || 0
 	}
 	setPromoterCut(newCut){
 		if (typeof newCut === "number")
 			this.artifact.payment.promoter = newCut;
 	}
 	getPromoterCut(){
-		return this.artifact.payment.promoter
+		return this.artifact.payment.promoter || 0
 	}
 	setMaxDiscount(newMax){
 		if (typeof newMax === "number")
 			this.artifact.payment.maxdisc = newMax;
 	}
 	getMaxDiscount(){
-		return this.artifact.payment.maxdisc
+		return this.artifact.payment.maxdisc || 0
 	}
 	addFile(file){
 		if (file instanceof ArtifactFile){
