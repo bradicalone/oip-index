@@ -178,7 +178,7 @@ class Artifact {
 		this.artifact.payment.tips = sugTipArray;
 	}
 	getSuggestedTip(){
-		return this.artifact.payment.tips
+		return this.artifact.payment.tips || []
 	}
 	addTokenRule(tokenRule){
 		this.artifact.payment.tokens.push(tokenRule);
