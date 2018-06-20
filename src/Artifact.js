@@ -117,19 +117,13 @@ class Artifact {
 		}
 	}
 	getTags(){
-		return this.artifact.info.tags
+		return this.artifact.info.tags || []
 	}
-	setDetail(detailNode, info){
-		if (typeof info === "string" && info.split(",").length > 1) {
-			this.artifact.details[detailNode] = info.split(",")
-		} else {
-			this.artifact.details[detailNode] = info
-		}
-
-		this.artifact.details[detailNode] = info;
+	setDetail(detail, info){
+		this.artifact.details[detail] = info
 	}
-	getDetail(detailNode){
-		return this.artifact.details[detailNode]
+	getDetail(detail){
+		return this.artifact.details[detail]
 	}
 	setSignature(signature){
 		this.artifact.signature = signature
