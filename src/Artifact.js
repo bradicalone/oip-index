@@ -643,8 +643,8 @@ class Artifact {
 				for (var c in chunks){
 					var mp = new Multipart();
 
-					mp.setPartNumber(c);
-					mp.setTotalParts(chunks.length);
+					mp.setPartNumber(parseInt(c));
+					mp.setTotalParts(chunks.length - 1);
 					mp.setPublisherAddress(this.getMainAddress());
 					mp.setChoppedStringData(chunks[c]);
 
