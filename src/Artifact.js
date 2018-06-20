@@ -7,8 +7,78 @@ const SUPPORTED_TYPES = ["Audio", "Video", "Image", "Text", "Software", "Web", "
 const CHOP_MAX_LEN = 370;
 const FLODATA_MAX_LEN = 528;
 
-module.exports =
+/**
+ * @typedef {Object} StatusObject
+ * @property {Boolean} success - If the attempt was successful
+ * @property {string} error - The error text (if there was an error)
+ */
+
+/**
+ * An Artifact contains metadata about a file/piece of content, 
+ * along with a location on a network to find that file, 
+ * and optionally payment information.
+ */
 class Artifact {
+	/**
+	 * Create a new Artifact
+	 * ##### Examples
+	 * Create a blank Artifact
+	 * ```
+	 * import { Artifact } from 'oip-index'
+	 *
+	 * var artifact = new Artifact()
+	 * ```
+	 * Create an Artifact from JSON
+	 * ```
+	 * import { Artifact } from 'oip-index'
+	 *
+	 * var artifact = new Artifact({
+ 	 *   "oip042": {
+	 *         "artifact": {
+	 *             "floAddress": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
+	 *             "type": "Image",
+	 *             "info": {
+	 *                 "title": "Example Artifact",
+	 *                 "description": "Example Artifact Description"
+	 *             },
+	 *             "storage": {
+	 *                 "network": "IPFS",
+	 *                 "files": [
+	 *                     {
+	 *                         "fname": "my_cool_picture.png",
+	 *                         "fsize": 23591,
+	 *                         "type": "Image"
+	 *                     }
+	 *                 ],
+	 *                 "location": "QmQh7uTC5YSinJG2FgWLrd8MYSNtr8G5JGAckR5ARwmyET"
+	 *             },
+	 *             "payment": {},
+	 *             "timestamp": 1508188263,
+	 *             "signature": "IAiCzx8ICjAKoj98yw5VwKLCzIuAGM1fVIewZjC/PrBHVkUsl67R2Pv0Eu1fFaWsoONmVc1lZA+lpmQ4/dGVG6o="
+	 *         }
+	 *     }
+	 * })
+	 * ```
+	 * Create an Artifact from a JSON string
+	 * ```
+	 * import { Artifact } from 'oip-index'
+	 *
+	 * var artifact = new Artifact('{"oip042":{"artifact":{"floAddress":"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k","type":"Image","info":{"title":"Example Artifact","description":"Example Artifact Description"},"storage":{"network":"IPFS","files":[{"fname":"my_cool_picture.png","fsize":23591,"type":"Image"}],"location":"QmQh7uTC5YSinJG2FgWLrd8MYSNtr8G5JGAckR5ARwmyET"},"payment":{},"timestamp":1508188263,"signature":"IAiCzx8ICjAKoj98yw5VwKLCzIuAGM1fVIewZjC/PrBHVkUsl67R2Pv0Eu1fFaWsoONmVc1lZA+lpmQ4/dGVG6o="}}}')
+	 * ```
+	 * Create an Artifact from Multiparts
+	 * ```
+	 * import { Artifact, Multipart } from 'oip-index'
+	 *
+	 * var multiparts = [
+	 * 	new Multipart('oip-mp(0,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,,IPw0M1gDPlY21v7aFYyYBiM7C641PhnSLUAw0jla9B18FteQ6f8dHc2m0a0rpMNmh8gUjRDbHTFYqz4MD/S820Y=):{"oip-041":{"artifact":{"type":"Image-Basic","info":{"extraInfo":{"genre":"The Arts"},"title":"Alexandria Logo"},"storage":{"network":"IPFS","files":[{"fname":"Alexandria.png","fsize":638001,"type":"Image"}],"location":"QmNmVHfXuh5Tub76H1fog7wSM8of4Njfm2j1oTg8ZYUBZm"},"payment":{"fiat":"USD","scale":"1000:1","maxdisc":30,"promoter":15,"retailer":15,"sugTip":[],"addres'),
+	 * 	new Multipart('oip-mp(1,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,2c5140f5da,H8fjRKrXyMJlxjZLGWxjzdJG/BW5Bn+k+tmud5yGf3sYGhAQDd+aYVtAC1H8LGy+w011kYPjApuF29jrcZPQJP4=):ses\":[]},\"timestamp\":1526153770,\"publisher\":\"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k\"},\"signature\":\"IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=\"}}')
+	 * ]
+	 *
+	 * var artifact = new Artifact(multiparts)
+	 * ```
+	 * @param  {Array<Multipart>|string|Object} input - Pass in either an array of Multiparts, an Artifact JSON string, or an Artifact JSON object to be loaded from
+	 * @return {Artifact}
+	 */
 	constructor(input){
 		this.artifact = {
 			floAddress: "",
@@ -35,43 +105,95 @@ class Artifact {
 			}
 		} 
 	}
+	/**
+	 * Set the TXID of the Artifact
+	 * @param {string} txid - The TXID that identifies the Artifact
+	 */
 	setTXID(txid){
 		this.txid = txid;
 	}
+	/** 
+	 * Get the TXID of the Artifact
+	 * @return {string} Returns the TXID of the artifact, or `undefined` if the txid has not been set
+	 */
 	getTXID(){
 		return this.txid;
 	}
+	/**
+	 * Set the Publisher name String
+	 * @param {string} publisherName - The Publisher Name you wish to set the Artifact to
+	 */
 	setPublisherName(pubName){
 		this.publisherName = pubName;
 	}
+	/**
+	 * Get the Publisher Name for the Artifact
+	 * @return {string} Returns the Publisher Name if defined, or the Main Address if the publisher name is undefined
+	 */
 	getPublisherName(){
 		return this.publisherName || this.getMainAddress()
 	}
+	/**
+	 * Set the Main Address that you will be signing the Artifact with
+	 * @param {string} address - The Main Address that will be signing the Artifact
+	 */
 	setMainAddress(address){
 		this.artifact.floAddress = address;
 	}
+	/**
+	 * Get the Main Address that the Artifact is signed with
+	 * @return {string}
+	 */
 	getMainAddress(){
 		return this.artifact.floAddress	
 	}
+	/**
+	 * Set publish/signature timestamp for the Artifact
+	 * @param {number} time - The Timestamp you wish to set the Artifact to
+	 */
 	setTimestamp(time){
 		if (typeof time === "number")
 			this.artifact.timestamp = time;
 	}
+	/**
+	 * Get the publish/signature timestamp for the Artifact
+	 * @return {number} Returns `undefined` if timestamp is not yet set
+	 */
 	getTimestamp(){
 		return this.artifact.timestamp
 	}
+	/**
+	 * Set the Artifact Title
+	 * @param {string} title - The desired Title you wish to set the Artifact to
+	 */
 	setTitle(title){
 		this.artifact.info.title = title;
 	}
+	/**
+	 * Get the Artifact Title
+	 * @return {string}
+	 */
 	getTitle(){
 		return this.artifact.info.title || ""
 	}
+	/**
+	 * Set the Description of the Artifact
+	 * @param {string} description - The Description you wish to set
+	 */
 	setDescription(description){
 		this.artifact.info.description = description;
 	}
+	/**
+	 * Get the Description of the Artifact
+	 * @return {string}
+	 */
 	getDescription(){
 		return this.artifact.info.description || ""
 	}
+	/**
+	 * Set the Type of the Artifact
+	 * @param {string} type - Must be one of the following supported Artifact Main Types ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
+	 */
 	setType(type){
 		type = this.capitalizeFirstLetter(type);
 
@@ -81,30 +203,62 @@ class Artifact {
 
 		this.artifact.type = type;
 	}
+	/**
+	 * Get the Type of the Artifact
+	 * @return {string}
+	 */
 	getType(){
 		return this.artifact.type
 	}
+	/**
+	 * Set the Subtype of the Artifact
+	 * @param {string} subtype - The desired Subtype for the Artifact
+	 */
 	setSubtype(subtype){
 		subtype = this.capitalizeFirstLetter(subtype);
 		
 		this.artifact.subtype = subtype;
 	}
+	/**
+	 * Get the Subtype of the Artifact
+	 * @return {string}
+	 */
 	getSubtype(){
 		return this.artifact.subtype
 	}
+	/**
+	 * Set the Year that the content was originally published
+	 * @param {number} year - The Year that the content was originally published
+	 */
 	setYear(year){
 		if (typeof year === "number")
 			this.artifact.info.year = year;
 	}
+	/**
+	 * Get the Year that the content was originally published
+	 * @return {number}
+	 */
 	getYear(){
 		return this.artifact.info.year
 	}
+	/**
+	 * Set if the Artifact is NSFW
+	 * @param {Boolean} nsfwToggle - `true` or `false` depending on the content of the Artifact
+	 */
 	setNSFW(nsfwToggle){
 		this.artifact.info.nsfw = nsfwToggle;
 	}
+	/**
+	 * Get if the Artifact is marked NSFW 
+	 * @return {Boolean}
+	 */
 	getNSFW(){
 		return this.artifact.info.nsfw || false
 	}
+	/**
+	 * Set the Tags for the Artifact
+	 * @param {Array.<string>|string} tags - Pass in either an Array of tags, or a comma seperated tag string
+	 */
 	setTags(tags){
 		if (Array.isArray(tags)){
 			this.artifact.info.tags = tags;
@@ -116,45 +270,99 @@ class Artifact {
 			}
 		}
 	}
+	/**
+	 * Get the Tags for the Artifact
+	 * @return {Array.<string>}
+	 */
 	getTags(){
 		return this.artifact.info.tags || []
 	}
+	/**
+	 * Set a specific Detail on the Artifact
+	 * @param {string} detail - Where should we place this detail (i.e. "artist")
+	 * @param {Any Type} info - The item you wish to set to the detail node
+	 */
 	setDetail(detail, info){
 		this.artifact.details[detail] = info
 	}
+	/**
+	 * Get a specific Detail back from the Artifact
+	 * @param  {string} detail - The detail you want pack (i.e. "artist")
+	 * @return {[type]}
+	 */
 	getDetail(detail){
 		return this.artifact.details[detail]
 	}
+	/**
+	 * Set the Signature of the Artifact
+	 * @param {string} signature - The signature of the Artifact
+	 */
 	setSignature(signature){
 		this.artifact.signature = signature
 	}
+	/**
+	 * Get the Signature of the Artifact
+	 * @return {string} Returns `undefined` if signature is not set
+	 */
 	getSignature(){
 		return this.artifact.signature
 	}
+	/**
+	 * Set the Storage Network of the Artifact
+	 * @param {string} network - The Storage Network where we can find the file at Location
+	 */
 	setNetwork(network){
 		if (network === "ipfs")
 			network = "IPFS"
 
 		this.artifact.storage.network = network;
 	}
+	/**
+	 * Get the Storage Network for the Artifact
+	 * @return {string}
+	 */
 	getNetwork(){
 		return this.artifact.storage.network
 	}
+	/**
+	 * Set the Storage Location
+	 * @param {string} location - The Location of the files on the Storage Network
+	 */
 	setLocation(location){
 		this.artifact.storage.location = location;
 	}
+	/**
+	 * Get the Storage Location
+	 * @return {string}
+	 */
 	getLocation(){
 		return this.artifact.storage.location
 	}
+	/**
+	 * Set the Fiat to be used in Payment Calculations. Only "usd" is supported right now.
+	 * @param {string} fiat - The Fiat type you wish to accept
+	 */
 	setPaymentFiat(fiat){
 		this.artifact.payment.fiat = fiat;
 	}
+	/**
+	 * Get the Fiat type to be used in Payment Calculations
+	 * @return {string} Returns undefined if no fiat is set
+	 */
 	getPaymentFiat(){
 		return this.artifact.payment.fiat
 	}
+	/**
+	 * Set the Payment Scale to use in Payment Calculations
+	 * @param {number} newScale - The new Scale that should be used
+	 */
 	setPaymentScale(newScale){
 		this.artifact.payment.scale = newScale;
 	}
+	/**
+	 * Get the payment scale for use in Payment Calculations
+	 * @return {number} Returns 1 if no payment scale is set (aka, 1:1 scale)
+	 */
 	getPaymentScale(){
 		//	Check if scale is a string
 		// 		If so, check if the string is a number, or represented as a ratio
@@ -174,18 +382,41 @@ class Artifact {
 			return 1;
 		}
 	}
-	setSuggestedTip(sugTipArray){
-		this.artifact.payment.tips = sugTipArray;
+	/**
+	 * Set suggested tip values to use. These tip values are the fiat value, divided by the scale you set.
+	 * @param {Array<number>} suggestedTipArray - The Suggested Tips you wish to define
+	 */
+	setSuggestedTip(suggestedTipArray){
+		this.artifact.payment.tips = suggestedTipArray;
 	}
+	/**
+	 * Get what the user has defined as their suggested tip values
+	 * @return {Array<number>}
+	 */
 	getSuggestedTip(){
 		return this.artifact.payment.tips || []
 	}
+	/**
+	 * !!! NOT YET IMPLEMENTED !!!
+	 * Add Token Rule to the Artifact
+	 * @param {TokenRule} tokenRule - The Token Rule to add to the Artifact
+	 */
 	addTokenRule(tokenRule){
 		this.artifact.payment.tokens.push(tokenRule);
 	}
+	/**
+	 * !!! NOT YET IMPLEMENTED !!!
+	 * Get Token Rules from the Artifact
+	 * @return {Array.<TokenRule>}
+	 */
 	getTokenRules(){
 		return this.artifact.payment.tokens
 	}
+	/**
+	 * Accept Payments for a specific coin
+	 * @param {string} coin - The string coin ticker
+	 * @param {string} address - Base58 Public Key to send payments
+	 */
 	addSinglePaymentAddress(coin, address){
 		var tmpObj = {};
 		tmpObj[coin] = address;
@@ -195,30 +426,62 @@ class Artifact {
 
 		this.artifact.payment.addresses.push(tmpObj)
 	}
+	/**
+	 * Get the Addresses to send Payment to
+	 * @return {Array.<PaymentPair>}
+	 */
 	getPaymentAddresses(){
 		return this.artifact.payment.addresses || []
 	}
+	/**
+	 * Set the cut you want to send to Retailers for selling your content
+	 * @param {number} newCut - The new cut you want sent to Retailers
+	 */
 	setRetailerCut(newCut){
 		if (typeof newCut === "number")
 			this.artifact.payment.retailer = newCut;
 	}
+	/**
+	 * Get the cut that the user wants to send to Retailers for selling their content
+	 * @return {number}
+	 */
 	getRetailerCut(){
 		return this.artifact.payment.retailer || 0
 	}
+	/**
+	 * Set the cut you want to send to Promoters for sharing your content
+	 * @param {number} newCut - The new cut you want sent to Retailers
+	 */
 	setPromoterCut(newCut){
 		if (typeof newCut === "number")
 			this.artifact.payment.promoter = newCut;
 	}
+	/**
+	 * Get the cut that the user wants to send to Promoters for sharing their content
+	 * @return {number}
+	 */
 	getPromoterCut(){
 		return this.artifact.payment.promoter || 0
 	}
+	/**
+	 * Set the maximum discount percent that Retailers can discount your content by during a sale
+	 * @param {number} newMax - The new maximim discount percentage
+	 */
 	setMaxDiscount(newMax){
 		if (typeof newMax === "number")
 			this.artifact.payment.maxdisc = newMax;
 	}
+	/**
+	 * Get the maximum discount percent that Retailers can discount the content by during a sale
+	 * @return {number}
+	 */
 	getMaxDiscount(){
 		return this.artifact.payment.maxdisc || 0
 	}
+	/**
+	 * Add a File to the Artifact
+	 * @param {ArtifactFile} file - The file you wish to add
+	 */
 	addFile(file){
 		if (file instanceof ArtifactFile){
 			this.FileObjects.push(new ArtifactFile(file.toJSON(), this));
@@ -226,9 +489,17 @@ class Artifact {
 			this.FileObjects.push(new ArtifactFile(file, this));
 		}
 	}
+	/**
+	 * Get all the Files on the Artifact
+	 * @return {Array.<ArtifactFile}
+	 */
 	getFiles(){
 		return this.FileObjects
 	}
+	/**
+	 * Get the Thumbnail file if it exists
+	 * @return {ArtifactFile} Returns undefined if no file is matched
+	 */
 	getThumbnail(){
 		for (var file of this.getFiles()){
 			if (file.getType() === "Image" && file.getSubtype() === "Thumbnail" && file.getSuggestedPlayCost() === 0){
@@ -244,6 +515,11 @@ class Artifact {
 
 		return undefined;
 	}
+	/**
+	 * Get the "simple" Duration of the Artifact. 
+	 * This gets the duration of the first file that has a duration.
+	 * @return {number} Returns undefined if there is no match to a duration
+	 */
 	getDuration(){
 		for (var file of this.getFiles()){
 			if (!isNaN(file.getDuration())){
@@ -252,16 +528,24 @@ class Artifact {
 		}
 		return undefined;
 	}
+	/**
+	 * Check if an Artifact is Valid and has all the required fields to be Published
+	 * @return {StatusObject}
+	 */
 	isValid(){
 		if (!this.artifact.info.title || this.artifact.info.title === ""){
 			return {success: false, error: "Artifact Title is a Required Field"}
 		}
 		if (!this.artifact.floAddress || this.artifact.floAddress === ""){
-			return {success: false, error: "floAddress is a Required Field! Please define it or Login!"}
+			return {success: false, error: "floAddress is a Required Field!"}
 		}
 
 		return {success: true}
 	}
+	/**
+	 * Check if the Artifact is Paid. An Artifact is defined as paid if any files have a cost.
+	 * @return {Boolean}
+	 */
 	isPaid(){
 		let files = this.getFiles();
 
@@ -275,6 +559,10 @@ class Artifact {
 
 		return false;
 	}
+	/**
+	 * Get the Artifact JSON. This is the "Dehydrated" version of this class.
+	 * @return {Object}
+	 */
 	toJSON(){
 		this.artifact.storage.files = [];
 
@@ -297,6 +585,11 @@ class Artifact {
 
 		return JSON.parse(JSON.stringify(retJSON))
 	}
+	/**
+	 * Load the Artifact from JSON. This "Hydrates" this class with the "Dehydrated" info.
+	 * @param  {Object} artifact - The specific Artifact JSON
+	 * @return {StatusObject}
+	 */
 	fromJSON(artifact){
 		if (artifact){
 			if (artifact.txid){
@@ -344,6 +637,10 @@ class Artifact {
 			return {success: false, error: "Artifact Not Provided!"}
 		}
 	}
+	/**
+	 * Returns a string version of the .toJSON() function
+	 * @return {string}
+	 */
 	toString(){
 		return JSON.stringify(this.toJSON())
 	}
@@ -618,6 +915,10 @@ class Artifact {
 			}
 		}
 	}
+	/**
+	 * Get the Multiparts that make up the Artifact
+	 * @return {Array.<Multipart>} Returns undefined if the Artifact is too short to be a Multipart
+	 */
 	getMultiparts(){
 		var jsonString = this.toString();
 
@@ -704,7 +1005,14 @@ class Artifact {
 	capitalizeFirstLetter(string){
 		return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 	}
+	/**
+	 * Get the Class Name. 
+	 * This is used to check the passed object in ArtifactFile (since InstanceOf could not be done).
+	 * @return {string} Returns "Artifact"
+	 */
 	getClassName(){
 		return "Artifact"
 	}
 }
+
+module.exports = Artifact
