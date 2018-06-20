@@ -199,19 +199,22 @@ class Artifact {
 		return this.artifact.payment.addresses || []
 	}
 	setRetailerCut(newCut){
-		this.artifact.payment.retailer = newCut;
+		if (typeof newCut === "number")
+			this.artifact.payment.retailer = newCut;
 	}
 	getRetailerCut(){
 		return this.artifact.payment.retailer
 	}
 	setPromoterCut(newCut){
-		this.artifact.payment.promoter = newCut;
+		if (typeof newCut === "number")
+			this.artifact.payment.promoter = newCut;
 	}
 	getPromoterCut(){
 		return this.artifact.payment.promoter
 	}
 	setMaxDiscount(newMax){
-		this.artifact.payment.maxdisc = newMax;
+		if (typeof newMax === "number")
+			this.artifact.payment.maxdisc = newMax;
 	}
 	getMaxDiscount(){
 		return this.artifact.payment.maxdisc
