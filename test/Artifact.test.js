@@ -1,4 +1,4 @@
-var OIP = require("../lib");
+var OIP = require("../lib/main");
 
 var Artifact = OIP.Artifact;
 var ArtifactFile = OIP.ArtifactFile;

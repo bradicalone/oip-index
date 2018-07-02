@@ -1,9 +1,12 @@
-import Artifact from './Artifact'
-import ArtifactFile from './ArtifactFile'
-import Multipart from './Multipart'
-
-module.exports = {
-	Artifact,
-	ArtifactFile,
-	Multipart
+class Index {
+	/**
+	 * Spawn a new OIP Index with a specific OIPd URL
+	 * @param  {string} OIPdURL - The OIPd URL to connect to
+	 * @return {Index}
+	 */
+	constructor(OIPdURL){
+		this.url = OIPdURL
+	}
 }
+
+module.exports = Index;
