@@ -1,3 +1,4 @@
+import OIPObject from './OIPObject.js';
 import ArtifactFile from './ArtifactFile.js';
 import Multipart from './Multipart.js';
 
@@ -18,7 +19,7 @@ const FLODATA_MAX_LEN = 528;
  * along with a location on a network to find that file, 
  * and optionally payment information.
  */
-class Artifact {
+class Artifact extends OIPObject {
 	/**
 	 * Create a new Artifact
 	 * ##### Examples
@@ -80,6 +81,8 @@ class Artifact {
 	 * @return {Artifact}
 	 */
 	constructor(input){
+		super();
+
 		this.artifact = {
 			floAddress: "",
 			info: {},
@@ -104,24 +107,6 @@ class Artifact {
 				this.fromJSON(input)
 			}
 		} 
-	}
-	/**
-	 * Set the TXID of the Artifact
-	 * @param {string} txid - The TXID that identifies the Artifact
-	 * @example
-	 * artifact.setTXID("1cb19b83dd20614d05ea64fffb111d588cf513ee65aa488953944fc7fe95e2c4")
-	 */
-	setTXID(txid){
-		this.txid = txid;
-	}
-	/** 
-	 * Get the TXID of the Artifact
-	 * @return {string} Returns the TXID of the artifact, or `undefined` if the txid has not been set
-	 * @example
-	 * var txid = artifact.getTXID()
-	 */
-	getTXID(){
-		return this.txid;
 	}
 	/**
 	 * Set the Publisher name String, please note that this does not set it when you publish to the blockchain!
@@ -507,7 +492,19 @@ class Artifact {
 	 * @return {Array.<PaymentPair>}
 	 */
 	getPaymentAddresses(){
+		if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === []) && this.getMainAddress() && this.getMainAddress() !== "")
+			return [{ flo: this.getMainAddress() }]
+
 		return this.artifact.payment.addresses || []
+	}
+	/**
+	 * Get the Addresses to send Tips to
+	 * @example
+	 * var addresses = artifact.getPaymentAddresses()
+	 * @return {Array.<PaymentPair>}
+	 */
+	getTipAddresses(){
+		return this.getPaymentAddresses()
 	}
 	/**
 	 * Set the cut you want to send to Retailers for selling your content

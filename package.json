@@ -1,6 +1,6 @@
 {
   "name": "oip-index",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Query information back from OIP",
   "main": "lib/main.js",
   "scripts": {
@@ -37,5 +37,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0"
-  }
+  },
+  "files": ["lib"]
 }

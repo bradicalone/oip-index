@@ -364,10 +364,18 @@ test("addSinglePaymentAddress and getPaymentAddresses", () => {
 	expect(artifact.getPaymentAddresses()).toEqual([{flo: "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"}])
 })
 
-test("getPaymentAddresses is blank array if unset", () => {
+test("getPaymentAddresses is blank array if unset & no mainAddress is set", () => {
 	var artifact = new Artifact();
 
 	expect(artifact.getPaymentAddresses()).toEqual([])
+})
+
+test("getPaymentAddresses returns main address if unset", () => {
+	var artifact = new Artifact();
+
+	artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
+
+	expect(artifact.getPaymentAddresses()).toEqual([{ "flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k" }])
 })
 
 test("setRetailerCut and getRetailerCut", () => {

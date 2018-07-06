@@ -99,6 +99,16 @@ class ArtifactFile {
 	setPaymentScale(newScale){
 		this.file.scale = newScale
 	}
+	getPaymentAddresses(){
+		if (this.file.payment && this.file.payment.addresses && this.file.payment.addresses !== [])
+			return this.file.payment.addresses
+
+		if (this.parent){
+			return this.parent.getPaymentAddresses()
+		} else {
+			return []
+		}
+	}
 	getPaymentScale(){
 		//	Check if scale is a string
 		// 		If so, check if the string is a number, or represented as a ratio
