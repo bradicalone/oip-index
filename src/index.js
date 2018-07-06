@@ -12,11 +12,13 @@ import axios from 'axios';
 class Index {
 	/**
 	 * Spawn a new OIP Index with a specific OIPd URL
-	 * @param  {string} OIPdURL - The OIPd URL to connect to
+	 * @param  {Object} [settings] - The Settings to use for the Index
+	 * @param {string} [settings.OIPdURL="https://snowflake.oip.fun/alexandria/v2"] [description]
 	 * @return {Index}
 	 */
-	constructor(OIPdURL){
-		this.setOIPdURL(OIPdURL)
+	constructor(settings){
+		if (settings && settings.OIPdURL)
+			this.setOIPdURL(settings.OIPdURL)
 	}
 	setOIPdURL(OIPdURL){
 		this.url = OIPdURL;
@@ -122,16 +124,16 @@ class Index {
 	}
 	/**
 	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
-	 * @param  {[type]} search_text [description]
-	 * @return {[type]}             [description]
+	 * @param  {string} search_text - The Text you wish to search the Flo Blockchain for
+	 * @return {Promise<Array.<Object>>} Returns a Promise that will resolve to an Array of objects containing the transaction hash and message matched
 	 */
 	async searchFloData(search_text){
 
 	}
 	/**
 	 * Build and get the multiparts 
-	 * @param  {[type]} first_txid [description]
-	 * @return {[type]}            [description]
+	 * @param  {string} first_txid - The TXID of the First Part of the Artifact
+	 * @return {Promise<Array.<Multipart>|Artifact>} Returns a Promise that will resolve to an Array of Multiparts, or a single Artifact if it is not Multiparts
 	 */
 	async getMultiparts(first_txid){
 
