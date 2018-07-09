@@ -14,6 +14,7 @@ class Index {
 	 * Spawn a new OIP Index with a specific OIPd URL
 	 * @param  {Object} [settings] - The Settings to use for the Index
 	 * @param {string} [settings.OIPdURL="https://snowflake.oip.fun/alexandria/v2"] [description]
+     * @param {string} [settings.backupOIPdURL="https://api.alexandria.io/alexandria/v2"] [description]
 	 * @return {Index}
 	 */
 	constructor(settings){
@@ -26,6 +27,10 @@ class Index {
 		this.network = new axios.create({
 			baseURL: OIPdURL
 		})
+
+        this.networkBackup = new axios.create({
+            baseURL: backupOIPdURL
+        })
 	}
 	/**
 	 * Search The Index
