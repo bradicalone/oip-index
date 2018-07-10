@@ -81,7 +81,7 @@ class Index {
                 if (tmpArt.isValid().success)
                     return tmpArt
             }
-        } catch (err) {throw new Error(err)}
+        } catch (err) {console.error(err)}
 	}
 
     /**
@@ -133,7 +133,7 @@ class Index {
                 }
             }
             return artifacts
-        } catch (err) {throw new Error(err)}
+        } catch (err) {console.error(err)}
 	}
 
 	/**
@@ -256,7 +256,7 @@ class Index {
         try {
             let response = await axios.get(`https://livenet.flocha.in/api/tx/${txid}`)
             return response.data.floData
-        } catch (err) {return err}
+        } catch (err) {console.error(err)}
 	}
 
 	/**
