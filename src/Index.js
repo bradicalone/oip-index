@@ -90,11 +90,9 @@ class Index {
      * @param  {number} [amount=50] - The amount of Artifacts you wish to recieve
      * @return {Promise<Array.<Artifact>>} Returns a Promise that will resolve to an Array of Artifacts
      */
-    async getLatestArtifacts(amount){
-        //@ToDo::add working API endpoint
+    async getLatestArtifacts(amount = 50){
         try {
-            let response = await this.getArtifacts(null, null, amount);
-            return response.data
+            return await this.getArtifacts(null, null, amount, null, null);
         } catch (err) {console.error(err)}
     }
 
@@ -112,6 +110,7 @@ class Index {
         let nr = numResults || 100;
         let t = type || "*";
         let st = subtype || "*";
+        let pub = publisher || "";
 
         if (page && isNaN(page) && page !== "*"){
             p = 1;
@@ -122,7 +121,15 @@ class Index {
 
         try {
             let response = await this.network.get(`/artifact/get/type?t=${t}&st=${st}&results=${nr}&page=${p}&pub=${pub}`);
-            return response.data
+            let artifacts = [];
+            if (response && response.data && response.data.results) {
+                for (let art of response.data.results) {
+                    let tmpArt = new Artifact(art);
+                    if (tmpArt.isValid().success)
+                        artifacts.push(tmpArt)
+                }
+            }
+            return artifacts
         }catch (err) {return err}
 	}
 

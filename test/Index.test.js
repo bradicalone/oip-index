@@ -12,7 +12,15 @@ let index = new Index();
 test('Index.getArtifact()', async () => {
     let artifact = await index.getArtifact(txid)
     expect(artifact).toBeDefined();
-    expect(artifact instanceof Artifact).toBeTruthy()
+    expect(artifact).tobeInstanceOf(Artifact)
     expect(artifact.isValid().success).toBeTruthy()
-},10000)
+},10000);
+
+test('Index.getLatestArtifacts()', async () => {
+    let artifacts = await index.getLatestArtifacts(3);
+    for (let art of artifacts)
+        expect(art).toBeInstanceOf(Artifact)
+    expect(artifacts.length).toBe(3);
+});
+
 
