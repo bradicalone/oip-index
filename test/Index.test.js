@@ -50,6 +50,12 @@ test('Index.getArtifacts() with subtype: tomogram', async () => {
     }
 });
 
+test('Break getArtifacts function', async () => {
+    //make sure to delete a character in the network url call
+    let error = await index.getArtifacts();
+    console.log(`function broke because there is an ${error}`);
+})
+
 //@ToDo::Why can't OIPd find audio, image, etc types?
 test('Index.getArtifacts() cant find type (returns empty array)', async () => {
     let artifacts = await index.getArtifacts("audio");
@@ -61,9 +67,5 @@ test('Index.getFloData()', async () => {
     expect(floData).toBeDefined();
 })
 
-test('break function', async () => {
-    let rerun = await index.getArtifacts();
-    console.log(`My ERROR: ${rerun}`);
-})
 
 
