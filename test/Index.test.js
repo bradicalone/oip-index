@@ -23,4 +23,11 @@ test('Index.getLatestArtifacts()', async () => {
     expect(artifacts.length).toBe(3);
 });
 
+test('Index.getArtifacts() without parameters', async () => {
+    let artifacts = await index.getArtifacts();
+    for (let art of artifacts)
+        expect(art).toBeInstanceOf(Artifact)
+    expect(artifacts.length).toBe(50)
+});
+
 

@@ -81,13 +81,12 @@ class Index {
                 if (tmpArt.isValid().success)
                     return tmpArt
             }
-        } catch (err) {console.error(err)}
-
+        } catch (err) {throw new Error(err)}
 	}
 
     /**
      * Get the Latest Artifacts published to the Index
-     * @param  {number} [amount=50] - The amount of Artifacts you wish to recieve
+     * @param  {number} [amount=50] - The amount of Artifacts you wish to receive
      * @return {Promise<Array.<Artifact>>} Returns a Promise that will resolve to an Array of Artifacts
      */
     async getLatestArtifacts(amount = 50){
@@ -103,11 +102,11 @@ class Index {
      * @param  {number} [numResults=100] - [The number of artifacts you wish to get back]
      * @param  {number} [page=1] - [Which 'page' you wish to search on (a page contains 50 or so Artifacts)]
      * @param {string} [publisher]  - []
-     * @return {} - []
+     * @return {Promise<Array.<Artifact>>} Returns a Promise that will resolve to an Array of Artifacts
 	 */
 	async getArtifacts(type, subtype, numResults, page, publisher){
         let p = page;
-        let nr = numResults || 100;
+        let nr = numResults || 50;
         let t = type || "*";
         let st = subtype || "*";
         let pub = publisher || "";
