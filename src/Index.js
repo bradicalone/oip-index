@@ -129,7 +129,7 @@ class Index {
                 }
             }
             return artifacts
-        }catch (err) {return err}
+        } catch (err) {throw new Error(err)}
 	}
 
 	/**
