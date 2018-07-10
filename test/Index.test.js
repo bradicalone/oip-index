@@ -18,6 +18,7 @@ test('Index.getArtifact()', async () => {
 
 test('Index.getLatestArtifacts()', async () => {
     let artifacts = await index.getLatestArtifacts(3);
+    expect(artifacts.length > 0).toBeTruthy();
     for (let art of artifacts)
         expect(art).toBeInstanceOf(Artifact)
     expect(artifacts.length).toBe(3);
@@ -25,9 +26,28 @@ test('Index.getLatestArtifacts()', async () => {
 
 test('Index.getArtifacts() without parameters', async () => {
     let artifacts = await index.getArtifacts();
+    expect(artifacts.length > 0).toBeTruthy();
     for (let art of artifacts)
         expect(art).toBeInstanceOf(Artifact)
     expect(artifacts.length).toBe(50)
+});
+
+test('Index.getArtifacts() with type: research', async () => {
+    let artifacts = await index.getArtifacts("Research");
+    expect(artifacts.length > 0).toBeTruthy();
+    for (let art of artifacts) {
+        expect(art).toBeInstanceOf(Artifact)
+        expect(art.getType() === "Research").toBeTruthy()
+    }
+});
+
+test('Index.getArtifacts() with subtype: tomogram', async () => {
+    let artifacts = await index.getArtifacts(null, "tomogram");
+    expect(artifacts.length > 0).toBeTruthy();
+    for (let art of artifacts) {
+        expect(art).toBeInstanceOf(Artifact)
+        expect(art.getSubtype() === "Tomogram").toBeTruthy()
+    }
 });
 
 

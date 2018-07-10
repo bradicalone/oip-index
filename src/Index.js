@@ -108,8 +108,12 @@ class Index {
         let p = page;
         let nr = numResults || 50;
         let t = type || "*";
+        if (typeof t === "string") t = t.toLowerCase();
         let st = subtype || "*";
+        if (typeof t === "string") st = st.toLowerCase();
         let pub = publisher || "";
+        if (typeof t === "string") pub = pub.toLowerCase();
+
 
         if (page && isNaN(page) && page !== "*"){
             p = 1;
