@@ -253,10 +253,9 @@ class Index {
 	 * @return {Promise<String>} Returns a Promise that will resolve to a floData string or reject with an error
 	 */
 	async getFloData(txid){
-        let response;
         try {
-            response = await axios.get(`https://livenet.flocha.in/api/tx/${txid}`)
-            return response.data
+            let response = await axios.get(`https://livenet.flocha.in/api/tx/${txid}`)
+            return response.data.floData
         } catch (err) {return err}
 	}
 

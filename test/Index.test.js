@@ -50,11 +50,16 @@ test('Index.getArtifacts() with subtype: tomogram', async () => {
     }
 });
 
-//@ToDo::Why can't OIPd find audio, image, etc types
+//@ToDo::Why can't OIPd find audio, image, etc types?
 test('Index.getArtifacts() cant find type (returns empty array)', async () => {
     let artifacts = await index.getArtifacts("audio");
     expect(artifacts.length === 0).toBeTruthy();
 });
+
+test('Index.getFloData()', async () => {
+    let floData = await index.getFloData(txid);
+    expect(floData).toBeDefined();
+})
 
 
 
