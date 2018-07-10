@@ -133,7 +133,7 @@ class Index {
                 }
             }
             return artifacts
-        } catch (err) {console.error(err)}
+        } catch (err) {return err}
 	}
 
 	/**

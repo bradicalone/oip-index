@@ -10,9 +10,9 @@ const shortTXID2 = '666a12';
 let index = new Index();
 
 test('Index.getArtifact()', async () => {
-    let artifact = await index.getArtifact(txid)
+    let artifact = await index.getArtifact(txid);
     expect(artifact).toBeDefined();
-    expect(artifact).tobeInstanceOf(Artifact)
+    expect(artifact).toBeInstanceOf(Artifact);
     expect(artifact.isValid().success).toBeTruthy()
 },10000);
 
@@ -61,6 +61,9 @@ test('Index.getFloData()', async () => {
     expect(floData).toBeDefined();
 })
 
-test('')
+test('break function', async () => {
+    let rerun = await index.getArtifacts();
+    console.log(`My ERROR: ${rerun}`);
+})
 
 
