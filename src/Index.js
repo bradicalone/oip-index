@@ -154,6 +154,7 @@ class Index {
      * @return {} []
      */
 	async getAllPublishers() {
+        //@ToDo::add working API endpoint
         try {
             let response = await this.network.get(`/publisher/get/all`);
             return response.data
