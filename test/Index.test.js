@@ -1,5 +1,6 @@
 import Index from '../src/Index'
 import Artifact from '../src/Artifact';
+import Multipart from '../src/Multipart'
 
 const txid41 = '5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207';
 const txid412 = 'b5e0813ac476bca1f5383a3a5e44879ee325ad7831090fd4909486692b66c746'
@@ -83,12 +84,18 @@ test('Index.searchFloData() with random options', async () => {
 })
 
 test('Index.getMulitparts', async () => {
-    let multi_parts = await index.getMultiparts(txid421)
-    // console.log(`multi_parts = ${typeof multi_parts}, ${Array.isArray(multi_parts)}`)
+    let multi_parts = await index.getMultiparts('22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d')
     console.dir(`multi_parts[0]: ${multi_parts[0]}`)
     console.dir(`multi_parts[1]: ${multi_parts[1]}`)
+    console.log(`multi_parts = ${multi_parts}`)
 
-})
+    expect(Array.isArray(multi_parts)).toBeTruthy;
+    for (let mp of multi_parts){
+        expect(mp).toBeInstanceOf(Multipart)
+    }
+
+
+}, 10000)
 
 
 
