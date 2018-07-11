@@ -334,7 +334,6 @@ class Index {
             floData = await this.getFloData(requestTXID);
         } catch (err) {console.error(err)}
         console.log(`floData: ${floData}`)
-        console.log(`floData instanceof Multipart: ${floData instanceof Multipart}`)
 
         //@ToDO::   Step 3 - Create FirstMP with FloData from step 2
         let firstMp = new Multipart(floData, requestTXID);
@@ -345,7 +344,7 @@ class Index {
         console.log(`valid: ${JSON.stringify(valid)}`)
 
         //@ToDO::   Step 4 - Push to matched
-        let results, matched = [], existingParts = [], missingParts = [];
+        let results, matched = [], existingParts = [];
 
         if (valid.success){
             if (!existingParts.includes(firstMp.getPartNumber())) {
@@ -374,7 +373,7 @@ class Index {
                 console.error(`Couldn't parse JSON: ${err}`)
             }   
         }
-        console.log(`matched: ${matched}`)
+        // console.log(`matched: ${matched}`)
         //Checks to see if the multipart is the first part and if not, gets the first part
         let firstPartTXID = txid;
         if (firstMp.getFirstPartTXID() !== "" && firstMp.getPartNumber() !== 0) {
@@ -397,7 +396,7 @@ class Index {
             search: floSearchTX,
             page: 0
         }
-        console.log(`searchOps: ${JSON.stringify(searchOps, null, 4)}`)
+        // console.log(`searchOps: ${JSON.stringify(searchOps, null, 4)}`)
 
         async function findRemainingMultiparts(searchOps, _this) {
             try {
@@ -405,8 +404,6 @@ class Index {
                 if (results === null) {
                     return null
                 }
-                console.log(`results: ${JSON.stringify(results.length)}`)
-
             } catch (err) {console.error(err)}
 
 
@@ -430,21 +427,23 @@ class Index {
                         }
                     }
                 }
-                console.log(`Matched Length: ${matched.length}`)
-                console.log(`existing_parts: ${existingParts.sort( (a,b) => {return a-b})}`)
                 results = [];
             }
         }
 
         while (matched.length - 1 < firstMp.getTotalParts()) {
-            console.log(`Checking match length: ${matched.length-1} && ${firstMp.getTotalParts()}`)
+            console.log(`Checking match length: ${matched.length} && ${firstMp.getTotalParts()}`)
             console.log(`Checking existing array: ${existingParts}`)
             const _this = this;
             console.log(`searchOps.page: ${JSON.stringify(searchOps.page)}`)
             let stop = await findRemainingMultiparts(searchOps, _this)
 
             if ((matched.length - 1 === firstMp.getTotalParts()) || stop === null) {
-                return matched.sort( (a,b) => {return a.getPartNumber() - b.getPartNumber()})
+                let ret = new Array(firstMp.getTotalParts()+1)
+                for (let i = 0; i < matched.length; i++) {
+                    ret[matched[i].getPartNumber()] = matched[i]
+                }
+                return ret
             }
             searchOps.page++
         }

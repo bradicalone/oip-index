@@ -19,6 +19,7 @@ const crazyLong13 = '1c6575751ad7f2ccca44f4b880ee1bcc2163d671fb7f14c3b919fe587a2
 const tx4242 = '96994d2f1878450287e24427c06b89f4056eb31de4b48a18ff9ff3c6c796e9cc'
 const tx3951 = '80abc3901ca7c6318ff771b7f9804bef513ebbca0797058c86da3da7e128cb9d'
 const tx151 = 'd6dcde31b0bb797e37e3015fae4d100f4620789543e4d3b34a6dd06c8e018f33'
+const goodArtBrokenComma = 'c64dc67a5e1afce288c688f0f549779a1505b369258473999c00734e24ae54cd good artifact broken comma'
 
 let index = new Index();
 
@@ -110,16 +111,18 @@ test('Index.getMulitparts with valid 42 addr part 1', async () => {
     }
 }, 10000);
 
-test('Index.getMulitparts with valid 42 addr part 2', async () => {
-    let multi_parts = await index.getMultiparts(tx151)
+test('Index.getMulitparts with missing pieces', async () => {
+    let multi_parts = await index.getMultiparts(tx3951)
 
-    for (let mp in multi_parts) {
-        console.log(`multi_parts[${mp}]: ${multi_parts[mp]}`)
+    for (let i = 0; i < multi_parts.length; i++) {
+            console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+            let check = false;
+            if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
+                check = true;
+            expect(check).toBeTruthy()
     }
-    // expect(Array.isArray(multi_parts)).toBeTruthy();
-    // for (let mp of multi_parts){
-    //     expect(mp).toBeInstanceOf(Multipart)
-    // }
+    expect(Array.isArray(multi_parts)).toBeTruthy();
+    expect(multi_parts.length).toBe(52)
 }, 30000);
 
 
