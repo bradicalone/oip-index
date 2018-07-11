@@ -14,6 +14,12 @@ const tx2 = '4afe6607d2d41dce7594c2bd10efc5e9ea99caaeb77198d0681bce3e5d6d2aa3' /
 const shortTXID = '5f399e';
 const shortTXID2 = '666a12';
 
+const crazyLong = '2ca8b96981a05e7d153845070bdddb32ba6f4388f1cf5c771e2fe3997da03c0f'
+const crazyLong13 = '1c6575751ad7f2ccca44f4b880ee1bcc2163d671fb7f14c3b919fe587a2859f1'
+const tx4242 = '96994d2f1878450287e24427c06b89f4056eb31de4b48a18ff9ff3c6c796e9cc'
+const tx3951 = '80abc3901ca7c6318ff771b7f9804bef513ebbca0797058c86da3da7e128cb9d'
+const tx151 = 'd6dcde31b0bb797e37e3015fae4d100f4620789543e4d3b34a6dd06c8e018f33'
+
 let index = new Index();
 
 test('Index.getArtifact()', async () => {
@@ -76,13 +82,13 @@ test('Index.getArtifacts() cant find type (returns empty array)', async () => {
 });
 
 test('Index.getFloData() for an OIP41 txid', async () => {
-    let floData = await index.getFloData('rgrqwg');
+    let floData = await index.getFloData(txid42);
     console.log(floData)
     expect(floData).toBeDefined();
 })
 
-test('Index.searchFloData() for an OIP42 multiparts', async () => {
-    let floData = await index.searchFloData(txid42.substr(0,10));
+test('Index.searchFloData() for OIP42 multiparts', async () => {
+    let floData = await index.searchFloData(tx1.substr(0,10));
     console.log(floData)
     expect(floData).toBeDefined();
 })
@@ -98,23 +104,23 @@ test('Index.getMulitparts with valid 42 addr part 1', async () => {
     console.dir(`multi_parts[1]: ${multi_parts[1]}`)
     console.log(`multi_parts = ${multi_parts}`)
 
-    expect(Array.isArray(multi_parts)).toBeTruthy;
+    expect(Array.isArray(multi_parts)).toBeTruthy();
     for (let mp of multi_parts){
         expect(mp).toBeInstanceOf(Multipart)
     }
 }, 10000);
 
 test('Index.getMulitparts with valid 42 addr part 2', async () => {
-    let multi_parts = await index.getMultiparts(tx2)
-    console.dir(`multi_parts[0]: ${multi_parts[0]}`)
-    console.dir(`multi_parts[1]: ${multi_parts[1]}`)
-    console.log(`multi_parts = ${multi_parts}`)
+    let multi_parts = await index.getMultiparts(tx151)
 
-    expect(Array.isArray(multi_parts)).toBeTruthy;
-    for (let mp of multi_parts){
-        expect(mp).toBeInstanceOf(Multipart)
+    for (let mp in multi_parts) {
+        console.log(`multi_parts[${mp}]: ${multi_parts[mp]}`)
     }
-}, 10000);
+    // expect(Array.isArray(multi_parts)).toBeTruthy();
+    // for (let mp of multi_parts){
+    //     expect(mp).toBeInstanceOf(Multipart)
+    // }
+}, 30000);
 
 
 

@@ -75,6 +75,7 @@ class Index {
 	 */
 	async getArtifact(txid){
         try {
+            console.log(`/artifact/get?id=${txid}`)
             let response = await this.network.get(`/artifact/get?id=${txid}`, {});
             if (response && response.data) {
                 let tmpArt = new Artifact(response.data);
@@ -288,7 +289,7 @@ class Index {
             options.page = 0;
 
         if (!options["results-per-page"])
-            options["results-per-page"] = 100;
+            options["results-per-page"] = 30;
         try {
             let response = await this.network.post(`/searchTxComment`, options)
             return response.data
@@ -305,91 +306,148 @@ class Index {
         if (!txid || typeof txid !== "string" || txid.length === 0)
             throw new Error("You must input a search txid!");
 
+        //@ToDO::   Step 1 - Get Artifact to set TXID
         let artifact;
         try {
             artifact = await this.getArtifact(txid);
         } catch (err) {return err}
-        console.log(`artifact: ${artifact}`)
+        console.dir (`artifact: ${JSON.stringify(artifact, null, 4)}`)
 
-        let matched = [];
         let requestTXID = txid;
 
-        if (txid && artifact && artifact.txid) {
-            console.log(`Artifact TXID: ${artifact.txid}`)
-            if (txid.length <= 4) {
-                txid = artifact.txid;
+        if (!artifact.error) {
+            if (txid && artifact && artifact.txid) {
+                console.log(`artifact.txid: ${artifact.txid}`)
+                if (txid.length <= 4) {
+                    txid = artifact.txid;
+                }
+                requestTXID = artifact.txid;
             }
-            requestTXID = artifact.txid;
         }
+
+        console.log(`artifact instanceof Artifact: ${artifact instanceof Artifact}`)
         console.log(`requestTXD: ${requestTXID}`)
 
+        //@ToDO::   Step 2 - Get FloData with TXID
         let floData;
         try {
             floData = await this.getFloData(requestTXID);
-        } catch (err) { console.error(err)};
+        } catch (err) {console.error(err)}
         console.log(`floData: ${floData}`)
+        console.log(`floData instanceof Multipart: ${floData instanceof Multipart}`)
 
-
+        //@ToDO::   Step 3 - Create FirstMP with FloData from step 2
         let firstMp = new Multipart(floData, requestTXID);
         console.log(`firstMp: ${firstMp}`)
+        console.log(`firstMp instanceof Multipart: ${firstMp instanceof Multipart}`)
 
-        var valid = firstMp.isValid();
+        let valid = firstMp.isValid();
         console.log(`valid: ${JSON.stringify(valid)}`)
 
+        //@ToDO::   Step 4 - Push to matched
+        let results, matched = [], existingParts = [], missingParts = [];
+
         if (valid.success){
-            matched.push(firstMp);
+            if (!existingParts.includes(firstMp.getPartNumber())) {
+                matched.push(firstMp)
+                existingParts.push(firstMp.getPartNumber())
+            }
         } else {
             try {
-                var artJSON;
+                let artJSON;
 
-                if (floData.substr(0,5) === "json:")
+                if (floData.substr(0,5) === "json:") {
                     artJSON = JSON.parse(floData.substr(5, floData.length))
-                else
-                    artJSON = JSON.parse(floData)
+                }
+                else {artJSON = JSON.parse(floData)}
+
                 console.log(`artJSON: ${artJSON}`)
-                var tmpArt = new Artifact(artJSON);
-                matched.push(tmpArt)
+                //Why do you hydrate an Artifact and not a multipart?
+                var tmpArt = new Multipart(artJSON);
+                if (tmpArt.isValid().success){
+                    if (!existingParts.includes(tmpArt.getPartNumber())) {
+                        matched.push(tmpArt)
+                        existingParts.push(tmpArt.getPartNumber())
+                    }
+                } else (console.log(`Invalid multipart: ${tmpArt}`))
             } catch (err) {
-                console.error(err)
+                console.error(`Couldn't parse JSON: ${err}`)
             }   
         }
         console.log(`matched: ${matched}`)
-        let floDataSearch = txid;
-
-        if (floDataSearch.length > 10)
-            floDataSearch = floDataSearch.substr(0,10);
-
-
-        let results;
-        try {
-            results = await this.searchFloData(floDataSearch);
-        } catch (err) {console.error(err)}
-        console.log(`results: ${JSON.stringify(results, null, 4)}`)
-
-        if (results && results !== "null") {
-            for (let mp of results) {
-                let tmpMp = new Multipart();
-                console.log(`mp.Message&Hash: ${mp.Message} + ${mp.Hash}`)
-                tmpMp.fromString(mp.Message);
-                tmpMp.setTXID(mp.Hash);
-
-                let trimLength = txid.length
-                // Take whichever is shorter
-                if (tmpMp.getFirstPartTXID().length < trimLength && tmpMp.getFirstPartTXID().length > 0) {
-                    trimLength = tmpMp.getFirstPartTXID().length
-                }
-
-                if (txid.substr(0, trimLength) === tmpMp.getFirstPartTXID().substr(0, trimLength))
+        //Checks to see if the multipart is the first part and if not, gets the first part
+        let firstPartTXID = txid;
+        if (firstMp.getFirstPartTXID() !== "" && firstMp.getPartNumber() !== 0) {
+            firstPartTXID = firstMp.getFirstPartTXID()
+            let artifact = await this.getArtifact(firstPartTXID.substr(0,10))
+            let floData = await this.getFloData(artifact.txid)
+            let tmpMp = new Multipart(floData);
+            if (tmpMp.isValid().success) {
+                if (!existingParts.includes(tmpMp.getPartNumber())) {
                     matched.push(tmpMp)
+                    existingParts.push(tmpMp.getPartNumber())
+                }
             }
-
-            matched.sort( (a,b) => {
-                return a.getPartNumber() - b.getPartNumber()
-            })
         }
 
-        return matched
+        //@ToDO::   Step 5 - Get the rest of the MPs
+        let floSearchTX = (firstPartTXID > 10) ? firstPartTXID.substr(0,10) : firstPartTXID
 
+        let searchOps = {
+            search: floSearchTX,
+            page: 0
+        }
+        console.log(`searchOps: ${JSON.stringify(searchOps, null, 4)}`)
+
+        async function findRemainingMultiparts(searchOps, _this) {
+            try {
+                results = await _this.searchFloData(searchOps);
+                if (results === null) {
+                    return null
+                }
+                console.log(`results: ${JSON.stringify(results.length)}`)
+
+            } catch (err) {console.error(err)}
+
+
+            if (results && results !== "null") {
+                for (let mp of results) {
+                    let tmpMp = new Multipart();
+                    tmpMp.fromString(mp.Message);
+                    tmpMp.setTXID(mp.Hash);
+
+                    let trimLength = firstPartTXID.length
+                    // Take whichever is shorter
+
+                    if (tmpMp.getFirstPartTXID().length < trimLength && tmpMp.getFirstPartTXID().length > 0) {
+                        trimLength = tmpMp.getFirstPartTXID().length
+                    }
+
+                    if (firstPartTXID.substr(0, trimLength) === tmpMp.getFirstPartTXID().substr(0, trimLength)) {
+                        if (!existingParts.includes(tmpMp.getPartNumber())) {
+                            matched.push(tmpMp)
+                            existingParts.push(tmpMp.getPartNumber())
+                        }
+                    }
+                }
+                console.log(`Matched Length: ${matched.length}`)
+                console.log(`existing_parts: ${existingParts.sort( (a,b) => {return a-b})}`)
+                results = [];
+            }
+        }
+
+        while (matched.length - 1 < firstMp.getTotalParts()) {
+            console.log(`Checking match length: ${matched.length-1} && ${firstMp.getTotalParts()}`)
+            console.log(`Checking existing array: ${existingParts}`)
+            const _this = this;
+            console.log(`searchOps.page: ${JSON.stringify(searchOps.page)}`)
+            let stop = await findRemainingMultiparts(searchOps, _this)
+
+            if ((matched.length - 1 === firstMp.getTotalParts()) || stop === null) {
+                return matched.sort( (a,b) => {return a.getPartNumber() - b.getPartNumber()})
+            }
+            searchOps.page++
+        }
 	}
 }
 
