@@ -2,13 +2,14 @@ import Index from '../src/Index'
 import Artifact from '../src/Artifact';
 import Multipart from '../src/Multipart'
 
-const txid41 = '5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207';
-const txid412 = 'b5e0813ac476bca1f5383a3a5e44879ee325ad7831090fd4909486692b66c746'
-const txid42= '666a12f03a424193775d44d542c3a34838fa1dc5e344d9d9d1efb2541725f14f';
-const txid421 = 'b750caca94fcdc88cde35273fe973a619d80eea88bd6b549b79dd4b3b1fbad81'
+const txid41 = '5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207'; //41 part 1
+const txid412 = 'b5e0813ac476bca1f5383a3a5e44879ee325ad7831090fd4909486692b66c746'; //41 part 2
 
-const tx1 = '22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d'
-const tx2 = '4afe6607d2d41dce7594c2bd10efc5e9ea99caaeb77198d0681bce3e5d6d2aa3'
+const txid42= '666a12f03a424193775d44d542c3a34838fa1dc5e344d9d9d1efb2541725f14f'; //42 part 1
+const txid421 = 'b750caca94fcdc88cde35273fe973a619d80eea88bd6b549b79dd4b3b1fbad81' //42 part 2
+
+const tx1 = '22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d' // 42
+const tx2 = '4afe6607d2d41dce7594c2bd10efc5e9ea99caaeb77198d0681bce3e5d6d2aa3' // 42
 
 const shortTXID = '5f399e';
 const shortTXID2 = '666a12';
@@ -27,7 +28,7 @@ test('Index.getArtifact()', async () => {
 
 },10000);
 
-test('Index.getLatestArtifacts()', async () => {
+test('Index.getLatestArtifacts() - 3 most current', async () => {
     let artifacts = await index.getLatestArtifacts(3);
     expect(artifacts.length > 0).toBeTruthy();
     for (let art of artifacts)
@@ -35,7 +36,7 @@ test('Index.getLatestArtifacts()', async () => {
     expect(artifacts.length).toBe(3);
 });
 
-test('Index.getArtifacts() without parameters', async () => {
+test('Index.getArtifacts() without parameters (50 by default)', async () => {
     let artifacts = await index.getArtifacts();
     expect(artifacts.length > 0).toBeTruthy();
     for (let art of artifacts)
@@ -63,8 +64,9 @@ test('Index.getArtifacts() with subtype: tomogram', async () => {
 
 test('Break getArtifacts function', async () => {
     //make sure to delete a character in the network url call
-    let error = await index.getArtifacts();
-    console.log(`function broke because there is an ${error}`);
+    let err = await index.getArtifacts();
+    expect(err).toBeDefined()
+
 })
 
 //@ToDo::Why can't OIPd find audio, image, etc types?
@@ -74,7 +76,7 @@ test('Index.getArtifacts() cant find type (returns empty array)', async () => {
 });
 
 test('Index.getFloData() for an OIP41 txid', async () => {
-    let floData = await index.getFloData(txid412);
+    let floData = await index.getFloData('rgrqwg');
     console.log(floData)
     expect(floData).toBeDefined();
 })

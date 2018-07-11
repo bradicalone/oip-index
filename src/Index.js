@@ -261,7 +261,12 @@ class Index {
         try {
             let response = await axios.get(`https://livenet.flocha.in/api/tx/${txid}`)
             return response.data.floData
-        } catch (err) {console.error(err)}
+        } catch (err) {
+            let error = {};
+            error.error = err.response.data || 'error';
+            error.status = `${err.response.status} ${err.response.statusText}` || 'status unknown';
+            return error;
+        }
 	}
 
 	/**
