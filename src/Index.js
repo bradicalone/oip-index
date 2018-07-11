@@ -261,10 +261,13 @@ class Index {
 
 	/**
 	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
-	 * @param  {Object} options - []
+	 * @param  {Object|string} options - [the string you wish to search or an object with 'search' and/or 'page' properties]
 	 * @return {Promise<Array.<Object>>} Returns a Promise that will resolve to an Array of objects containing the transaction hash and message matched
 	 */
 	async searchFloData(options){
+	    if (!options)
+	        throw new Error("Must provide a string or object")
+
         if (typeof options === "string"){
             options = {
                 search: options
@@ -277,7 +280,8 @@ class Index {
         if (!options["results-per-page"])
             options["results-per-page"] = 100;
         try {
-            return await this.network.post(`/searchTxComment`, options)
+            let response = await this.network.post(`/searchTxComment`, options)
+            return response.data
         } catch (err) {return err}
 	}
 
@@ -287,34 +291,40 @@ class Index {
 	 * @return {Promise<Array.<Multipart>|Artifact>} Returns a Promise that will resolve to an Array of Multiparts, or a single Artifact if it is not Multiparts
 	 */
 	async getMultiparts(txid){
-
+        console.log(`txid: ${txid}`)
         if (!txid || typeof txid !== "string" || txid.length === 0)
-            return onError("You must input a search txid!")
+            throw new Error("You must input a search txid!");
 
         let artifact;
         try {
             artifact = await this.getArtifact(txid);
         } catch (err) {return err}
+        console.log(`artifact: ${artifact}`)
 
         let matched = [];
         let requestTXID = txid;
 
         if (txid && artifact && artifact.txid) {
+            console.log(`Artifact TXID: ${artifact.txid}`)
             if (txid.length <= 4) {
                 txid = artifact.txid;
             }
-            requestTXID = articat.txid;
+            requestTXID = artifact.txid;
         }
+        console.log(`requestTXD: ${requestTXID}`)
 
         let floData;
         try {
-            response = await this.getFloData(requestTXID);
-            floData = response.floData;
+            floData = await this.getFloData(requestTXID);
         } catch (err) { console.error(err)};
+        console.log(`floData: ${floData}`)
+
 
         let firstMp = new Multipart(floData, requestTXID);
+        console.log(`firstMp: ${firstMp}`)
 
         var valid = firstMp.isValid();
+        console.log(`valid: ${JSON.stringify(valid)}`)
 
         if (valid.success){
             matched.push(firstMp);
@@ -326,14 +336,14 @@ class Index {
                     artJSON = JSON.parse(floData.substr(5, floData.length))
                 else
                     artJSON = JSON.parse(floData)
-
+                console.log(`artJSON: ${artJSON}`)
                 var tmpArt = new Artifact(artJSON);
                 matched.push(tmpArt)
             } catch (err) {
                 console.error(err)
             }   
         }
-
+        console.log(`matched: ${matched}`)
         let floDataSearch = txid;
 
         if (floDataSearch.length > 10)
@@ -344,18 +354,21 @@ class Index {
         try {
             results = await this.searchFloData(floDataSearch);
         } catch (err) {console.error(err)}
+        console.log(`results: ${JSON.stringify(results, null, 4)}`)
 
-        if (results && reuslts !== "null") {
+        if (results && results !== "null") {
             for (let mp of results) {
                 let tmpMp = new Multipart();
-
+                console.log(`mp.Message&Hash: ${mp.Message} + ${mp.Hash}`)
                 tmpMp.fromString(mp.Message);
                 tmpMp.setTXID(mp.Hash);
 
+                let trimLength = txid.length
                 // Take whichever is shorter
-                if (tmpMp.getFirstPartTXID().length < trimLength && tmpMp.getFirstPartTXID().length > 0)
+                if (tmpMp.getFirstPartTXID().length < trimLength && tmpMp.getFirstPartTXID().length > 0) {
                     trimLength = tmpMp.getFirstPartTXID().length
-                
+                }
+
                 if (txid.substr(0, trimLength) === tmpMp.getFirstPartTXID().substr(0, trimLength))
                     matched.push(tmpMp)
             }
