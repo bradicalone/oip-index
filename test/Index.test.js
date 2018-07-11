@@ -123,7 +123,20 @@ test('Index.getMulitparts with missing pieces', async () => {
     }
     expect(Array.isArray(multi_parts)).toBeTruthy();
     expect(multi_parts.length).toBe(52)
-}, 30000);
+}, 10000);
+
+test('Index.getMulitparts with broken floData', async () => {
+    let multi_parts = await index.getMultiparts(tx151)
+
+    for (let i = 0; i < multi_parts.length; i++) {
+        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+        let check = false;
+        if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
+            check = true;
+        expect(check).toBeTruthy()
+    }
+    expect(Array.isArray(multi_parts)).toBeTruthy();
+}, 10000);
 
 
 
