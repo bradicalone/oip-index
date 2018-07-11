@@ -7,6 +7,9 @@ const txid412 = 'b5e0813ac476bca1f5383a3a5e44879ee325ad7831090fd4909486692b66c74
 const txid42= '666a12f03a424193775d44d542c3a34838fa1dc5e344d9d9d1efb2541725f14f';
 const txid421 = 'b750caca94fcdc88cde35273fe973a619d80eea88bd6b549b79dd4b3b1fbad81'
 
+const tx1 = '22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d'
+const tx2 = '4afe6607d2d41dce7594c2bd10efc5e9ea99caaeb77198d0681bce3e5d6d2aa3'
+
 const shortTXID = '5f399e';
 const shortTXID2 = '666a12';
 
@@ -14,10 +17,14 @@ let index = new Index();
 
 test('Index.getArtifact()', async () => {
     //HAS TO BE THE TX OF AN ARTIFACT OR A FIRST PART MULTIPART
-    let artifact = await index.getArtifact(txid41);
+    let artifact = await index.getArtifact(txid42);
+    console.log(artifact);
     expect(artifact).toBeDefined();
-    expect(artifact).toBeInstanceOf(Artifact);
-    expect(artifact.isValid().success).toBeTruthy()
+    if (artifact.error === undefined) {
+        expect(artifact).toBeInstanceOf(Artifact);
+        expect(artifact.isValid().success).toBeTruthy()
+    }
+
 },10000);
 
 test('Index.getLatestArtifacts()', async () => {
@@ -83,8 +90,8 @@ test('Index.searchFloData() with random options', async () => {
     expect(floData).toBeDefined();
 })
 
-test('Index.getMulitparts', async () => {
-    let multi_parts = await index.getMultiparts('22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d')
+test('Index.getMulitparts with valid 42 addr part 1', async () => {
+    let multi_parts = await index.getMultiparts(tx1)
     console.dir(`multi_parts[0]: ${multi_parts[0]}`)
     console.dir(`multi_parts[1]: ${multi_parts[1]}`)
     console.log(`multi_parts = ${multi_parts}`)
@@ -93,9 +100,20 @@ test('Index.getMulitparts', async () => {
     for (let mp of multi_parts){
         expect(mp).toBeInstanceOf(Multipart)
     }
+}, 10000);
 
+test('Index.getMulitparts with valid 42 addr part 2', async () => {
+    let multi_parts = await index.getMultiparts(tx2)
+    console.dir(`multi_parts[0]: ${multi_parts[0]}`)
+    console.dir(`multi_parts[1]: ${multi_parts[1]}`)
+    console.log(`multi_parts = ${multi_parts}`)
 
-}, 10000)
+    expect(Array.isArray(multi_parts)).toBeTruthy;
+    for (let mp of multi_parts){
+        expect(mp).toBeInstanceOf(Multipart)
+    }
+}, 10000);
+
 
 
 

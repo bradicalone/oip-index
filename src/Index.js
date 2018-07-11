@@ -69,9 +69,9 @@ class Index {
     //@ToDo::----------------Publishers and Artifacts-----------------------------------------------
 
     /**
-	 * Get a specific Artifact from the Index
+	 * Get a specific Artifact from the Index (if searching on multipart, txid must be of the first multipart)
 	 * @param  {TXID} txid - The TXID of the Artifact you wish to get
-	 * @return {Promise<Artifact>} Returns a Promise that will resolve to an Artifact or reject with an error
+	 * @return {Promise<Artifact> | Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
 	 */
 	async getArtifact(txid){
         try {
@@ -81,7 +81,12 @@ class Index {
                 if (tmpArt.isValid().success)
                     return tmpArt
             }
-        } catch (err) {console.error(err)}
+        } catch (err) {
+            let error = {};
+            error.error = err.response.data || 'error';
+            error.status = `${err.response.status} ${err.response.statusText}` || 'status unknown';
+            return error;
+        }
 	}
 
     /**
