@@ -30,11 +30,9 @@ class Multipart {
 		return this.prefix;
 	}
 	setPartNumber(partNumber){
-		if (partNumber > 0)
-			this.hasJSONPrefix = false;
-
-		this.partNumber = partNumber;
-	}
+        this.hasJSONPrefix = partNumber <= 0
+        this.partNumber = partNumber;
+    }
 	getPartNumber(){
 		return this.partNumber;
 	}
@@ -64,10 +62,11 @@ class Multipart {
 	}
 	getSignatureData(){
 		return this.partNumber + 
-				"-" + this.totalParts + 
-				"-" + this.publisherAddress + 
-				"-" + this.firstPartTXID + 
-				"-" + this.choppedStringData;
+				"," + this.totalParts +
+				"," + this.publisherAddress +
+				"," + this.firstPartTXID +
+                // "," + this.signature +
+				"," + this.choppedStringData;
 	}
 	validateSignature(){
 		return true;

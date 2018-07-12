@@ -25,7 +25,7 @@ let index = new Index();
 
 test('Index.getArtifact()', async () => {
     //HAS TO BE THE TX OF AN ARTIFACT OR A FIRST PART MULTIPART
-    let artifact = await index.getArtifact(txid42);
+    let artifact = await index.getArtifact(txid41);
     console.log(artifact);
     expect(artifact).toBeDefined();
     if (artifact.error === undefined) {
