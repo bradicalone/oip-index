@@ -15,7 +15,7 @@ class Multipart {
 		// Track if we should log the JSON prefix 
 		// (don't write prefix if we were created from a Multipart string that doesn't contain a JSON prefix)
 		// Aka, this is for supporting legacy artifacts
-		this.hasJSONPrefix = true;
+		this.hasJSONPrefix = false;
 		this.is_first_part = false;
 		this.is_valid = undefined;
 		this.invalid_error = undefined;
@@ -38,7 +38,6 @@ class Multipart {
 		return this.prefix;
 	}
 	setPartNumber(partNumber){
-        this.hasJSONPrefix = partNumber <= 0
         this.partNumber = partNumber;
     }
 	getPartNumber(){
@@ -90,6 +89,7 @@ class Multipart {
 	getTXID(){
 		return this.txid;
 	}
+
 	addJSONIdentifier(){
 		if (this.getPartNumber() === 0 && this.hasJSONPrefix)
 			return "json:"
@@ -203,6 +203,7 @@ class Multipart {
 
         if (dataString.startsWith(jsonPrefix)) {
             dataString = dataString.replace(jsonPrefix, "")
+            this.hasJSONPrefix = true
         }
 
         this.setChoppedStringData(dataString);

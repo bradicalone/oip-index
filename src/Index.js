@@ -375,10 +375,10 @@ class Index {
         async function findRemainingMultiparts(searchOps, _this) {
             try {
                 results = await _this.searchFloData(searchOps);
-                console.log(`Results: ${JSON.stringify(results.length)}`)
                 if (results === null) {
                     return null
                 }
+                console.log(`Results: ${JSON.stringify(results.length)}`)
             } catch (err) {console.error(err); return null}
 
             if (results) {
