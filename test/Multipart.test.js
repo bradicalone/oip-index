@@ -15,7 +15,9 @@ const multipleProblems = "6675a4ec39f7d2385eb63343ddfb99dad69187525ba9791b228558
 const brokenNoPartNumber = "cc89f15b676a438accce1d72c027ec600284106d66c8192cc8d5be42b9286a13"
 const invalidPub = "210e8f1659bfbfddf0bc438a159e947533587a5f70a80a10cc94f57a7e3c3a5d"
 const twoPCs = "70b3a719f7fb790d3674250eac83b89a53aa03f27c0c4c435525734d149a24d0"
-let txid_recent42 = "5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207"
+const txid_recent42 = "5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207"
+const oip41_artifact = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb";
+const oip41_artifact_wJSON = "5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c"
 
 
 test('Multipart, .fromString()', async () => {

@@ -310,86 +310,64 @@ class Index {
         let artifact;
         try {
             artifact = await this.getArtifact(txid);
-        } catch (err) {return err}
+        } catch (err) {console.error(err)}
         console.dir (`artifact: ${JSON.stringify(artifact, null, 4)}`)
 
-        let requestTXID = txid;
 
+        let reqFloDataTXID = txid;
         if (!artifact.error) {
             if (txid && artifact && artifact.txid) {
                 console.log(`artifact.txid: ${artifact.txid}`)
                 if (txid.length <= 4) {
                     txid = artifact.txid;
                 }
-                requestTXID = artifact.txid;
+                reqFloDataTXID = artifact.txid;
             }
         }
 
         console.log(`artifact instanceof Artifact: ${artifact instanceof Artifact}`)
-        console.log(`requestTXD: ${requestTXID}`)
+        console.log(`reqFloDataTXID: ${reqFloDataTXID}`)
 
         //@ToDO::   Step 2 - Get FloData with TXID
         let floData;
         try {
-            floData = await this.getFloData(requestTXID);
-        } catch (err) {console.error(err)}
+            floData = await this.getFloData(reqFloDataTXID);
+        } catch (err) {throw new Error(`Couldn't get floData to hydrate multipart: ${err}`)}
         console.log(`floData: ${floData}`)
 
         //@ToDO::   Step 3 - Create FirstMP with FloData from step 2
-        let firstMp = new Multipart(floData, requestTXID);
-        console.log(`firstMp: ${firstMp}`)
-        console.log(`firstMp instanceof Multipart: ${firstMp instanceof Multipart}`)
-
-        let validity = firstMp.isValid();
-        // if (!valid) {throw new Error("Invalid multipart")}
-        console.log(`valid: ${JSON.stringify(validity)}`)
-
-        //@ToDO::   Step 4 - Push to matched
         let results, matched = [], existingParts = [];
 
-        if (validity.success){
+        let firstMp = new Multipart(floData, reqFloDataTXID);
+        if (firstMp.is_valid) {
             matched.push(firstMp)
             existingParts.push(firstMp.getPartNumber())
         } else {
-            try {
-                let artJSON;
-
-                if (floData.substr(0,5) === "json:") {
-                    artJSON = JSON.parse(floData.substr(5, floData.length))
-                }
-                else {artJSON = JSON.parse(floData)}
-
-                console.log(`artJSON: ${JSON.stringify(artJSON, null, 4)}`)
-                //Why do you hydrate an Artifact and not a multipart?
-                var tmpArt = new Artifact(artJSON);
-                if (tmpArt.isValid().success){
-                   return [tmpArt]
-                }
-            } catch (err) {
-                throw new Error(validity.message)
-            }   
+            throw firstMp.invalid_error || firstMp.isValid().message
         }
-        // console.log(`matched: ${matched}`)
-        //Checks to see if the multipart is the first part and if not, gets the first part
-        let firstPartTXID = txid;
-        console.log(`firstMp.isFirstPart: ${firstMp.isFirstPart}`)
+        // console.log(`firstMp instanceof Multipart: ${firstMp instanceof Multipart}`)
+        // console.log(`Multipart matched: ${matched}`)
 
-        if (!firstMp.isFirstPart) {
+        console.log(`firstMp.is_first_part: ${firstMp.is_first_part}`)
+        let firstPartTXID = txid;
+        if (!firstMp.is_first_part) {
             firstPartTXID = firstMp.getFirstPartTXID()
-            let artifact = await this.getArtifact(firstPartTXID.substr(0,10))
-            let floData = await this.getFloData(artifact.txid)
+            try {
+                let artifact = await this.getArtifact(firstPartTXID.substr(0,10))
+                let floData = await this.getFloData(artifact.txid)
+            } catch (err) {console.error(err)}
             let tmpMp = new Multipart(floData, artifact.txid);
-            if (tmpMp.isValid().success) {
+            if (tmpMp.is_valid) {
                 matched.push(tmpMp)
                 existingParts.push(tmpMp.getPartNumber())
-            }
+            } else {throw new Error(`First multipart is not a valid multipart: ${tmpMp.isValid().message}`)}
         }
 
         //@ToDO::   Step 5 - Get the rest of the MPs
-        let floSearchTX = (firstPartTXID.length > 10) ? firstPartTXID.substr(0,10) : firstPartTXID
+        let searchFloTXID = (firstPartTXID.length > 10) ? firstPartTXID.substr(0,10) : firstPartTXID
 
         let searchOps = {
-            search: floSearchTX,
+            search: searchFloTXID,
             page: 0
         }
         // console.log(`searchOps: ${JSON.stringify(searchOps, null, 4)}`)
@@ -397,17 +375,15 @@ class Index {
         async function findRemainingMultiparts(searchOps, _this) {
             try {
                 results = await _this.searchFloData(searchOps);
-                console.log(`Results: ${results}`)
+                console.log(`Results: ${JSON.stringify(results).length}`)
                 if (results === null) {
                     return null
                 }
-            } catch (err) {console.error(err)}
+            } catch (err) {console.error(err); return null}
 
-
-            if (results && results !== "null") {
+            if (results) {
                 for (let mp of results) {
-                    let tmpMp = new Multipart();
-                    tmpMp.fromString(mp.Message, mp.Hash);
+                    let tmpMp = new Multipart(mp.Message, mp.Hash);
 
                     let trimLength = firstPartTXID.length
                     // Take whichever is shorter
@@ -428,10 +404,10 @@ class Index {
         }
 
         while (matched.length - 1 < firstMp.getTotalParts()) {
-            console.log(`Checking match length: ${matched.length} && ${firstMp.getTotalParts()}`)
-            console.log(`Checking existing array: ${existingParts}`)
-            const _this = this;
+            console.log(`matched: ${matched.length} / ${firstMp.getTotalParts()}`)
+            console.log(`existing_parts: ${existingParts}`)
             console.log(`searchOps.page: ${JSON.stringify(searchOps.page)}`)
+            const _this = this;
             let stop = await findRemainingMultiparts(searchOps, _this)
 
             if ((matched.length - 1 === firstMp.getTotalParts()) || stop === null) {

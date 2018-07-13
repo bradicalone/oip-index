@@ -1,9 +1,13 @@
 var OIP = require("../src/main");
 import Index from '../src/Index'
+const oip41_artifact = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb";
+const oip41_artifact_wJSON = "5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c"
 
 var Artifact = OIP.Artifact;
 var ArtifactFile = OIP.ArtifactFile;
 var Multipart = OIP.Multipart;
+
+
 
 test("A Blank Artifact can be created", () => {
 	var artifact = new Artifact();

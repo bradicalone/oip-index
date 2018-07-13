@@ -16,15 +16,19 @@ class Multipart {
 		// (don't write prefix if we were created from a Multipart string that doesn't contain a JSON prefix)
 		// Aka, this is for supporting legacy artifacts
 		this.hasJSONPrefix = true;
-		this.isFirstPart = false;
+		this.is_first_part = false;
+		this.is_valid = undefined;
+		this.invalid_error = undefined;
 
 		if (txid)
 			this.setTXID(txid)
 
 		if (inputString)
 			this.fromString(inputString)
-            if (this.getFirstPartTXID() === "" && this.getPartNumber() === 0) {
-		        this.isFirstPart = true;
+            if (this.is_valid) {
+                if (this.getFirstPartTXID() === "" && this.getPartNumber() === 0) {
+                    this.is_first_part = true;
+                }
             }
 	}
 	setPrefix(prefix){
@@ -133,9 +137,16 @@ class Multipart {
         } else return new Error(`Invalid multipart: ${this.isValid().message}`)
 	}
 
+	invalidate(error_message) {
+        this.is_valid = this.isValid().success
+        this.invalid_error = new Error(error_message)
+        return this.invalid_error
+    }
+
     fromString(str, txid) {
-        if (!str || typeof str !== "string")
-            return false
+        if (!str || typeof str !== "string") {
+            return this.invalidate("String input needed")
+        }
         if (txid) {this.setTXID(txid)}
 
         const prefix = "alexandria-media-multipart("
@@ -143,14 +154,16 @@ class Multipart {
         const jsonPrefix = "json:"
 
         let checkPrefix = str.startsWith(prefix) || str.startsWith(prefix2)
-        if (!checkPrefix) {return new Error("Invalid OIP multipart prefix")}
+        if (!checkPrefix) {
+            return this.invalidate("Invalid OIP multipart prefix")
+        }
 
         str = str.replace(prefix, "");
         str = str.replace(prefix2, "");
 
         let splitParts = str.split("):")
         if (splitParts.length < 2) {
-            return new Error("Malformed multi-part")
+            return this.invalidate("Malformed multi-part")
         }
 
         let metaString = splitParts[0];
@@ -160,16 +173,20 @@ class Multipart {
         let meta = metaString.split(",")
         let lm = meta.length;
 
-        if (lm !== 4 && lm !== 5 && lm !== 6)
-            return new Error("Malformed multi-part meta")
-
+        if (lm !== 4 && lm !== 5 && lm !== 6) {
+            return this.invalidate("Malformed multi-part meta")
+        }
 
         meta.forEach( (m,i) => {
             if (i < 2)
                 if (!isNaN(parseInt(m))) {
                     meta[i] = parseInt(m)
-                } else return new Error(`Missing part number[s]`)
-            if (m === undefined) {return new Error(`Undefined value in metaString`)}
+                } else {
+                    return this.invalidate(`Missing part number[s]`)
+                }
+            if (m === undefined) {
+                return this.invalidate(`Undefined value in metaString`)
+            }
         })
 
 
@@ -189,14 +206,6 @@ class Multipart {
         }
 
         this.setChoppedStringData(dataString);
-
-        // return {
-        //     partNumber: this.getPartNumber(),
-        //     totalParts: this.getTotalParts(),
-        //     pubAddr: this.getPublisherAddress(),
-        //     ref: this.getFirstPartTXID(),
-        //     sig: this.getSignature(),
-        //     dataString: this.getChoppedStringData()
-        // }
+        this.is_valid = this.isValid().success
     }
 }

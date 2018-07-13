@@ -27,7 +27,8 @@ const invalidPub = "210e8f1659bfbfddf0bc438a159e947533587a5f70a80a10cc94f57a7e3c
 const artTx = "5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c"
 const noPrefix = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb"
 const twoPCs = "70b3a719f7fb790d3674250eac83b89a53aa03f27c0c4c435525734d149a24d0"
-
+const oip41_artifact = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb";
+const oip41_artifact_wJSON = "5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c"
 
 let index = new Index();
 
@@ -120,6 +121,8 @@ test('Index.getMulitparts with valid 42 addr part 1', async () => {
 }, 10000);
 
 test('Index.getMulitparts with missing pieces', async () => {
+    //"oip-mp(0,51,FJAGk4SGCAo8Y1cMxuzY2qLxnTU2DUrm1a,,HzJwXMbV8yOUjvyGZpDU5GWLBQCY0n5Bx4pOJcO3L8Fhakp52dJvNEnW6R5ZlFS5mo1OO5H+FzSrNm9nJm9E+Bs=):json:{\"oip042\":{\"publish\":{\"artifact\":{\"floAddress\":\"FJAGk4SGCAo8Y1cMxuzY2qLxnTU2DUrm1a\",\"timestamp\":1524084635,\"type\":\"research\",\"subtype\":\"tomogram\",\"info\":{\"title\":\"Caulobacter crescentus\",\"tags\":\"etdb,jensen.lab,tomogram,electron.tomography\",\"description\":\"Auto imported from etdb\"},\"details\":{\"date\":1114732800,\"NBCItaxID\":"
+    //retrieves 39 out of the 51 pieces
     let multi_parts = await index.getMultiparts(tx3951)
 
     for (let i = 0; i < multi_parts.length; i++) {
@@ -133,20 +136,7 @@ test('Index.getMulitparts with missing pieces', async () => {
     expect(multi_parts.length).toBe(52)
 }, 10000);
 
-test('Index.getMulitparts with broken floData', async () => {
-    let multi_parts = await index.getMultiparts(tx151)
-
-    for (let i = 0; i < multi_parts.length; i++) {
-        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
-        let check = false;
-        if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
-            check = true;
-        expect(check).toBeTruthy()
-    }
-    expect(Array.isArray(multi_parts)).toBeTruthy();
-}, 10000);
-
-test('Index.getMulitparts with broken comma', async () => {
+test('Index.getMulitparts with fluffy enigma comma', async () => {
     let multi_parts = await index.getMultiparts(goodArtBrokenComma)
 
     for (let i = 0; i < multi_parts.length; i++) {
@@ -159,9 +149,9 @@ test('Index.getMulitparts with broken comma', async () => {
     expect(Array.isArray(multi_parts)).toBeTruthy();
 }, 10000);
 
-test('Index.getMulitparts with broken comma 2', async () => {
-    let multi_parts = await index.getMultiparts(multipleProblems)
-
+test('Index.getMultiparts tuff ones', async () => {
+    let invalid_pub = "52e507dc47b09f5762e1ffffc1a6d615d39541fa39129f94bbeb10808f26b8c7"
+    let multi_parts = await index.getMultiparts(no_part)
     for (let i = 0; i < multi_parts.length; i++) {
         console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
         let check = false;
@@ -169,20 +159,33 @@ test('Index.getMulitparts with broken comma 2', async () => {
             check = true;
         expect(check).toBeTruthy()
     }
-    expect(Array.isArray(multi_parts)).toBeTruthy();
+})
+test('Index.getMulitparts test invalid multipart 0', async () => {
+    let thrown = false;
+    try {
+        let multi_parts = await index.getMultiparts(multipleProblems)
+    } catch (err) {thrown = true}
+
+    expect(thrown).toBeTruthy()
 }, 10000);
 
-test('Index.getMulitparts test whatever txid', async () => {
-    let multi_parts = await index.getMultiparts(multipleProblems)
+test('Index.getMultiparts() test against invalid multipart 1', async () => {
+    //"{\"oip-041\":{\"artifact\":{\"publisher\":\"FD6qwMcfpnsKmoL2kJSfp1czBMVicmkK1Q\",\"timestamp\":1481419391,\"type\":\"music\",\"info\":{\"title\":\"Test\",\"description\":\"Test\",\"year\":\"2016\",\"extraInfo\":{}},\"storage\":{\"network\":\"IPFS\",\"location\":\"QmPukCZKeJD4KZFtstpvrguLaq94rsWfBxLU1QoZxvgRxA\",\"files\":[{\"dname\":\"Skipping Stones\",\"fname\":\"1 - Skipping Stones.mp3\",\"fsize\":6515667,\"type\":\"album track\",\"duration\":1533.603293}]},\"payment\":{}},\"signature\":\"IDNQ0yoIezmTd0xFzqAf/ekqgy0SoBvGulrrddnjIDIpXixsqtWgjt9PQ90JSA5mevhMMAYU7zbZI6LwpmTgZWQ=\"}}"
+    let thrown = false;
+    try {
+        let multi_parts = await index.getMultiparts(oip41_artifact)
+    } catch (err) {thrown = true}
 
-    // for (let i = 0; i < multi_parts.length; i++) {
-    //     console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
-    //     let check = false;
-    //     if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
-    //         check = true;
-    //     expect(check).toBeTruthy()
-    // }
-    // expect(Array.isArray(multi_parts)).toBeTruthy();
-}, 10000);
+    expect(thrown).toBeTruthy()
+})
 
+test('Index.getMultiparts() test against missing part', async () => {
+    let no_part = "cc89f15b676a438accce1d72c027ec600284106d66c8192cc8d5be42b9286a13"
+    //"oip-mp(,3,F89kd8Cso79V3okG7BKMvLnP13p5DhsLBr,,IB1jxEBIXzfDyHuB0QkbKpt9KzLLYjJhB67+AFM83mqgIwY8oMC1tJTcHTjj2kxf+vlJaSLTBJC1EZ0RoM0XHxw=):{\"oip-041\":{\"artifact\":{\"publisher\":\"F89kd8Cso79V3okG7BKMvLnP13p5DhsLBr\",\"timestamp\":1506720686,\"type\":\"video\",\"info\":{\"title\":\"Nightwish - Amaranth (OFFICIAL VIDEO)\",\"description\":\".:. Uploaded via YouTubeExit.com | Saving the world's videos one watch at a time.\",\"year"
+    let thrown = false;
+    try {
+        let multi_parts = await index.getMultiparts(no_part)
+    } catch (err) {thrown = true}
 
+    expect(thrown).toBeTruthy()
+})
