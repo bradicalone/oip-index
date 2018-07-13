@@ -264,8 +264,12 @@ class Index {
             return response.data.floData
         } catch (err) {
             let error = {};
-            error.error = err.response.data || 'error';
-            error.status = `${err.response.status} ${err.response.statusText}` || 'status unknown';
+            console.log(err)
+            if (err.message) {error.message = err.message}
+            if (error.response && error.response.data) {
+                error.error = err.response.data || 'error';
+                error.status = `${err.response.status} ${err.response.statusText}` || 'status unknown';
+            }
             return error;
         }
 	}

@@ -151,6 +151,15 @@ test('Index.getMultiparts() test against floData without partNumber (expect to b
     expect(thrown).toBeTruthy()
 })
 
+const oldArt = "e455fb772105fed0da23d9ed3dc97d1271f0e5b2cb83ad72f32dd0423d234ef1"
+
+test('Index.getMultiparts() test against floData without partNumber (expect to be thrown)', async () => {
+    let multi_parts = await index.getMultiparts(oldArt)
+    for (let i = 0; i < multi_parts.length; i++) {
+        console.log(`multi_parts[i]: ${multi_parts[i]}`)
+    }
+})
+
 let aWholeBunchOfTXIDS = [
     'b5e0813ac476bca1f5383a3a5e44879ee325ad7831090fd4909486692b66c746',
     'b750caca94fcdc88cde35273fe973a619d80eea88bd6b549b79dd4b3b1fbad81',

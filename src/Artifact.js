@@ -100,7 +100,9 @@ class Artifact extends OIPObject {
 			if (Array.isArray(input) && input.length > 1 && input[0] instanceof Multipart){
 				this.fromMultiparts(input)
 			} else if (typeof input === "string") {
+			    if(input.startsWith("json:")) {input = input.slice(5)}
 				try {
+			        let ryan = JSON.parse(input)
 					this.fromJSON(JSON.parse(input))
 				} catch (e) {}
 			} else if (typeof input === "object") {

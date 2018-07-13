@@ -4,7 +4,6 @@ import Index from '../src/Index'
 const Network = new Index()
 const oip41_0_txid = "22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d"
 
-
 test('Multipart.fromString(flo_data, oip41_0_txid)', async () => {
     const sigData = "0-1-FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k--{\"oip-041\":{\"artifact\":{\"type\":\"Image-Basic\",\"info\":{\"extraInfo\":{\"artist\":\"Sky Young\",\"genre\":\"Animals/Wildlife\",\"tags\":[\"Sample Tag\",\"Sample Tag 2\"]},\"title\":\"My Great Dog\",\"year\":2018,\"description\":\"Sample Description\"},\"storage\":{\"network\":\"IPFS\",\"files\":[{\"fname\":\"scout.jpg\",\"fsize\":1571667,\"sugPlay\":1,\"disBuy\":true,\"type\":\"Image\"}],\"location\":\"QmcEAy2sEp7dTdyPea"
     let flo_data = await Network.getFloData(oip41_0_txid)

@@ -1,4 +1,5 @@
 var OIP = require("../src/main");
+
 import Index from '../src/Index'
 const oip41_artifact = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb";
 const oip41_artifact_wJSON = "5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c"
@@ -7,11 +8,35 @@ var Artifact = OIP.Artifact;
 var ArtifactFile = OIP.ArtifactFile;
 var Multipart = OIP.Multipart;
 
-
-
 test("A Blank Artifact can be created", () => {
 	var artifact = new Artifact();
+	console.log(artifact)
 	expect(artifact).toBeDefined();
+})
+
+test("Construct Artifact with floData that has a json: prefix", async () => {
+    let Network = new Index();
+    let flo_data = await Network.getFloData(oip41_artifact_wJSON)
+    let art = new Artifact(flo_data)
+    expect(art.isValid()).toBeTruthy()
+})
+
+test("Construct Artifact with floData (invalid multipart)", async () => {
+    const oip41_artifact_ = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb"
+    let Network = new Index();
+    let flo_data = await Network.getFloData(oip41_artifact_)
+    let art = new Artifact(flo_data)
+    console.log(art)
+    expect(art.isValid()).toBeTruthy()
+})
+
+test("Construct Artifact with floData", async () => {
+    let Network = new Index();
+    let flo_data = await Network.getFloData(oip41_artifact_wJSON)
+    if (flo_data.startsWith("json:")) {flo_data = flo_data.slice(5)}
+    let art = new Artifact(flo_data)
+    console.log(art.isValid())
+
 })
 
 test("Artifact can be created from Multiparts", () => {
