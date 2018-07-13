@@ -16,12 +16,16 @@ class Multipart {
 		// (don't write prefix if we were created from a Multipart string that doesn't contain a JSON prefix)
 		// Aka, this is for supporting legacy artifacts
 		this.hasJSONPrefix = true;
+		this.isFirstPart = false;
 
 		if (txid)
 			this.setTXID(txid)
 
 		if (inputString)
 			this.fromString(inputString)
+            if (this.getFirstPartTXID() === "" && this.getPartNumber() === 0) {
+		        this.isFirstPart = true;
+            }
 	}
 	setPrefix(prefix){
 		this.prefix = prefix;
@@ -62,11 +66,10 @@ class Multipart {
 	}
 	getSignatureData(){
 		return this.partNumber + 
-				"," + this.totalParts +
-				"," + this.publisherAddress +
-				"," + this.firstPartTXID +
-                // "," + this.signature +
-				"," + this.choppedStringData;
+				"-" + this.totalParts +
+				"-" + this.publisherAddress +
+				"-" + this.firstPartTXID +
+				"-" + this.choppedStringData;
 	}
 	validateSignature(){
 		return true;
@@ -93,8 +96,8 @@ class Multipart {
 		if (this.getPrefix() !== "oip-mp"){
 			return {success: false, message: "Invalid Multipart Prefix!"}
 		}
-		if (this.getPartNumber() < 0){
-			return {success: false, message: "Part number must be positive!"}
+		if (this.getPartNumber() < 0 || this.getPartNumber() === ""){
+			return {success: false, message: "Part number must be positive or defined!"}
 		}
 		if (this.getPartNumber() > this.getTotalParts()){
 			return {success: false, message: "Part number too high for total parts!"}
@@ -108,6 +111,9 @@ class Multipart {
 		if (this.getFirstPartTXID() === "" && this.getPartNumber() !== 0){
 			return {success: false, message: "Only the first part in a multipart message can have a blank first part TXID!"}
 		}
+		if (isNaN(this.getPartNumber()) || isNaN(this.getTotalParts())) {
+		    return {success: false, message: "The part number and the total part number must be of NUMBER types"}
+        }
 		if (!this.validateSignature()){
 			return {success: false, message: "Invalid Signature!"}
 		}
@@ -124,7 +130,7 @@ class Multipart {
 				this.addJSONIdentifier() +
 				this.getChoppedStringData();
 	}
-	fromString(multipartString){
+	fromString2(multipartString){
 		if (!multipartString || typeof multipartString !== "string")
 			return false;
 
@@ -188,4 +194,69 @@ class Multipart {
 		// Set the final built string to the appended string data
 		this.setChoppedStringData(builtString);
 	}
+
+    fromString(str, txid) {
+        if (!str || typeof str !== "string")
+            return false
+        if (txid) {this.setTXID(txid)}
+
+        const prefix = "alexandria-media-multipart(";
+        const prefix2 = "oip-mp(";
+        const jsonPrefix = "json:"
+
+        let checkPrefix = str.startsWith(prefix) || str.startsWith(prefix2)
+        if (!checkPrefix) {return new Error("Invalid OIP multipart prefix")}
+
+        str = str.replace(prefix, "");
+        str = str.replace(prefix2, "");
+
+        let splitParts = str.split("):")
+        if (splitParts.length < 2) {
+            return new Error("Malformed multi-part")
+        }
+
+        let metaString = splitParts[0];
+        splitParts = splitParts.slice(1)
+        let dataString = splitParts.join("):")
+
+        let meta = metaString.split(",")
+        let lm = meta.length;
+
+        if (lm !== 4 && lm !== 5 && lm !== 6)
+            return new Error("Malformed multi-part meta")
+
+
+        meta.forEach( (m,i) => {
+            if (i < 2)
+                if (!isNaN(parseInt(m))) {
+                    meta[i] = parseInt(m)
+                } else return new Error(`${m} is not a number! (either the part or total parts)`)
+        })
+
+
+        let [partNumber, totalParts, pubAddr, ref] = meta;
+        let sig = (meta[lm-1] === "") ? meta[lm-2] : meta[lm-1]
+        if (ref.startsWith("00000000000")) {ref = ""}
+
+        this.setPartNumber(partNumber)
+        this.setTotalParts(totalParts)
+        this.setPublisherAddress(pubAddr)
+        this.setFirstPartTXID(ref)
+        this.setSignature(sig)
+
+        if (dataString.startsWith(jsonPrefix)) {
+            dataString = dataString.replace(jsonPrefix, "")
+        }
+
+        this.setChoppedStringData(dataString);
+
+        // return {
+        //     partNumber: this.getPartNumber(),
+        //     totalParts: this.getTotalParts(),
+        //     pubAddr: this.getPublisherAddress(),
+        //     ref: this.getFirstPartTXID(),
+        //     sig: this.getSignature(),
+        //     dataString: this.getChoppedStringData()
+        // }
+    }
 }

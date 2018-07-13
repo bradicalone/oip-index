@@ -1,4 +1,5 @@
 var OIP = require("../src/main");
+import Index from '../src/Index'
 
 var Artifact = OIP.Artifact;
 var ArtifactFile = OIP.ArtifactFile;
@@ -786,3 +787,11 @@ test("getClassName", () => {
 
 	expect(artifact.getClassName()).toBe("Artifact")
 })
+
+// test('fromJSON from floData', async () => {
+//     let index = new Index();
+//     let flo_data = await index.getFloData("5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c")
+//     console.log(flo_data)
+//     var artifact = new Artifact(flo_data)
+//     console.log(artifact.isValid())
+// })

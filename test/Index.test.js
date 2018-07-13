@@ -19,7 +19,15 @@ const crazyLong13 = '1c6575751ad7f2ccca44f4b880ee1bcc2163d671fb7f14c3b919fe587a2
 const tx4242 = '96994d2f1878450287e24427c06b89f4056eb31de4b48a18ff9ff3c6c796e9cc'
 const tx3951 = '80abc3901ca7c6318ff771b7f9804bef513ebbca0797058c86da3da7e128cb9d'
 const tx151 = 'd6dcde31b0bb797e37e3015fae4d100f4620789543e4d3b34a6dd06c8e018f33'
-const goodArtBrokenComma = 'c64dc67a5e1afce288c688f0f549779a1505b369258473999c00734e24ae54cd good artifact broken comma'
+const brokenComma = 'bc5d4e1fa726284bd3d685b69f2adb2f06e6344feeb4fccb1527bbbb7bc7c17d'
+const goodArtBrokenComma = 'c64dc67a5e1afce288c688f0f549779a1505b369258473999c00734e24ae54cd'
+const multipleProblems = "6675a4ec39f7d2385eb63343ddfb99dad69187525ba9791b2285587bdcf7870c"
+const brokenNoPartNumber = "cc89f15b676a438accce1d72c027ec600284106d66c8192cc8d5be42b9286a13"
+const invalidPub = "210e8f1659bfbfddf0bc438a159e947533587a5f70a80a10cc94f57a7e3c3a5d"
+const artTx = "5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c"
+const noPrefix = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb"
+const twoPCs = "70b3a719f7fb790d3674250eac83b89a53aa03f27c0c4c435525734d149a24d0"
+
 
 let index = new Index();
 
@@ -138,9 +146,43 @@ test('Index.getMulitparts with broken floData', async () => {
     expect(Array.isArray(multi_parts)).toBeTruthy();
 }, 10000);
 
+test('Index.getMulitparts with broken comma', async () => {
+    let multi_parts = await index.getMultiparts(goodArtBrokenComma)
 
+    for (let i = 0; i < multi_parts.length; i++) {
+        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+        let check = false;
+        if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
+            check = true;
+        expect(check).toBeTruthy()
+    }
+    expect(Array.isArray(multi_parts)).toBeTruthy();
+}, 10000);
 
+test('Index.getMulitparts with broken comma 2', async () => {
+    let multi_parts = await index.getMultiparts(multipleProblems)
 
+    for (let i = 0; i < multi_parts.length; i++) {
+        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+        let check = false;
+        if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
+            check = true;
+        expect(check).toBeTruthy()
+    }
+    expect(Array.isArray(multi_parts)).toBeTruthy();
+}, 10000);
 
+test('Index.getMulitparts test whatever txid', async () => {
+    let multi_parts = await index.getMultiparts(multipleProblems)
+
+    // for (let i = 0; i < multi_parts.length; i++) {
+    //     console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+    //     let check = false;
+    //     if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
+    //         check = true;
+    //     expect(check).toBeTruthy()
+    // }
+    // expect(Array.isArray(multi_parts)).toBeTruthy();
+}, 10000);
 
 
