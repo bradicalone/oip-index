@@ -318,7 +318,7 @@ class Index {
         if (!artifact.error) {
             if (txid && artifact && artifact.txid) {
                 console.log(`artifact.txid: ${artifact.txid}`)
-                if (txid.length <= 4) {
+                if (txid.length <= 5) {
                     txid = artifact.txid;
                 }
                 reqFloDataTXID = artifact.txid;
@@ -375,7 +375,7 @@ class Index {
         async function findRemainingMultiparts(searchOps, _this) {
             try {
                 results = await _this.searchFloData(searchOps);
-                console.log(`Results: ${JSON.stringify(results).length}`)
+                console.log(`Results: ${JSON.stringify(results.length)}`)
                 if (results === null) {
                     return null
                 }

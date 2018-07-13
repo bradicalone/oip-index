@@ -163,7 +163,7 @@ class Multipart {
 
         let splitParts = str.split("):")
         if (splitParts.length < 2) {
-            return this.invalidate("Malformed multi-part")
+            return this.invalidate("Malformed parts; multi-parts < 2")
         }
 
         let metaString = splitParts[0];
@@ -174,7 +174,7 @@ class Multipart {
         let lm = meta.length;
 
         if (lm !== 4 && lm !== 5 && lm !== 6) {
-            return this.invalidate("Malformed multi-part meta")
+            return this.invalidate("Malformed metaString in floData")
         }
 
         meta.forEach( (m,i) => {
@@ -182,10 +182,10 @@ class Multipart {
                 if (!isNaN(parseInt(m))) {
                     meta[i] = parseInt(m)
                 } else {
-                    return this.invalidate(`Missing part number[s]`)
+                    return this.invalidate(`meta[${i}] in metaString is not a number`)
                 }
             if (m === undefined) {
-                return this.invalidate(`Undefined value in metaString`)
+                return this.invalidate(`Undefined value at meta[${i}] (let meta = metaString.split(",")`)
             }
         })
 
