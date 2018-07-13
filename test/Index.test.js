@@ -4,8 +4,7 @@ import Multipart from '../src/Multipart'
 
 let index = new Index();
 
-test('Index.getArtifact()', async () => {
-    //HAS TO BE THE TX OF AN ARTIFACT OR A FIRST PART MULTIPART
+test('Index.getArtifact(txid)', async () => {
     const txid41 = '5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207';
     let artifact = await index.getArtifact(txid41);
     console.log(artifact);
@@ -17,9 +16,10 @@ test('Index.getArtifact()', async () => {
 
 },10000);
 
-test('Index.getLatestArtifacts() - 3 most current', async () => {
-    let artifacts = await index.getLatestArtifacts(3);
-    expect(artifacts.length = 3).toBeTruthy();
+test('Index.getLatestArtifacts() - Retrieves the 10 most current artifacts', async () => {
+    let numberToGet = 10
+    let artifacts = await index.getLatestArtifacts(numberToGet);
+    expect(artifacts.length = numberToGet).toBeTruthy();
     for (let art of artifacts)
         expect(art).toBeInstanceOf(Artifact)
 });
@@ -50,13 +50,6 @@ test('Index.getArtifacts() with subtype: tomogram', async () => {
     }
 });
 
-test('Break getArtifacts function', async () => {
-    //make sure to delete a character in the network url call
-    let err = await index.getArtifacts();
-    expect(err).toBeDefined()
-
-})
-
 //OIPd can't find audio, image, etc types
 test(`Index.getArtifacts() can't find type (returns empty array)`, async () => {
     let artifacts = await index.getArtifacts("audio");
@@ -82,7 +75,7 @@ test('Index.searchFloData() with random options', async () => {
     expect(floData).toBeDefined();
 })
 
-test('Index.getMulitparts with valid OIP42 address', async () => {
+test('Index.getMulitparts() with valid OIP42 address', async () => {
     //"oip-mp(0,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,,HzdArp+MBPdP2flPVihd6Phhu22NL7iaBYvCLnlcxSccFWY1+ce3ifS1UZe8zBZ113XypRkhGDHPTCcM9mw7L90=):{\"oip-041\":{\"artifact\":{\"type\":\"Image-Basic\",\"info\":{\"extraInfo\":{\"artist\":\"Sky Young\",\"genre\":\"Animals/Wildlife\",\"tags\":[\"Sample Tag\",\"Sample Tag 2\"]},\"title\":\"My Great Dog\",\"year\":2018,\"description\":\"Sample Description\"},\"storage\":{\"network\":\"IPFS\",\"files\":[{\"fname\":\"scout.jpg\",\"fsize\":1571667,\"sugPlay\":1,\"disBuy\":true,\"type\":\"Image\"}],\"location\":\"QmcEAy2sEp7dTdyPea"
     const tx1 = '22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d'
     let multi_parts = await index.getMultiparts(tx1)
@@ -95,7 +88,7 @@ test('Index.getMulitparts with valid OIP42 address', async () => {
     }
 }, 10000);
 
-test('Index.getMulitparts with missing pieces (will fill in missing parts with undefined)', async () => {
+test('Index.getMulitparts() with missing pieces (will fill in missing parts with undefined)', async () => {
     //"oip-mp(0,51,FJAGk4SGCAo8Y1cMxuzY2qLxnTU2DUrm1a,,HzJwXMbV8yOUjvyGZpDU5GWLBQCY0n5Bx4pOJcO3L8Fhakp52dJvNEnW6R5ZlFS5mo1OO5H+FzSrNm9nJm9E+Bs=):json:{\"oip042\":{\"publish\":{\"artifact\":{\"floAddress\":\"FJAGk4SGCAo8Y1cMxuzY2qLxnTU2DUrm1a\",\"timestamp\":1524084635,\"type\":\"research\",\"subtype\":\"tomogram\",\"info\":{\"title\":\"Caulobacter crescentus\",\"tags\":\"etdb,jensen.lab,tomogram,electron.tomography\",\"description\":\"Auto imported from etdb\"},\"details\":{\"date\":1114732800,\"NBCItaxID\":"
     //retrieves 39 out of the 51 pieces
     const tx3951 = '80abc3901ca7c6318ff771b7f9804bef513ebbca0797058c86da3da7e128cb9d'
@@ -113,7 +106,7 @@ test('Index.getMulitparts with missing pieces (will fill in missing parts with u
 
 
 //@ToDo::Validate pubID in Multipart.js
-test('Index.getMultiparts test against floData with invalid pubID (expect to be thrown BUT DOES NOT YET) passes', async () => {
+test('Index.getMultiparts() test against floData with invalid pubID (expect to be thrown BUT DOES NOT YET) passes', async () => {
     // "oip-mp(0,1,FLuiVU5iDQ,,H2SwpVysryws5CMrok8tqvHEAJqT9eI1SnzUK5yUPF8sDQ5yxeBHD4j9Eu04qFcGm3CHef1oBVQTQzN87Z5yj6s=,):{\"artifact\":{\"type\":\"Video-Basic\",\"info\":{\"extraInfo\":{\"genre\":\"Pets & Animals\"},\"title\":\"Dog\",\"year\":\"2017\",\"description\":\"Pay no attention to the blockchain messages...\"},\"storage\":{\"network\":\"IPFS\",\"files\":[{\"fname\":\"a123.dog.mp4\",\"fsize\":52644,\"type\":\"Video\"}]},\"payment\":{\"fiat\":\"USD\",\"scale\":\"1000:1\",\"disPer\":0."
     let invalid_pub = "52e507dc47b09f5762e1ffffc1a6d615d39541fa39129f94bbeb10808f26b8c7"
     let multi_parts = await index.getMultiparts(invalid_pub)
@@ -125,7 +118,7 @@ test('Index.getMultiparts test against floData with invalid pubID (expect to be 
         expect(check).toBeTruthy()
     }
 })
-test('Index.getMulitparts test floData without prefix and NaN partNumber (expect to be thrown)', async () => {
+test('Index.getMulitparts() test floData without prefix and NaN partNumber (expect to be thrown)', async () => {
     //"NaN,3,FTaQ6BoZdJBLk18afwqyLnkGbxKqUZrzea,f50559675814a4cd38723613e7edd2ab11a9feae03a677e14c1e193bc431e198,H31Lkr2TCTqCpKImgouYkE6iA8GwtnshU/660Vigz8p2NplvP6UeIGXo8GhGqvB3bsGn/qLUYeTsKNu3q96Hev4=):h\":\"/oip-041/artifact/storage/files/1/fsize\",\"value\":13657840},{\"path\":\"/oip-041/artifact/storage/files/1/fname\",\"value\":\"The Tech That Powers Bitcoin Could Tackle Corruption (HBO) - (640x360).mp4\"},{\"path\":\"/oip-041/artifact/storage/files/0/fsize\",\"value\":31312800},{\"path\":\"/oip-041/artifact/storage/files/0/fname\",\"value\":\"The Tech That Powers Bitcoin Could Tackle Co"
     const multipleProblems = "6675a4ec39f7d2385eb63343ddfb99dad69187525ba9791b2285587bdcf7870c"
     let thrown = false;
