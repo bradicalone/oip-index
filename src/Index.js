@@ -84,8 +84,13 @@ class Index {
             }
         } catch (err) {
             let error = {};
-            error.error = err.response.data || 'error';
-            error.status = `${err.response.status} ${err.response.statusText}` || 'status unknown';
+            console.log(err)
+            if (err.response && err.response.data) {
+                error.error = err.response.data || 'error';
+                error.status = `${err.response.status} ${err.response.statusText}` || 'status unknown';
+            } else {
+                error.error = "Error fetching artifact: could not get err response data"
+            }
             return error;
         }
 	}

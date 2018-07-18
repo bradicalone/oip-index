@@ -16,6 +16,13 @@ test('Index.getArtifact(txid)', async () => {
 
 },10000);
 
+test('Index.getArtifact(txid) random test', async () => {
+    const txid41 = 'f516ba';
+    let artifact = await index.getArtifact(txid41);
+    console.log(artifact);
+
+},10000);
+
 test('Index.getLatestArtifacts() - Retrieves the 10 most current artifacts', async () => {
     let numberToGet = 10
     let artifacts = await index.getLatestArtifacts(numberToGet);
