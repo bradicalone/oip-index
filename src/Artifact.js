@@ -899,7 +899,7 @@ class Artifact extends OIPObject {
 				}
 			}
 			if (artifact.payment.addresses){
-				for (var address of artifact.payment.addresses){
+				for (var address in artifact.payment.addresses){
 					this.addSinglePaymentAddress(address.token, address.address)
 				}
 			}

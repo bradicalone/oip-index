@@ -813,7 +813,6 @@ test("capitalizeFirstLetter", () => {
 
 test("getClassName", () => {
 	var artifact = new Artifact();
-
 	expect(artifact.getClassName()).toBe("Artifact")
 })
 

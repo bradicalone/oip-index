@@ -1,4 +1,3 @@
-
 class ArtifactFile {
     constructor(json, parent){
 		this.file = {}
