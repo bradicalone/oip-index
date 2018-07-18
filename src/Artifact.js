@@ -109,7 +109,24 @@ class Artifact extends OIPObject {
 			}
 		} 
 	}
-	/**
+    /**
+     * Set the TXID
+     * @param {string} txid - The transaction ID
+     * @example
+     * artifact.setTXID("2982JE9")
+     */
+    setTXID(txid){
+        this.txid = txid;
+    }
+    /**
+     * Get the TXID of an artifact
+     * @example
+     * artifact.getTXID()
+     */
+    getTXID() {
+        return this.txid;
+    }
+    /**
 	 * Set the Publisher name String, please note that this does not set it when you publish to the blockchain!
 	 * @param {string} publisherName - The Publisher Name you wish to set the Artifact to
 	 * @example
