@@ -1,4 +1,4 @@
-module.exports =
+
 class ArtifactFile {
 	constructor(json, parent){
 		this.file = {}
@@ -244,3 +244,5 @@ class ArtifactFile {
 		return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 	}
 }
+
+module.exports = ArtifactFile

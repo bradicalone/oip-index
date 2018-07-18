@@ -1,5 +1,9 @@
 import ArtifactFile from '../src/ArtifactFile'
 
+test('instanceof ArtifactFile', () => {
+    let af = new ArtifactFile();
+    console.log(af instanceof ArtifactFile)
+})
 
 describe('ArtifactFile', function() {
     describe('setFilename', function() {
