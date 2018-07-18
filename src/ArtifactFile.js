@@ -1,6 +1,6 @@
 
 class ArtifactFile {
-	constructor(json, parent){
+    constructor(json, parent){
 		this.file = {}
 
 		if (json) {
@@ -245,4 +245,4 @@ class ArtifactFile {
 	}
 }
 
-module.exports = ArtifactFile
+export default ArtifactFile
