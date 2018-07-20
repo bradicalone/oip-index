@@ -124,7 +124,6 @@ class Index {
         let st = subtype || "*";
         if (typeof t === "string") st = st.toLowerCase();
         let pub = publisher || "";
-        if (typeof t === "string") pub = pub.toLowerCase();
 
 
         if (page && isNaN(page) && page !== "*"){

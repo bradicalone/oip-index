@@ -4,6 +4,14 @@ import Multipart from '../src/Multipart'
 
 let index = new Index();
 
+test('Index get publisher artifacts', async () => {
+    try {
+        let results = await index.getArtifacts(undefined, undefined, undefined, undefined, "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
+        console.log(results)
+    } catch (err) {console.log(err)}
+
+})
+
 test('Index.getArtifact(txid)', async () => {
     const txid41 = '5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207';
     let artifact = await index.getArtifact(txid41);
