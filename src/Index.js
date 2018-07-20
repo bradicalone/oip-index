@@ -2,6 +2,7 @@ import axios from 'axios';
 import Artifact from './Artifact';
 import Multipart from './Multipart'
 
+
 /**
  * The Transaction ID on the Blockchain.
  * @typedef {string} TXID
