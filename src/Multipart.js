@@ -122,6 +122,7 @@ class Multipart {
 			return {success: false, message: "Invalid Signature!"}
 		}
 
+		this.is_valid = true;
 		return {success: true}
 	}
 	toString(){

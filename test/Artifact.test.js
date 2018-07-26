@@ -391,13 +391,13 @@ test("addSinglePaymentAddress and getPaymentAddresses", () => {
 
 	artifact.addSinglePaymentAddress("flo", "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
 
-	expect(artifact.getPaymentAddresses()).toEqual([{flo: "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"}])
+	expect(artifact.getPaymentAddresses()).toEqual({flo: "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"})
 })
 
 test("getPaymentAddresses is blank array if unset & no mainAddress is set", () => {
 	var artifact = new Artifact();
 
-	expect(artifact.getPaymentAddresses()).toEqual([])
+	expect(artifact.getPaymentAddresses()).toEqual({})
 })
 
 test("getPaymentAddresses returns main address if unset", () => {
@@ -405,7 +405,7 @@ test("getPaymentAddresses returns main address if unset", () => {
 
 	artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
 
-	expect(artifact.getPaymentAddresses()).toEqual([{ "flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k" }])
+	expect(artifact.getPaymentAddresses()).toEqual({ "flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k" })
 })
 
 test("setRetailerCut and getRetailerCut", () => {
@@ -739,6 +739,7 @@ test("import 041", () => {
 	expect(artifact.getLocation()).toBe("QmTYNkdv12XKvLYV6n89j5Dp7rTTiGmdkYzL3eZXBRKcBH")
 	expect(artifact.getRetailerCut()).toBe(15)
 	expect(artifact.getPromoterCut()).toBe(15)
+    expect(artifact.getPaymentAddresses()).toEqual({"flo": "FEAFV8xroed1CyAx1mUH4iSyXvMZXhj6mZ"})
 })
 
 test("import 042", () => {
@@ -760,6 +761,7 @@ test("import 042", () => {
 	expect(artifact.getSignature()).toBe("IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=")
 	expect(artifact.getTXID()).toBe("2c5140f5da2c7ab5434af0953e22fe4800b7e09ecbec2836fe91d6bbe771134e")
 	expect(artifact.getPublisherName()).toBe("OstlerDev")
+    expect(artifact.getPaymentAddresses()).toEqual({"flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"})
 })
 
 test("getMultiparts (too short)", () => {
@@ -779,11 +781,14 @@ test("getMultiparts", () => {
 
 	artifact.setDescription("a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description ")
 
-	expect(artifact.getMultiparts()).toEqual([
-		new Multipart('oip-mp(0,2,mainAddress,,):json:{"oip042":{"artifact":{"floAddress":"mainAddress","info":{"description":"a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very lo'),
-		new Multipart('oip-mp(1,2,mainAddress,,):ng description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description "},"details":{},"storage":{"network":"IPFS"'),
-		new Multipart('oip-mp(2,2,mainAddress,,):,"files":[]},"payment":{}}}}')
-	])
+    var expectedMultiparts = [
+        new Multipart('oip-mp(0,2,mainAddress,,):json:{"oip042":{"artifact":{"floAddress":"mainAddress","info":{"description":"a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very lo'),
+        new Multipart('oip-mp(1,2,mainAddress,,):ng description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description "},"details":{},"storage":{"network":"IPFS"'),
+        new Multipart('oip-mp(2,2,mainAddress,,):,"files":[]},"payment":{}}}}')
+    ]
+
+	expect(artifact.getMultiparts()).toEqual(expectedMultiparts)
+    // artifact.getMultiparts()
 })
 
 test("fromMultiparts matches getMultiparts json identifier", () => {
@@ -815,11 +820,3 @@ test("getClassName", () => {
 	var artifact = new Artifact();
 	expect(artifact.getClassName()).toBe("Artifact")
 })
-
-// test('fromJSON from floData', async () => {
-//     let index = new Index();
-//     let flo_data = await index.getFloData("5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c")
-//     console.log(flo_data)
-//     var artifact = new Artifact(flo_data)
-//     console.log(artifact.isValid())
-// })

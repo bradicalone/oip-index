@@ -110,23 +110,6 @@ class Artifact extends OIPObject {
 		} 
 	}
     /**
-     * Set the TXID
-     * @param {string} txid - The transaction ID
-     * @example
-     * artifact.setTXID("2982JE9")
-     */
-    setTXID(txid){
-        this.txid = txid;
-    }
-    /**
-     * Get the TXID of an artifact
-     * @example
-     * artifact.getTXID()
-     */
-    getTXID() {
-        return this.txid;
-    }
-    /**
 	 * Set the Publisher name String, please note that this does not set it when you publish to the blockchain!
 	 * @param {string} publisherName - The Publisher Name you wish to set the Artifact to
 	 * @example
@@ -497,7 +480,7 @@ class Artifact extends OIPObject {
 	addSinglePaymentAddress(coin, address){
         if (!this.artifact.payment.addresses)
             this.artifact.payment.addresses = {};
-		var tmpObj = {};
+		let tmpObj = {};
 		tmpObj[coin.toLowerCase()] = address;
         this.artifact.payment.addresses = {...this.artifact.payment.addresses, ...tmpObj}
 	}
@@ -683,7 +666,6 @@ class Artifact extends OIPObject {
 		if (this.publisherName){
 			retJSON.publisherName = this.publisherName;
 		}
-
 		return JSON.parse(JSON.stringify(retJSON))
 	}
 	/**
@@ -1051,11 +1033,16 @@ class Artifact extends OIPObject {
 					mp.setTotalParts(chunks.length - 1);
 					mp.setPublisherAddress(this.getMainAddress());
 					mp.setChoppedStringData(chunks[c]);
+					mp.is_valid = mp.isValid().success;
 
 					// If we are the first multipart, then sign ourself
-					if (c === 0){
-						// @TODO: Implement multipart signing
-						mp.sign();
+					if (c == 0){
+                        mp.is_first_part = true;
+                        if (c.indexOf("oip042") !==  0) {
+                            mp.hasJSONPrefix = true
+                        }
+                        // @TODO: Implement multipart signing
+                        // mp.sign();
 					}
 
 					this.Multiparts.push(mp);
