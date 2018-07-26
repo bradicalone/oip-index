@@ -495,31 +495,29 @@ class Artifact extends OIPObject {
 	 * @param {string} address - Base58 Public Key to send payments
 	 */
 	addSinglePaymentAddress(coin, address){
+        if (!this.artifact.payment.addresses)
+            this.artifact.payment.addresses = {};
 		var tmpObj = {};
-		tmpObj[coin] = address;
-
-		if (!this.artifact.payment.addresses)
-			this.artifact.payment.addresses = [];
-
-		this.artifact.payment.addresses.push(tmpObj)
+		tmpObj[coin.toLowerCase()] = address;
+        this.artifact.payment.addresses = {...this.artifact.payment.addresses, ...tmpObj}
 	}
 	/**
 	 * Get the Addresses to send Payment to
 	 * @example
 	 * var addresses = artifact.getPaymentAddresses()
-	 * @return {Array.<PaymentPair>}
+	 * @return {Object} - keyValue => [string][string] === [coin][address]
 	 */
 	getPaymentAddresses(){
-		if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === []) && this.getMainAddress() && this.getMainAddress() !== "")
-			return [{ flo: this.getMainAddress() }]
+		if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === {}) && this.getMainAddress() && this.getMainAddress() !== "")
+			return { flo: this.getMainAddress() }
 
-		return this.artifact.payment.addresses || []
+		return this.artifact.payment.addresses || {}
 	}
 	/**
 	 * Get the Addresses to send Tips to
 	 * @example
 	 * var addresses = artifact.getPaymentAddresses()
-	 * @return {Array.<PaymentPair>}
+	 * @return {Object} - keyValue => [string][string] === [coin][address]
 	 */
 	getTipAddresses(){
 		return this.getPaymentAddresses()
@@ -916,11 +914,9 @@ class Artifact extends OIPObject {
 				}
 			}
 			if (artifact.payment.addresses){
-				for (var address of artifact.payment.addresses){
-                    for (var coin in address) {
-                        this.addSinglePaymentAddress(coin, address[coin])
-                    }
-				}
+                for (var address of artifact.payment.addresses){
+                    this.addSinglePaymentAddress(address.token, address.address)
+                }
 			}
 			if (artifact.payment.retailer){
 				this.setRetailerCut(artifact.payment.retailer)
@@ -1005,11 +1001,11 @@ class Artifact extends OIPObject {
 				}
 			}
 			if (artifact.payment.addresses){
-				for (var address of artifact.payment.addresses){
-				    for (var coin in address) {
+                for (var address of artifact.payment.addresses){
+                    for (var coin in address) {
                         this.addSinglePaymentAddress(coin, address[coin])
                     }
-				}
+                }
 			}
 			if (artifact.payment.retailer){
 				this.setRetailerCut(artifact.payment.retailer)
