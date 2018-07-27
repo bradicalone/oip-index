@@ -386,6 +386,28 @@ test("getSuggestedTip is empty array if undefined", () => {
 	expect(artifact.getSuggestedTip()).toEqual([])
 })
 
+test("addPaymentAddresses and getPaymentAddress", () => {
+    var artifact = new Artifact();
+    artifact.addSinglePaymentAddress("flo", "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ")
+    artifact.addSinglePaymentAddress("ltc", "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN")
+    artifact.addSinglePaymentAddress("btc", "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps")
+
+    expect(artifact.getPaymentAddress(["flo"])).toEqual({flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"})
+})
+
+test("addPaymentAddresses and getPaymentAddresses with input coins", () => {
+    var artifact = new Artifact();
+    artifact.addSinglePaymentAddress("flo", "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ")
+    artifact.addSinglePaymentAddress("ltc", "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN")
+    artifact.addSinglePaymentAddress("btc", "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps")
+
+    expect(artifact.getPaymentAddress(["flo", "ltc"])).toEqual(
+        {
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+        })
+})
+
 test("addSinglePaymentAddress and getPaymentAddresses", () => {
 	var artifact = new Artifact();
 

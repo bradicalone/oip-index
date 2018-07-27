@@ -484,6 +484,28 @@ class Artifact extends OIPObject {
 		tmpObj[coin.toLowerCase()] = address;
         this.artifact.payment.addresses = {...this.artifact.payment.addresses, ...tmpObj}
 	}
+    /**
+     * Get the Address(es) to send Payments to for specific coins
+     * @param {Array.<string>} coins - Array of coin names you wish to get the payment addresses for
+     * @example
+     * var address = artifact.getPaymentAddress(["btc", "ltc"])
+     * { btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+        ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"}
+     * @return {Object} - keyValue => [string][string] === [coin][address]
+     */
+    getPaymentAddress(coins){
+        if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === {}) && this.getMainAddress() && this.getMainAddress() !== "")
+            return { flo: this.getMainAddress() }
+
+        let tmpObj = {}
+        for (let coin of coins) {
+            for (let _coin in this.artifact.payment.addresses) {
+                if (coin === _coin)
+                    tmpObj[coin] = this.artifact.payment.addresses[coin]
+            }
+        }
+        return tmpObj
+    }
 	/**
 	 * Get the Addresses to send Payment to
 	 * @example
