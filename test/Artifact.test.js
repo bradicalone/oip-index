@@ -1,14 +1,14 @@
 var OIP = require("../src/main");
+// import Index from '../src/Index'
 
-import Index from '../src/Index'
-const oip41_artifact = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb";
 const oip41_artifact_wJSON = "5c9244e149b0a275f205e1d111da8da173b8eb9a9b0e400cd224d4a71266877c"
 
 var Artifact = OIP.Artifact;
 var ArtifactFile = OIP.ArtifactFile;
 var Multipart = OIP.Multipart;
+var Index = OIP.Index;
 
-var artifactDehydrated = {
+var artifact042Dehydrated = {
     "oip042": {
         "artifact": {
             "floAddress": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
@@ -41,54 +41,30 @@ var artifactDehydrated = {
         }
     }
 }
-let artifact = new Artifact(artifactDehydrated);
 
-test("getPaymentAddresses()", async (done) => {
-    expect(artifact.getPaymentAddresses()).toEqual(
-        {
-            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
-            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+var artifact041Payments = {
+    "oip-041": {
+        "artifact": {
+            "payment": {
+                "addresses": [
+                    {
+                        "token": "btc",
+                        "address": "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps"
+                    },
+                    {
+                        "token": "ltc",
+                        "address": "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+                    },
+                    {
+                        "token": "flo",
+                        "address": "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+                    }
+                ]
+
+            }
         }
-    )
-    done()
-}, 10000)
-
-// test("APB, getPaymentAddresses() with artifact argument", async (done) => {
-//     // console.log(artifact.getPaymentAddresses())
-//     let test = new ArtifactPaymentBuilder();
-//     expect(await test.getPaymentAddresses(artifact)).toEqual(
-//         {
-//             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-//             ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
-//             flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
-//         }
-//     )
-//     done()
-// }, 10000)
-//
-// test("APB, getPaymentAddress()", async (done) => {
-//     // console.log(artifact.getPaymentAddresses())
-//     let test = new ArtifactPaymentBuilder(undefined, artifact);
-//     expect(await test.getPaymentAddress(["btc"])).toEqual(
-//         {
-//             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-//         }
-//     )
-//     done()
-// }, 10000)
-//
-// test("APB, getPaymentAddress() multiple coins", async (done) => {
-//     // console.log(artifact.getPaymentAddresses())
-//     let test = new ArtifactPaymentBuilder(undefined, artifact);
-//     expect(await test.getPaymentAddress(["btc", "ltc"])).toEqual(
-//         {
-//             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-//             ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
-//         }
-//     )
-//     done()
-// }, 10000)
+    }
+}
 
 //======================================================================
 
@@ -98,12 +74,13 @@ test("A Blank Artifact can be created", () => {
 	expect(artifact).toBeDefined();
 })
 
-test("Construct Artifact with floData that has a json: prefix", async () => {
+test("Construct Artifact with floData that has a json: prefix", async (done) => {
     let Network = new Index();
     let flo_data = await Network.getFloData(oip41_artifact_wJSON)
     let art = new Artifact(flo_data)
     expect(art.isValid()).toBeTruthy()
-})
+    done()
+}, 10000)
 
 test("Construct Artifact with floData (invalid multipart)", async () => {
     const oip41_artifact_ = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb"
@@ -512,6 +489,92 @@ test("getPaymentAddresses returns main address if unset", () => {
 	artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
 
 	expect(artifact.getPaymentAddresses()).toEqual({ "flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k" })
+})
+
+test("getPaymentAddresses() 042",  () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddresses()).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+})
+
+test("getPaymentAddresses() 042 with artifact argument", () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddresses()).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+})
+
+test("getPaymentAddress() 042", () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddress(["btc"])).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+        }
+    )
+})
+
+
+test("getPaymentAddress() 042 multiple coins", () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddress(["btc", "ltc"])).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+        }
+    )
+})
+
+//==================================================================================================
+
+test("getPaymentAddresses() 041",  () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddresses()).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+})
+
+test("getPaymentAddresses() 041 with artifact argument", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddresses()).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+})
+
+test("getPaymentAddress() 041", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddress(["btc"])).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+        }
+    )
+})
+
+
+test("getPaymentAddress() 041 multiple coins", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddress(["btc", "ltc"])).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+        }
+    )
 })
 
 test("setRetailerCut and getRetailerCut", () => {

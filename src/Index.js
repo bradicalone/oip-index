@@ -85,7 +85,6 @@ class Index {
             }
         } catch (err) {
             let error = {};
-            console.log(err)
             if (err.response && err.response.data) {
                 error.error = err.response.data || 'error';
                 error.status = `${err.response.status} ${err.response.statusText}` || 'status unknown';
