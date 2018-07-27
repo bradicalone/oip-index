@@ -1,6 +1,6 @@
 {
   "name": "oip-index",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Query information back from OIP",
   "main": "lib/main.js",
   "scripts": {
