@@ -8,6 +8,90 @@ var Artifact = OIP.Artifact;
 var ArtifactFile = OIP.ArtifactFile;
 var Multipart = OIP.Multipart;
 
+var artifactDehydrated = {
+    "oip042": {
+        "artifact": {
+            "floAddress": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
+            "type": "Image",
+            "info": {
+                "title": "Example Artifact",
+                "description": "Example Artifact Description"
+            },
+            "storage": {
+                "network": "IPFS",
+                "files": [
+                    {
+                        "fname": "my_cool_picture.png",
+                        "fsize": 23591,
+                        "type": "Image"
+                    }
+                ],
+                "location": "QmQh7uTC5YSinJG2FgWLrd8MYSNtr8G5JGAckR5ARwmyET"
+            },
+            "payment": {
+                "addresses": {
+                    "btc": "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+                    "ltc": "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+                    "flo": "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+                }
+
+            },
+            "timestamp": 1508188263,
+            "signature": "IAiCzx8ICjAKoj98yw5VwKLCzIuAGM1fVIewZjC/PrBHVkUsl67R2Pv0Eu1fFaWsoONmVc1lZA+lpmQ4/dGVG6o="
+        }
+    }
+}
+let artifact = new Artifact(artifactDehydrated);
+
+test("getPaymentAddresses()", async (done) => {
+    expect(artifact.getPaymentAddresses()).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+    done()
+}, 10000)
+
+// test("APB, getPaymentAddresses() with artifact argument", async (done) => {
+//     // console.log(artifact.getPaymentAddresses())
+//     let test = new ArtifactPaymentBuilder();
+//     expect(await test.getPaymentAddresses(artifact)).toEqual(
+//         {
+//             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+//             ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+//             flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+//         }
+//     )
+//     done()
+// }, 10000)
+//
+// test("APB, getPaymentAddress()", async (done) => {
+//     // console.log(artifact.getPaymentAddresses())
+//     let test = new ArtifactPaymentBuilder(undefined, artifact);
+//     expect(await test.getPaymentAddress(["btc"])).toEqual(
+//         {
+//             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+//         }
+//     )
+//     done()
+// }, 10000)
+//
+// test("APB, getPaymentAddress() multiple coins", async (done) => {
+//     // console.log(artifact.getPaymentAddresses())
+//     let test = new ArtifactPaymentBuilder(undefined, artifact);
+//     expect(await test.getPaymentAddress(["btc", "ltc"])).toEqual(
+//         {
+//             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+//             ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+//         }
+//     )
+//     done()
+// }, 10000)
+
+//======================================================================
+
 test("A Blank Artifact can be created", () => {
 	var artifact = new Artifact();
 	console.log(artifact)

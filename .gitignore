@@ -61,9 +61,5 @@ typings/
 .next
 .DS_Store
 lib/*
-.idea/workspace.xml
-.idea/vcs.xml
-.idea/oip-index.iml
-.idea/modules.xml
-.idea/misc.xml
-.idea/*
+
+
