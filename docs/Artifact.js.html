@@ -1098,10 +1098,8 @@ class Artifact extends OIPObject {
 				}
 			}
 			if (artifact.payment.addresses){
-                for (var address in artifact.payment.addresses){
-                    for (var coin in address) {
-                        this.addSinglePaymentAddress(coin, address[coin])
-                    }
+                for (var coin in artifact.payment.addresses){
+                    this.addSinglePaymentAddress(coin, artifact.payment.addresses[coin])
                 }
 			}
 			if (artifact.payment.retailer){
