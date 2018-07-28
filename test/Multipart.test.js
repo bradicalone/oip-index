@@ -1,5 +1,5 @@
 import Multipart from '../src/Multipart'
-import Index from '../src/Index'
+import Index from '../src/OIPIndex'
 
 const Network = new Index()
 const oip41_0_txid = "22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d"

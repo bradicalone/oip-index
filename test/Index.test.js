@@ -1,4 +1,4 @@
-import Index from '../src/Index'
+import Index from '../src/OIPIndex'
 import Artifact from '../src/Artifact';
 import Multipart from '../src/Multipart'
 
