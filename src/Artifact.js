@@ -486,7 +486,7 @@ class Artifact extends OIPObject {
 	}
     /**
      * Get the Address(es) to send Payments to for specific coins
-     * @param {Array.<string>} coins - Array of coin names you wish to get the payment addresses for
+     * @param {(string|Array.<string>)} coins - A string or an array of strings of the coins you wish to fetch the addresses for
      * @example
      * var address = artifact.getPaymentAddress(["btc", "ltc"])
      * { btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -498,12 +498,18 @@ class Artifact extends OIPObject {
             return { flo: this.getMainAddress() }
 
         let tmpObj = {}
-        for (let coin of coins) {
-            for (let _coin in this.artifact.payment.addresses) {
-                if (coin === _coin)
-                    tmpObj[coin] = this.artifact.payment.addresses[coin]
-            }
+
+        if (Array.isArray(coins)) {
+        	for (let coin of coins) {
+	            for (let _coin in this.artifact.payment.addresses) {
+	                if (coin === _coin)
+	                    tmpObj[coin] = this.artifact.payment.addresses[coin]
+	            }
+        	}
+        } else if (typeof coins === "string") {
+        	tmpObj[coins] = this.artifact.payment.addresses[coins]
         }
+        
         return tmpObj
     }
 	/**
@@ -512,9 +518,26 @@ class Artifact extends OIPObject {
 	 * var addresses = artifact.getPaymentAddresses()
 	 * @return {Object} - keyValue => [string][string] === [coin][address]
 	 */
-	getPaymentAddresses(){
+	getPaymentAddresses(coins){
 		if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === {}) && this.getMainAddress() && this.getMainAddress() !== "")
 			return { flo: this.getMainAddress() }
+
+		let tmpObj = {};
+		if (coins) {
+			if (Array.isArray(coins)) {
+				for (let _coin in this.artifact.payment.addresses) {
+					for (let coin of coins) {
+						if (coin === _coin) {
+							tmpObj[coin] = this.artifact.payment.addresses[coin]
+						}
+					}
+				}
+				return tmpObj
+			} else if (typeof coins === "string") {
+				tmpObj[coins] = this.artifact.payment.addresses[coins]
+				return tmpObj
+			}
+		}
 
 		return this.artifact.payment.addresses || {}
 	}

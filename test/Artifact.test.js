@@ -70,7 +70,7 @@ var artifact041Payments = {
 
 test("A Blank Artifact can be created", () => {
 	var artifact = new Artifact();
-	console.log(artifact)
+	// console.log(artifact)
 	expect(artifact).toBeDefined();
 })
 
@@ -87,7 +87,7 @@ test("Construct Artifact with floData (invalid multipart)", async () => {
     let Network = new Index();
     let flo_data = await Network.getFloData(oip41_artifact_)
     let art = new Artifact(flo_data)
-    console.log(art)
+    // console.log(art)
     expect(art.isValid()).toBeTruthy()
 })
 
@@ -491,29 +491,18 @@ test("getPaymentAddresses returns main address if unset", () => {
 	expect(artifact.getPaymentAddresses()).toEqual({ "flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k" })
 })
 
-test("getPaymentAddresses() 042",  () => {
+//==================================================================================================
+
+test("getPaymentAddress() 042 with string parameter", () => {
     let artifact = new Artifact(artifact042Dehydrated);
-    expect(artifact.getPaymentAddresses()).toEqual(
+    expect(artifact.getPaymentAddress("btc")).toEqual(
         {
             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
-            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
         }
     )
 })
 
-test("getPaymentAddresses() 042 with artifact argument", () => {
-    let artifact = new Artifact(artifact042Dehydrated);
-    expect(artifact.getPaymentAddresses()).toEqual(
-        {
-            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
-            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
-        }
-    )
-})
-
-test("getPaymentAddress() 042", () => {
+test("getPaymentAddress() 042 single item array", () => {
     let artifact = new Artifact(artifact042Dehydrated);
     expect(artifact.getPaymentAddress(["btc"])).toEqual(
         {
@@ -523,7 +512,7 @@ test("getPaymentAddress() 042", () => {
 })
 
 
-test("getPaymentAddress() 042 multiple coins", () => {
+test("getPaymentAddress() 042 multiple coin array", () => {
     let artifact = new Artifact(artifact042Dehydrated);
     expect(artifact.getPaymentAddress(["btc", "ltc"])).toEqual(
         {
@@ -533,7 +522,76 @@ test("getPaymentAddress() 042 multiple coins", () => {
     )
 })
 
+test("getPaymentAddress() 042 no params", () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddress()).toEqual({})
+})
+
+test("getPaymentAddresses() 042 no params",  () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddresses()).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+})
+
+test("getPaymentAddresses() 042 string params",  () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddresses("flo")).toEqual(
+        {
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+})
+
+test("getPaymentAddresses() 042 single item array param",  () => {
+    let artifact = new Artifact(artifact042Dehydrated);
+    expect(artifact.getPaymentAddresses(["flo"])).toEqual(
+        {
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
+        }
+    )
+})
+
 //==================================================================================================
+
+test("getPaymentAddress() 041 with no params", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddress()).toEqual(
+        {}
+    )
+})
+
+test("getPaymentAddress() 041 with string parameter", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddress("btc")).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+        }
+    )
+})
+
+test("getPaymentAddress() 041 with single item array", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddress(["btc"])).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+        }
+    )
+})
+
+test("getPaymentAddress() 041 multiple coins", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getPaymentAddress(["btc", "ltc"])).toEqual(
+        {
+            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+        }
+    )
+})
 
 test("getPaymentAddresses() 041",  () => {
     let artifact041 = new Artifact(artifact041Payments);
@@ -546,36 +604,36 @@ test("getPaymentAddresses() 041",  () => {
     )
 })
 
-test("getPaymentAddresses() 041 with artifact argument", () => {
+test("getPaymentAddresses() 041 with single string", () => {
     let artifact041 = new Artifact(artifact041Payments);
-    expect(artifact041.getPaymentAddresses()).toEqual(
+    expect(artifact041.getPaymentAddresses("flo")).toEqual(
         {
-            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN",
             flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
         }
     )
 })
 
-test("getPaymentAddress() 041", () => {
+test("getPaymentAddresses() 041 with single item array", () => {
     let artifact041 = new Artifact(artifact041Payments);
-    expect(artifact041.getPaymentAddress(["btc"])).toEqual(
+    expect(artifact041.getPaymentAddresses(["flo"])).toEqual(
         {
-            btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
         }
     )
 })
 
-
-test("getPaymentAddress() 041 multiple coins", () => {
+test("getPaymentAddresses() 041 with multiple item array", () => {
     let artifact041 = new Artifact(artifact041Payments);
-    expect(artifact041.getPaymentAddress(["btc", "ltc"])).toEqual(
+    expect(artifact041.getPaymentAddresses(["flo", "btc"])).toEqual(
         {
             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-            ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+            flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
         }
     )
 })
+
+//==================================================================================================
+
 
 test("setRetailerCut and getRetailerCut", () => {
 	var artifact = new Artifact();
