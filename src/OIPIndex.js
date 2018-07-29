@@ -306,11 +306,10 @@ class Index {
 
 	/**
 	 * Build and get the multiparts 
-	 * @param  {string} first_txid - The TXID of the First Part of the Artifact
+	 * @param  {string} txid - The TXID of a valid oip-multipart
 	 * @return {Promise<Array.<Multipart>|Artifact>} Returns a Promise that will resolve to an Array of Multiparts, or a single Artifact if it is not Multiparts
 	 */
 	async getMultiparts(txid){
-        console.log(`txid: ${txid}`)
         if (!txid || typeof txid !== "string" || txid.length === 0)
             throw new Error("You must input a search txid!");
 
@@ -319,8 +318,6 @@ class Index {
         try {
             artifact = await this.getArtifact(txid);
         } catch (err) {console.error(err)}
-        console.dir (`artifact: ${JSON.stringify(artifact, null, 4)}`)
-
 
         let reqFloDataTXID = txid;
         if (!artifact.error) {
@@ -333,15 +330,11 @@ class Index {
             }
         }
 
-        console.log(`artifact instanceof Artifact: ${artifact instanceof Artifact}`)
-        console.log(`reqFloDataTXID: ${reqFloDataTXID}`)
-
         //@ToDO::   Step 2 - Get FloData with TXID
         let floData;
         try {
             floData = await this.getFloData(reqFloDataTXID);
         } catch (err) {throw new Error(`Couldn't get floData to hydrate multipart: ${err}`)}
-        console.log(`floData: ${floData}`)
 
         //@ToDO::   Step 3 - Create FirstMP with FloData from step 2
         let results, matched = [], existingParts = [];
@@ -353,10 +346,7 @@ class Index {
         } else {
             throw firstMp.invalid_error || firstMp.isValid().message
         }
-        // console.log(`firstMp instanceof Multipart: ${firstMp instanceof Multipart}`)
-        // console.log(`Multipart matched: ${matched}`)
 
-        console.log(`firstMp.is_first_part: ${firstMp.is_first_part}`)
         let firstPartTXID = txid;
         if (!firstMp.is_first_part) {
             firstPartTXID = firstMp.getFirstPartTXID()
@@ -386,7 +376,6 @@ class Index {
                 if (results === null) {
                     return null
                 }
-                console.log(`Results: ${JSON.stringify(results.length)}`)
             } catch (err) {console.error(err); return null}
 
             if (results) {
@@ -412,9 +401,6 @@ class Index {
         }
 
         while (matched.length - 1 < firstMp.getTotalParts()) {
-            console.log(`matched: ${matched.length} / ${firstMp.getTotalParts()}`)
-            console.log(`existing_parts: ${existingParts}`)
-            console.log(`searchOps.page: ${JSON.stringify(searchOps.page)}`)
             const _this = this;
             let stop = await findRemainingMultiparts(searchOps, _this)
 
