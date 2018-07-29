@@ -103,6 +103,18 @@ test('Index.getMulitparts() with valid OIP42 address', async () => {
     }
 }, 10000);
 
+test('Index.getMulitparts() test against any txid', async () => {
+    const tx1 = '01ff7bdecb0861313530ddb7df60f31870417d2b8d38379833d8da199dc4c3b8'
+    let multi_parts = await index.getMultiparts(tx1)
+    for (let i = 0; i < multi_parts.length; i++) {
+        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+        let check = false;
+        if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
+            check = true;
+        expect(check).toBeTruthy()
+    }
+}, 10000);
+
 test('Index.getMulitparts() with missing pieces (will fill in missing parts with undefined)', async () => {
     //"oip-mp(0,51,FJAGk4SGCAo8Y1cMxuzY2qLxnTU2DUrm1a,,HzJwXMbV8yOUjvyGZpDU5GWLBQCY0n5Bx4pOJcO3L8Fhakp52dJvNEnW6R5ZlFS5mo1OO5H+FzSrNm9nJm9E+Bs=):json:{\"oip042\":{\"publish\":{\"artifact\":{\"floAddress\":\"FJAGk4SGCAo8Y1cMxuzY2qLxnTU2DUrm1a\",\"timestamp\":1524084635,\"type\":\"research\",\"subtype\":\"tomogram\",\"info\":{\"title\":\"Caulobacter crescentus\",\"tags\":\"etdb,jensen.lab,tomogram,electron.tomography\",\"description\":\"Auto imported from etdb\"},\"details\":{\"date\":1114732800,\"NBCItaxID\":"
     //retrieves 39 out of the 51 pieces
