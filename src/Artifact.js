@@ -541,6 +541,41 @@ class Artifact extends OIPObject {
 
 		return this.artifact.payment.addresses || {}
 	}
+    /**
+     * Get the supported payment coins
+     * @param {(string|Array.<String>)} [coins] - coins you want to check against
+     * @example
+     * var supportedCoins = artifact.getSupportedCoins()
+     * @return {(String|Array.<String>)}
+     */
+    getSupportedCoins(coins){
+        let coin_check = coins || undefined
+        let supported_coins = [];
+        let addrs = this.getPaymentAddresses()
+        if (typeof addrs === "object") {
+            for (let coin in addrs) {
+                supported_coins.push(coin)
+            }
+        } else { throw new Error("Invalid parameter. Expecting an Array of Objects: [{[coin][addr]},]")}
+
+        if (coin_check) {
+            if (Array.isArray(coin_check)) {
+                let _coins = []
+                for (let my_coin of coin_check) {
+                    for (let sup_coin of supported_coins) {
+                        if (my_coin === sup_coin)
+                            _coins.push(my_coin)
+                    }
+                }
+                return _coins
+            } else if (typeof coin_check === "string") {
+                if (supported_coins.includes(coin_check)) {return coin_check}
+                else { return ""}
+            }
+        }
+
+        return supported_coins
+    }
 	/**
 	 * Get the Addresses to send Tips to
 	 * @example

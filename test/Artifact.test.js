@@ -634,6 +634,31 @@ test("getPaymentAddresses() 041 with multiple item array", () => {
 
 //==================================================================================================
 
+test("getSupportedCoins() ", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getSupportedCoins()).toEqual(["btc", "ltc", "flo"])
+})
+
+test("getSupportedCoins() with string parameter", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getSupportedCoins("flo")).toEqual("flo")
+})
+
+test("getSupportedCoins() with string parameter bs coin", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getSupportedCoins("kazy")).toEqual("")
+})
+
+test("getSupportedCoins() with coin_array parameter", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getSupportedCoins(["btc", "ltc"])).toEqual(["btc", "ltc"])
+})
+
+test("getSupportedCoins() with non existant payment coin", () => {
+    let artifact041 = new Artifact(artifact041Payments);
+    expect(artifact041.getSupportedCoins(["tron"])).toEqual([])
+})
+
 
 test("setRetailerCut and getRetailerCut", () => {
 	var artifact = new Artifact();
