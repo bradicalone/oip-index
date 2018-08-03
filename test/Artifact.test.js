@@ -96,8 +96,7 @@ test("Construct Artifact with floData", async () => {
     let flo_data = await Network.getFloData(oip41_artifact_wJSON)
     if (flo_data.startsWith("json:")) {flo_data = flo_data.slice(5)}
     let art = new Artifact(flo_data)
-    console.log(art.isValid())
-
+    // console.log(art.isValid())
 })
 
 test("Artifact can be created from Multiparts", () => {

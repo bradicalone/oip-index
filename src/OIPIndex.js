@@ -76,7 +76,6 @@ class Index {
 	 */
 	async getArtifact(txid){
         try {
-            console.log(`/artifact/get?id=${txid}`)
             let response = await this.network.get(`/artifact/get?id=${txid}`, {});
             if (response && response.data) {
                 let tmpArt = new Artifact(response.data);
@@ -268,7 +267,6 @@ class Index {
             return response.data.floData
         } catch (err) {
             let error = {};
-            console.log(err)
             if (err.message) {error.message = err.message}
             if (error.response && error.response.data) {
                 error.error = err.response.data || 'error';
@@ -322,7 +320,6 @@ class Index {
         let reqFloDataTXID = txid;
         if (!artifact.error) {
             if (txid && artifact && artifact.txid) {
-                console.log(`artifact.txid: ${artifact.txid}`)
                 if (txid.length <= 5) {
                     txid = artifact.txid;
                 }
@@ -368,7 +365,6 @@ class Index {
             search: searchFloTXID,
             page: 0
         }
-        // console.log(`searchOps: ${JSON.stringify(searchOps, null, 4)}`)
 
         async function findRemainingMultiparts(searchOps, _this) {
             try {

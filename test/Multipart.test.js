@@ -111,7 +111,6 @@ test('Multipart.is[not]Valid(flo_data, txid) - floData is not OIP (expect invali
     const txid = "32d2685ca8f47f8418dfe41e35a09dc4258eb79d026ba75b367e827e37c13581"
     let flo_data = await Network.getFloData(txid)
     let mp = new Multipart(flo_data, txid)
-    console.log(mp.isValid())
     expect(mp.isValid().success).toBeFalsy()
     expect(mp.getTXID()).toBe(txid)
 })
@@ -122,7 +121,6 @@ test('Multipart.toString(flo_data, txid) - random tx', async () => {
     let flo_data = await Network.getFloData(txid)
     let mp = new Multipart(flo_data, txid)
     expect(mp.toString()).toBe(flo_data)
-    console.log(mp.toString())
 })
 
 test('Multipart.toString(flo_data, txid) - custom interpolation', async () => {
@@ -170,7 +168,7 @@ test('Multipart.fromString(flo_data, txid) - NaN partNumber, no prefix, misplace
     let flo_data = await Network.getFloData(txid)
     let mp = new Multipart(flo_data, txid)
     expect(mp.isValid().success).toBeFalsy()
-    console.log(mp.invalid_error) //===  "Error: Invalid OIP multipart prefix"
+    // console.log(mp.invalid_error) //===  "Error: Invalid OIP multipart prefix"
 })
 
 test('Multipart.fromString(flo_data, txid) - no part number in flo_data (expect to be invalid)', async () => {
@@ -180,7 +178,7 @@ test('Multipart.fromString(flo_data, txid) - no part number in flo_data (expect 
     let mp = new Multipart()
     mp.fromString(flo_data, txid)
     expect(mp.isValid().success).toBeFalsy()
-    console.log(mp.isValid())
+    // console.log(mp.isValid())
 })
 
 test(`Multipart.fromString(flo_data, txid) - two "):" in flo_data (expect to build correctly)`, async () => {
@@ -205,7 +203,7 @@ test('Multipart.fromString(flo_data, txid) - invalid pubID and 0 total parts (ex
     let flo_data = await Network.getFloData(txid)
     let mp = new Multipart()
     mp.fromString(flo_data, txid)
-    console.log(mp.isValid())
+    // console.log(mp.isValid())
     expect(mp.isValid().success).toBeFalsy()
 })
 
@@ -217,7 +215,7 @@ test('Multipart.fromString(flo_data txid)', async () => {
     let mp = new Multipart()
     mp.fromString(flo_data, txid)
 
-    console.log(mp.isValid())
+    // console.log(mp.isValid())
 })
 
 

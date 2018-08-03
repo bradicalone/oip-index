@@ -4,18 +4,20 @@ import Multipart from '../src/Multipart'
 
 let index = new Index();
 
-test('Index get publisher artifacts', async () => {
+/*test('Index get publisher artifacts', async () => {
     try {
         let results = await index.getArtifacts(undefined, undefined, undefined, undefined, "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
-        console.log(results)
-    } catch (err) {console.log(err)}
+        // console.log(results)
+    } catch (err) {
+        // console.log(err)
+    }
 
-})
+})*/
 
 test('Index.getArtifact(txid)', async () => {
     const txid41 = '5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207';
     let artifact = await index.getArtifact(txid41);
-    console.log(artifact);
+    // console.log(artifact);
     expect(artifact).toBeDefined();
     if (artifact.error === undefined) {
         expect(artifact).toBeInstanceOf(Artifact);
@@ -27,7 +29,7 @@ test('Index.getArtifact(txid)', async () => {
 test('Index.getArtifact(txid) random test', async () => {
     const txid41 = 'f516ba';
     let artifact = await index.getArtifact(txid41);
-    console.log(artifact);
+    // console.log(artifact);
 
 },10000);
 
@@ -74,14 +76,14 @@ test(`Index.getArtifacts() can't find type (returns empty array)`, async () => {
 test('Index.getFloData() for an OIP41 txid', async () => {
     const txid42= '666a12f03a424193775d44d542c3a34838fa1dc5e344d9d9d1efb2541725f14f'; //42 part 1
     let floData = await index.getFloData(txid42);
-    console.log(floData)
+    // console.log(floData)
     expect(floData).toBeDefined();
 })
 
 test('Index.searchFloData() for OIP42 multiparts', async () => {
     const tx1 = '22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d'
     let floData = await index.searchFloData(tx1.substr(0,10));
-    console.log(floData)
+    // console.log(floData)
     expect(floData).toBeDefined();
 })
 
@@ -95,7 +97,7 @@ test('Index.getMulitparts() with valid OIP42 address', async () => {
     const tx1 = '22744785179cc008901e3c63e6d8a55cbc028d4cef9404ad9db9b98a4bca6b7d'
     let multi_parts = await index.getMultiparts(tx1)
     for (let i = 0; i < multi_parts.length; i++) {
-        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+        // console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
         let check = false;
         if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
             check = true;
@@ -107,7 +109,7 @@ test('Index.getMulitparts() test against any txid', async () => {
     const tx1 = '01ff7bdecb0861313530ddb7df60f31870417d2b8d38379833d8da199dc4c3b8'
     let multi_parts = await index.getMultiparts(tx1)
     for (let i = 0; i < multi_parts.length; i++) {
-        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+        // console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
         let check = false;
         if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
             check = true;
@@ -121,7 +123,7 @@ test('Index.getMulitparts() with missing pieces (will fill in missing parts with
     const tx3951 = '80abc3901ca7c6318ff771b7f9804bef513ebbca0797058c86da3da7e128cb9d'
     let multi_parts = await index.getMultiparts(tx3951)
     for (let i = 0; i < multi_parts.length; i++) {
-            console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+            // console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
             let check = false;
             if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
                 check = true;
@@ -138,7 +140,7 @@ test('Index.getMultiparts() test against floData with invalid pubID (expect to b
     let invalid_pub = "52e507dc47b09f5762e1ffffc1a6d615d39541fa39129f94bbeb10808f26b8c7"
     let multi_parts = await index.getMultiparts(invalid_pub)
     for (let i = 0; i < multi_parts.length; i++) {
-        console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
+        // console.log(`multi_parts[${i}]: ${multi_parts[i]}`)
         let check = false;
         if (multi_parts[i] instanceof Multipart || multi_parts[i] === undefined)
             check = true;
@@ -183,7 +185,7 @@ const oldArt = "e455fb772105fed0da23d9ed3dc97d1271f0e5b2cb83ad72f32dd0423d234ef1
 test('Index.getMultiparts() test against floData without partNumber (expect to be thrown)', async () => {
     let multi_parts = await index.getMultiparts(oldArt)
     for (let i = 0; i < multi_parts.length; i++) {
-        console.log(`multi_parts[i]: ${multi_parts[i]}`)
+        // console.log(`multi_parts[i]: ${multi_parts[i]}`)
     }
 })
 
