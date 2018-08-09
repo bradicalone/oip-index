@@ -184,11 +184,24 @@ test("setMainAddress and getMainAddress", () => {
 test("setTimestamp and getTimestamp", () => {
 	var artifact = new Artifact();
 
-	var time = Date.now()
+	var milisecondsTime = Date.now()
+	var secondsTime = parseInt(milisecondsTime/1000)
 
-	artifact.setTimestamp(time)
+	artifact.setTimestamp(secondsTime)
 
-	expect(artifact.getTimestamp()).toBe(time)
+	expect(artifact.getTimestamp()).toEqual(secondsTime)
+})
+
+test("setTimestamp and getTimestamp miliseconds to seconds", () => {
+	var artifact = new Artifact();
+
+	var milisecondsTime = Date.now()
+
+	artifact.setTimestamp(milisecondsTime)
+
+	var secondsTime = parseInt(milisecondsTime/1000)
+
+	expect(artifact.getTimestamp()).toEqual(secondsTime)
 })
 
 test("setTimestamp enforces that it is a number", () => {
