@@ -74,6 +74,26 @@ class Multipart {
 				"-" + this.firstPartTXID +
 				"-" + this.choppedStringData;
 	}
+	/**
+	 * Create a signature using
+	 * @param  {Address} address - An OIP-HDMW Address that we can use to sign the message
+	 * @return {Boolean} Returns `true` if signing was successful
+	 */
+	sign(address){
+		if (!address)
+			throw new Error("An Address is required in order to sign!")
+
+		let signature
+		try {
+			signature = address.signMessage(this.getSignatureData())
+		} catch (e){
+			throw new Error("Unable to sign Multipart! \n" + e)
+		}
+
+		this.setSignature(signature)
+
+		return true
+	}
 	validateSignature(){
 		return true;
 	}
