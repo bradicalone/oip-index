@@ -152,8 +152,14 @@ class Artifact extends OIPObject {
 	 * @param {number} time - The Timestamp you wish to set the Artifact to
 	 */
 	setTimestamp(time){
-		if (typeof time === "number")
-			this.artifact.timestamp = time;
+		if (typeof time === "number"){
+			if (String(time).length === 13){
+				let seconds_time_string = parseInt(time/1000)
+				this.artifact.timestamp = seconds_time_string
+			} else if (String(time).length === 10) {
+				this.artifact.timestamp = time;
+			}
+		}
 	}
 	/**
 	 * Get the publish/signature timestamp for the Artifact
