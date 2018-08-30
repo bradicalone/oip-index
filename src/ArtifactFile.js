@@ -18,6 +18,9 @@ class ArtifactFile {
 			this.parent = parent;
 		}
 	}
+	getParent(){
+		return this.parent
+	}
 	setFilename(filename){
 		this.file.fname = filename;
 	}
@@ -93,7 +96,7 @@ class ArtifactFile {
 		this.file.location = loc;
 	}
 	getLocation(){
-		return this.file.location
+		return this.file.location || this.parent ? this.parent.getLocation() : undefined
 	}
 	setPaymentScale(newScale){
 		this.file.scale = newScale
