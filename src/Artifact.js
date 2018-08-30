@@ -34,7 +34,7 @@ class Artifact extends OIPObject {
 	 * import { Artifact } from 'oip-index'
 	 *
 	 * var artifact = new Artifact({
- 	 *   "oip042": {
+	 *   "oip042": {
 	 *         "artifact": {
 	 *             "floAddress": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
 	 *             "type": "Image",
@@ -100,7 +100,7 @@ class Artifact extends OIPObject {
 			if (Array.isArray(input) && input.length > 1 && input[0] instanceof Multipart){
 				this.fromMultiparts(input)
 			} else if (typeof input === "string") {
-			    if(input.startsWith("json:")) {input = input.slice(5)}
+				if(input.startsWith("json:")) {input = input.slice(5)}
 				try {
 					this.fromJSON(JSON.parse(input))
 				} catch (e) {}
@@ -109,7 +109,7 @@ class Artifact extends OIPObject {
 			}
 		} 
 	}
-    /**
+	/**
 	 * Set the Publisher name String, please note that this does not set it when you publish to the blockchain!
 	 * @param {string} publisherName - The Publisher Name you wish to set the Artifact to
 	 * @example
@@ -484,40 +484,40 @@ class Artifact extends OIPObject {
 	 * @param {string} address - Base58 Public Key to send payments
 	 */
 	addSinglePaymentAddress(coin, address){
-        if (!this.artifact.payment.addresses)
-            this.artifact.payment.addresses = {};
+		if (!this.artifact.payment.addresses)
+			this.artifact.payment.addresses = {};
 		let tmpObj = {};
 		tmpObj[coin.toLowerCase()] = address;
-        this.artifact.payment.addresses = {...this.artifact.payment.addresses, ...tmpObj}
+		this.artifact.payment.addresses = {...this.artifact.payment.addresses, ...tmpObj}
 	}
-    /**
-     * Get the Address(es) to send Payments to for specific coins
-     * @param {(string|Array.<string>)} coins - A string or an array of strings of the coins you wish to fetch the addresses for
-     * @example
-     * var address = artifact.getPaymentAddress(["btc", "ltc"])
-     * { btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
-        ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"}
-     * @return {Object} - keyValue => [string][string] === [coin][address]
-     */
-    getPaymentAddress(coins){
-        if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === {}) && this.getMainAddress() && this.getMainAddress() !== "")
-            return { flo: this.getMainAddress() }
+	/**
+	 * Get the Address(es) to send Payments to for specific coins
+	 * @param {(string|Array.<string>)} coins - A string or an array of strings of the coins you wish to fetch the addresses for
+	 * @example
+	 * var address = artifact.getPaymentAddress(["btc", "ltc"])
+	 * { btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
+		ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"}
+	 * @return {Object} - keyValue => [string][string] === [coin][address]
+	 */
+	getPaymentAddress(coins){
+		if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === {}) && this.getMainAddress() && this.getMainAddress() !== "")
+			return { flo: this.getMainAddress() }
 
-        let tmpObj = {}
+		let tmpObj = {}
 
-        if (Array.isArray(coins)) {
-        	for (let coin of coins) {
-	            for (let _coin in this.artifact.payment.addresses) {
-	                if (coin === _coin)
-	                    tmpObj[coin] = this.artifact.payment.addresses[coin]
-	            }
-        	}
-        } else if (typeof coins === "string") {
-        	tmpObj[coins] = this.artifact.payment.addresses[coins]
-        }
-        
-        return tmpObj
-    }
+		if (Array.isArray(coins)) {
+			for (let coin of coins) {
+				for (let _coin in this.artifact.payment.addresses) {
+					if (coin === _coin)
+						tmpObj[coin] = this.artifact.payment.addresses[coin]
+				}
+			}
+		} else if (typeof coins === "string") {
+			tmpObj[coins] = this.artifact.payment.addresses[coins]
+		}
+		
+		return tmpObj
+	}
 	/**
 	 * Get the Addresses to send Payment to
 	 * @example
@@ -547,41 +547,41 @@ class Artifact extends OIPObject {
 
 		return this.artifact.payment.addresses || {}
 	}
-    /**
-     * Get the supported payment coins
-     * @param {(string|Array.<String>)} [coins] - coins you want to check against
-     * @example
-     * var supportedCoins = artifact.getSupportedCoins()
-     * @return {(String|Array.<String>)}
-     */
-    getSupportedCoins(coins){
-        let coin_check = coins || undefined
-        let supported_coins = [];
-        let addrs = this.getPaymentAddresses()
-        if (typeof addrs === "object") {
-            for (let coin in addrs) {
-                supported_coins.push(coin)
-            }
-        } else { throw new Error("Invalid parameter. Expecting an Array of Objects: [{[coin][addr]},]")}
+	/**
+	 * Get the supported payment coins
+	 * @param {(string|Array.<String>)} [coins] - coins you want to check against
+	 * @example
+	 * var supportedCoins = artifact.getSupportedCoins()
+	 * @return {(String|Array.<String>)}
+	 */
+	getSupportedCoins(coins){
+		let coin_check = coins || undefined
+		let supported_coins = [];
+		let addrs = this.getPaymentAddresses()
+		if (typeof addrs === "object") {
+			for (let coin in addrs) {
+				supported_coins.push(coin)
+			}
+		} else { throw new Error("Invalid parameter. Expecting an Array of Objects: [{[coin][addr]},]")}
 
-        if (coin_check) {
-            if (Array.isArray(coin_check)) {
-                let _coins = []
-                for (let my_coin of coin_check) {
-                    for (let sup_coin of supported_coins) {
-                        if (my_coin === sup_coin)
-                            _coins.push(my_coin)
-                    }
-                }
-                return _coins
-            } else if (typeof coin_check === "string") {
-                if (supported_coins.includes(coin_check)) {return coin_check}
-                else { return ""}
-            }
-        }
+		if (coin_check) {
+			if (Array.isArray(coin_check)) {
+				let _coins = []
+				for (let my_coin of coin_check) {
+					for (let sup_coin of supported_coins) {
+						if (my_coin === sup_coin)
+							_coins.push(my_coin)
+					}
+				}
+				return _coins
+			} else if (typeof coin_check === "string") {
+				if (supported_coins.includes(coin_check)) {return coin_check}
+				else { return ""}
+			}
+		}
 
-        return supported_coins
-    }
+		return supported_coins
+	}
 	/**
 	 * Get the Addresses to send Tips to
 	 * @example
@@ -982,9 +982,9 @@ class Artifact extends OIPObject {
 				}
 			}
 			if (artifact.payment.addresses){
-                for (var address of artifact.payment.addresses){
-                    this.addSinglePaymentAddress(address.token, address.address)
-                }
+				for (var address of artifact.payment.addresses){
+					this.addSinglePaymentAddress(address.token, address.address)
+				}
 			}
 			if (artifact.payment.retailer){
 				this.setRetailerCut(artifact.payment.retailer)
@@ -1069,9 +1069,9 @@ class Artifact extends OIPObject {
 				}
 			}
 			if (artifact.payment.addresses){
-                for (var coin in artifact.payment.addresses){
-                    this.addSinglePaymentAddress(coin, artifact.payment.addresses[coin])
-                }
+				for (var coin in artifact.payment.addresses){
+					this.addSinglePaymentAddress(coin, artifact.payment.addresses[coin])
+				}
 			}
 			if (artifact.payment.retailer){
 				this.setRetailerCut(artifact.payment.retailer)
@@ -1121,12 +1121,12 @@ class Artifact extends OIPObject {
 
 					// If we are the first multipart, then sign ourself
 					if (c == 0){
-                        mp.is_first_part = true;
-                        if (c.indexOf("oip042") !==  0) {
-                            mp.hasJSONPrefix = true
-                        }
-                        // @TODO: Implement multipart signing
-                        // mp.sign();
+						mp.is_first_part = true;
+						if (c.indexOf("oip042") !==  0) {
+							mp.hasJSONPrefix = true
+						}
+						// @TODO: Implement multipart signing
+						// mp.sign();
 					}
 
 					this.Multiparts.push(mp);

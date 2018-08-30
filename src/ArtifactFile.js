@@ -1,5 +1,5 @@
 class ArtifactFile {
-    constructor(json, parent){
+	constructor(json, parent){
 		this.file = {}
 
 		if (json) {
