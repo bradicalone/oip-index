@@ -15,8 +15,8 @@ const FLODATA_MAX_LEN = 528;
  */
 
 /**
- * An Artifact contains metadata about a file/piece of content, 
- * along with a location on a network to find that file, 
+ * An Artifact contains metadata about a file/piece of content,
+ * along with a location on a network to find that file,
  * and optionally payment information.
  */
 class Artifact extends OIPObject {
@@ -107,7 +107,7 @@ class Artifact extends OIPObject {
 			} else if (typeof input === "object") {
 				this.fromJSON(input)
 			}
-		} 
+		}
 	}
 	/**
 	 * Set the Publisher name String, please note that this does not set it when you publish to the blockchain!
@@ -143,7 +143,7 @@ class Artifact extends OIPObject {
 	 * @return {string}
 	 */
 	getMainAddress(){
-		return this.artifact.floAddress	
+		return this.artifact.floAddress
 	}
 	/**
 	 * Set publish/signature timestamp for the Artifact
@@ -238,7 +238,7 @@ class Artifact extends OIPObject {
 	 */
 	setSubtype(subtype){
 		subtype = this.capitalizeFirstLetter(subtype);
-		
+
 		this.artifact.subtype = subtype;
 	}
 	/**
@@ -279,7 +279,7 @@ class Artifact extends OIPObject {
 		this.artifact.info.nsfw = nsfwToggle;
 	}
 	/**
-	 * Get if the Artifact is marked NSFW 
+	 * Get if the Artifact is marked NSFW
 	 * @example
 	 * var nsfw = artifact.getNSFW()
 	 * @return {Boolean}
@@ -515,7 +515,7 @@ class Artifact extends OIPObject {
 		} else if (typeof coins === "string") {
 			tmpObj[coins] = this.artifact.payment.addresses[coins]
 		}
-		
+
 		return tmpObj
 	}
 	/**
@@ -686,7 +686,7 @@ class Artifact extends OIPObject {
 		return undefined;
 	}
 	/**
-	 * Get the "simple" Duration of the Artifact. 
+	 * Get the "simple" Duration of the Artifact.
 	 * This gets the duration of the first file that has a duration.
 	 * @return {number} Returns undefined if there is no match to a duration
 	 */
@@ -741,7 +741,7 @@ class Artifact extends OIPObject {
 		}
 
 		var retJSON = {
-			oip042: {	
+			oip042: {
 				artifact: this.artifact
 			}
 		}
@@ -1180,7 +1180,7 @@ class Artifact extends OIPObject {
 		return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 	}
 	/**
-	 * Get the Class Name. 
+	 * Get the Class Name.
 	 * This is used to check the passed object in ArtifactFile (since InstanceOf could not be done).
 	 * @return {string} Returns "Artifact"
 	 */
