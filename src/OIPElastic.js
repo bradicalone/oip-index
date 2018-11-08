@@ -1,6 +1,8 @@
+import assert from 'assert'
 import axios from 'axios';
 import Artifact from './Artifact';
 import Multipart from './Multipart'
+import Hydrate from './hydrateArtifact'
 
 /**
  * The Transaction ID on the Blockchain.
@@ -19,13 +21,13 @@ class OIPElastic {
 	 * @param {string} [settings.OIPdURL="https://snowflake.oip.fun/alexandria/v2"] [description]
 	 * @return {Index}
 	 */
-	constructor(settings){
+	constructor(settings) {
 		if (settings && settings.OIPdURL) {
 			this.setOIPdURL(settings.OIPdURL)
 		} else this.setOIPdURL(defaultOIPdURL)
 	}
 
-	setOIPdURL(OIPdURL){
+	setOIPdURL(OIPdURL) {
 		this.url = OIPdURL;
 
 		this.network = new axios.create({
@@ -47,113 +49,121 @@ class OIPElastic {
 	/**
 	 * Search The Index
 	 */
-	async search(){}
+	async search() {
+	}
 
 	/**
-	 * Get a specific Artifact from the Index (if searching on multipart, txid must be of the first multipart)
+	 * Get a specific Artifact from the Index by TXID
 	 * @return {Promise<Artifact> | Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
 	 */
-	async getArtifact(query, limit){
+	async getArtifactByTXID(txid) {
 		let res
 		try {
-			res = await this.network.get(`/artifact/search`, {
-				params: {
-					q: query,
-					limit
-				}
-			});
+			res = await this.network.get(`/artifact/get/${txid}`);
 		} catch (err) {
 			return {success: false, error: err}
 		}
 		if (res && res.data) {
 			let resultArray = res.data.results
-
-			let artifact = resultArray[0].artifact
-			console.log(artifact)
-			let tmpArt = new Artifact(artifact);
-			if (tmpArt.isValid().success)
-				return tmpArt
-			else
-				return tmpArt.isValid()
-
+			assert(resultArray.length === 1)
+			let artifact = Hydrate(resultArray[0])
+			console.log(artifact.isValid())
+			return artifact
+			return artifact.isValid.success ? artifact : artifact.isValid()
 		} else {
-			return {success: false, error: 'No data returned from axios request'}
+			return {success: false, error: 'No data returned from axios request', response: res}
 		}
 	}
 
 	/**
 	 * Get the Latest Artifacts published to the Index
 	 */
-	async getLatestArtifacts(){}
+	async getLatestArtifacts() {
+	}
 
 	/**
 	 * Get the latest Artifacts from the Index
 	 */
-	async getArtifacts(){}
+	async getArtifacts() {
+	}
 
 	/**
 	 * Get a specific Publisher from the Index
 	 */
-	async getPublisher(){}
+	async getPublisher() {
+	}
 
 	/**
 	 * Get a all Publishers from Index
 	 */
-	async getAllPublishers() {}
+	async getAllPublishers() {
+	}
 
 	/**
 	 * Get a specific Platform from the Index
 	 */
-	async getPlatform(){}
+	async getPlatform() {
+	}
 
 	/**
 	 * Get all Platformss from the Index
 	 */
-	async getAllPlatforms(){}
+	async getAllPlatforms() {
+	}
 
 	/**
 	 * Get a specific Influencer from the Index
 	 */
-	async getInfluencer(){}
+	async getInfluencer() {
+	}
 
 	/**
 	 * Get a all Influencers from the Index
 	 */
-	async getAllInfluencers(){}
+	async getAllInfluencers() {
+	}
 
 	/**
 	 * Get a specific Autominer from the Index
 	 */
-	async getAutominer(){}
+	async getAutominer() {
+	}
 
 	/**
 	 * Get a all Autominers from the Index
 	 */
-	async getAllAutominers(){}
+	async getAllAutominers() {
+	}
 
 	/**
 	 * Get a specific AutominerPool from the Index
 	 */
-	async getAutominerPool(){}
+	async getAutominerPool() {
+	}
 
 	/**
 	 * Get a all Autominers from the Index
 	 */
-	async getAllAutominerPools(){}
+	async getAllAutominerPools() {
+	}
 
 	/**
 	 * Get a the floData of a specific Transaction
 	 */
-	async getFloData(){}
+	async getFloData() {
+	}
 
 	/**
 	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
 	 */
-	async searchFloData(){}
+	async searchFloData() {
+	}
 
 	/**
 	 * Build and get the multiparts
 	 */
-	async getMultiparts(){}
+	async getMultiparts() {
+	}
+}
 
-module.exports = OIPElastic;
+export default OIPElastic;
