@@ -67,9 +67,7 @@ class OIPElastic {
 			let resultArray = res.data.results
 			assert(resultArray.length === 1)
 			let artifact = Hydrate(resultArray[0])
-			console.log(artifact.isValid())
-			return artifact
-			return artifact.isValid.success ? artifact : artifact.isValid()
+			return artifact.isValid().success ? artifact : artifact.isValid()
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res}
 		}
