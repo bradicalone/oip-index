@@ -82,7 +82,7 @@ class Artifact extends OIPObject {
 	 */
 	constructor(input){
 		super();
-		
+
 		this.ArtifactType = 'Generic'
 		this._source = input
 
