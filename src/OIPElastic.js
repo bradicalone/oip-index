@@ -170,22 +170,74 @@ class OIPElastic {
 	}
 
 	/**
-	 * Get a the floData of a specific Transaction
+	 * Get multiple Artifacts by their TXID
+	 * @param {Array.<string>} txids - an array of transaction IDs
+	 * @return {Promise<Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: artifacts>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
 	 */
-	async getFloData() {
+	async getArtifacts(txids) {
+		if (!Array.isArray(txids)) {
+			return {success: false, error: `'txids' must be an Array of transaction IDs`}
+		}
+		let artifacts = []
+		let errors = []
+		for (let txid of txids) {
+			let res
+			try {
+				res = await this.getArtifactByTXID(txid)
+			} catch (err) {
+				return {success: false, error: err}
+			}
+			if (res.success) artifacts.push(res.artifact)
+			else errors.push(res.artifact)
+		}
+		if (errors.length > 0) {
+			return {success: false, error: 'Not [all artifacts] found', errors, artifacts}
+		} else {
+			return {success: true, artifacts: artifacts}
+		}
 	}
 
 	/**
 	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
+	 * @param {string} query - your search query
+	 * @param {number} [limit] - max num of results
+	 * @return {Promise<Object>}
+	 * //return example
+	 * {success: true, floData: floDataTXs>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
 	 */
-	async searchFloData() {
+	async searchFloData(query, limit) {
+		if (typeof query !== 'string') {
+			return {success: false, error: `'query' must be of type string`}
+		}
+		let res;
+		try {
+			res = await this.index.get(`/floData/search`, {
+				params: {
+					q: query
+				},
+				limit
+			})
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let txs = res.data.results
+			return {success: true, floData: hydrateFloDataTX(txs)}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res}
+		}
 	}
 
-	/**
-	 * Build and get the multiparts
-	 */
-	async getMultiparts() {
-	}
 }
 
 export default OIPElastic;
