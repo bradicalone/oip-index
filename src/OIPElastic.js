@@ -44,7 +44,7 @@ class OIPElastic {
 	setOIPdURL(OIPdURL) {
 		this.url = OIPdURL;
 
-		this.network = new axios.create({
+		this.index = new axios.create({
 			baseURL: this.url,
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -57,13 +57,43 @@ class OIPElastic {
 	}
 
 	getNetwork() {
-		return this.network
+		return this.index
 	}
 
 	/**
 	 * Search The Index
+	 * @param {string} query - your search query
+	 * @param {number} [limit=100] - max num of results
+	 * @return {Promise<Object>}
+	 * //return example
+	 * {success: true, artifacts: artifacts>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
 	 */
-	async search() {
+	async search(query, limit) {
+		if (typeof query !== 'string') {
+			return {success: false, error: `'query' must be of type string`}
+		}
+		let res;
+		try {
+			res = await this.index.get(`/artifact/search`, {
+				params: {
+					q: query
+				},
+				limit
+			})
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: false, error: 'No artifacts found', response: res.data}
+			return {success: true, artifacts: hydrateArray(artifacts)}
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res}
+		}
 	}
 
 	/**
