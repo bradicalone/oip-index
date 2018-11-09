@@ -32,6 +32,15 @@ describe('OIPIndex API', () => {
 				expect(art.isValid().success).toBeTruthy()
 			}
 		})
+		it('GET search index by query | search()', async () => {
+			let q = 'ryan'
+			let response = await index.search(q)
+			expect(response.success).toBeTruthy()
+			let artifacts = response.artifacts
+			for (let art of artifacts) {
+				expect(art.isValid().success).toBeTruthy()
+			}
+		})
 		})
 	})
 })
