@@ -9,6 +9,16 @@ describe('OIPIndex API', () => {
 			expect(response.success).toBeTruthy()
 			expect(response.artifact.getInternalArtifactType() === 'ResearchTomogram')
 		});
+		it('GET latest artifacts | getLatestArtifacts()', async () => {
+			const limit = 50
+			let response = await index.getLatestArtifacts(limit)
+			expect(response.success).toBeTruthy()
+			let artifacts = response.artifacts
+			expect(artifacts.length).toEqual(limit)
+			for (let art of artifacts) {
+				expect(art.isValid().success).toBeTruthy()
+			}
+		})
 		})
 	})
 })
