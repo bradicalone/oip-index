@@ -1,7 +1,5 @@
-import assert from 'assert'
 import axios from 'axios';
-import Artifact from './Artifact';
-import Multipart from './Multipart'
+import FloDataTX from './FloDataTX'
 import Hydrate from './hydrateArtifact'
 
 /**
@@ -12,6 +10,22 @@ import Hydrate from './hydrateArtifact'
  * @example <caption>Shortened TXID Reference</caption>
  * 8a83ec
  */
+
+const hydrateArray = (artifacts) => {
+	let tmpArray = []
+	for (let art of artifacts) {
+		tmpArray.push(Hydrate(art))
+	}
+	return tmpArray
+}
+
+const hydrateFloDataTX = (floDataTXs) => {
+	let tmpArray = []
+	for (let data of floDataTXs) {
+		tmpArray.push(new FloDataTX(data))
+	}
+	return tmpArray
+}
 	//ToDo: change to 'https' when ready
 const defaultOIPdURL = "http://snowflake.oip.fun:1606";
 class OIPElastic {
