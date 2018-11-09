@@ -41,6 +41,15 @@ describe('OIPIndex API', () => {
 				expect(art.isValid().success).toBeTruthy()
 			}
 		})
+		it('GET search floData by query | searchFloData()', async () => {
+			let q = 'ryan'
+			let response = await index.searchFloData(q)
+			expect(response.success).toBeTruthy()
+			let floDataTXs = response.floData
+			for (let data of floDataTXs) {
+				console.log(data)
+				expect(data.isValid()).toBeTruthy()
+			}
 		})
 	})
 })
