@@ -130,74 +130,43 @@ class OIPElastic {
 
 	/**
 	 * Get the Latest Artifacts published to the Index
+	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
+	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
+	 * @return {Promise<Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: Array.<Artifact>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
 	 */
-	async getLatestArtifacts() {
-	}
+	async getLatestArtifacts(limit, nsfw = false) {
+		if (!limit)
+			limit = 100
+		if (limit > 1000)
+			limit = 1000
+		let res
+		try {
+			res = await this.index.get(`/artifact/get/latest/${limit}`, {
+				params: {
+					nsfw
+				}
+			});
+		} catch (err) {
+			return {success: false, error: err}
+		}
 
-	/**
-	 * Get the latest Artifacts from the Index
-	 */
-	async getArtifacts() {
-	}
-
-	/**
-	 * Get a specific Publisher from the Index
-	 */
-	async getPublisher() {
-	}
-
-	/**
-	 * Get a all Publishers from Index
-	 */
-	async getAllPublishers() {
-	}
-
-	/**
-	 * Get a specific Platform from the Index
-	 */
-	async getPlatform() {
-	}
-
-	/**
-	 * Get all Platformss from the Index
-	 */
-	async getAllPlatforms() {
-	}
-
-	/**
-	 * Get a specific Influencer from the Index
-	 */
-	async getInfluencer() {
-	}
-
-	/**
-	 * Get a all Influencers from the Index
-	 */
-	async getAllInfluencers() {
-	}
-
-	/**
-	 * Get a specific Autominer from the Index
-	 */
-	async getAutominer() {
-	}
-
-	/**
-	 * Get a all Autominers from the Index
-	 */
-	async getAllAutominers() {
-	}
-
-	/**
-	 * Get a specific AutominerPool from the Index
-	 */
-	async getAutominerPool() {
-	}
-
-	/**
-	 * Get a all Autominers from the Index
-	 */
-	async getAllAutominerPools() {
+		if (res && res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: false, error: 'No artifacts found', response: res.data}
+			if (artifacts.length > 0 && artifacts.length < limit)
+				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
+			if (artifacts.length === limit)
+				return {success: true, artifacts: hydrateArray(artifacts)}
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res}
+		}
 	}
 
 	/**
