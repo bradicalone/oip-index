@@ -98,20 +98,31 @@ class OIPElastic {
 
 	/**
 	 * Get a specific Artifact from the Index by TXID
-	 * @return {Promise<Artifact> | Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
+	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
+	 * @return {Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
+	 * @example
+	 * //return example
+	 * {success: true, artifact: Artifact}
+	 *
+	 * //or error
+	 * {success: false, error: error}
 	 */
 	async getArtifactByTXID(txid) {
 		let res
 		try {
-			res = await this.network.get(`/artifact/get/${txid}`);
+			res = await this.index.get(`/artifact/get/${txid}`);
 		} catch (err) {
 			return {success: false, error: err}
 		}
 		if (res && res.data) {
 			let resultArray = res.data.results
-			assert(resultArray.length === 1)
-			let artifact = Hydrate(resultArray[0])
-			return artifact.isValid().success ? artifact : artifact.isValid()
+
+			if (resultArray.length === 0) {
+				return {success: false, error: "No results found", response: res}
+			} else if (resultArray.length > 1) {
+				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
+			} else return {success: true, artifact: Hydrate(resultArray[0])}
+
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res}
 		}
