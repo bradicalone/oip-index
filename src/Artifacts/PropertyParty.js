@@ -1,5 +1,6 @@
 import Artifact from './Artifact'
 
+//ToDo: convert types to constants for Special-Type Artifacts
 const _type = "party"
 
 class PropertyParty extends Artifact {
