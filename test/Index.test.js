@@ -1,6 +1,6 @@
-import Index from '../src/OIPIndex'
-import Artifact from '../src/Artifact';
-import Multipart from '../src/Multipart'
+import Index from '../src/OIPIndex_DEPRECATED'
+import Artifact from '../src/Artifacts/Artifact_DEPRECATED';
+import Multipart from '../src/OIPComponents/Multipart'
 
 let index = new Index();
 
