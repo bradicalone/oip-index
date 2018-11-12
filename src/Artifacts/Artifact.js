@@ -83,7 +83,7 @@ export default function Artifact(input) {
 	 */
 	if (!(this instanceof Artifact)) {
 		//return new Artifact based on type of input
-		ArtifactPicker(input)
+		return ArtifactPicker(input)
 	}
 
 	this.artifactType = 'generic'
