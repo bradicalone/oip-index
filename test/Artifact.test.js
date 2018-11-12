@@ -227,7 +227,7 @@ const artifact041Payments = {
 //======================================================================
 
 describe("Artifact", () => {
-	describe("Initialization", () => {
+	describe("Constructors", () => {
 		it("A Blank Artifact can be created", () => {
 			let artifact = Artifact();
 			expect(artifact).toBeDefined();
@@ -256,6 +256,249 @@ describe("Artifact", () => {
 			expect(artifact).toBeDefined()
 			expect(artifact instanceof ResearchTomogram).toBeTruthy()
 			expect(artifact instanceof Artifact)
+		})
+	})
+	describe("Initialization", () => {
+		it('Create an Artifact from JSON string', () => {
+			let artifact = Artifact(artifact041JSON);
+			expect(artifact.getTXID()).toBe("5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207")
+		})
+		it("getTXID is undefined if not set", () => {
+			let artifact = Artifact();
+			expect(artifact.getTXID()).toBeUndefined()
+		})
+		it("it setTXID and getTXID", () => {
+			let artifact = Artifact();
+			artifact.setTXID("it-txid")
+			expect(artifact.getTXID()).toBe("it-txid")
+		})
+		it("Get Publisher Name is blank string if main address is not set", () => {
+			let artifact = Artifact();
+			expect(artifact.getPublisherName()).toBe("")
+		})
+		it("Get Publisher Name is main address if publisher name is not set", () => {
+			let artifact = Artifact();
+			artifact.setMainAddress("main-address")
+			expect(artifact.getPublisherName()).toBe("main-address")
+		})
+		it("Get Publisher Name is correct when set", () => {
+			let artifact = Artifact();
+			artifact.setMainAddress("main-address")
+			artifact.setPublisherName("publisher-name")
+			expect(artifact.getPublisherName()).toBe("publisher-name")
+		})
+		it("setMainAddress and getMainAddress", () => {
+			let artifact = Artifact();
+			artifact.setMainAddress("main-address")
+			expect(artifact.getMainAddress()).toBe("main-address")
+		})
+		it("setTimestamp and getTimestamp", () => {
+			let artifact = Artifact();
+			let milisecondsTime = Date.now()
+			let secondsTime = parseInt(milisecondsTime / 1000)
+			artifact.setTimestamp(secondsTime)
+			expect(artifact.getTimestamp()).toEqual(secondsTime)
+		})
+		it("setTimestamp and getTimestamp miliseconds to seconds", () => {
+			let artifact = Artifact();
+			let milisecondsTime = Date.now()
+			artifact.setTimestamp(milisecondsTime)
+			let secondsTime = parseInt(milisecondsTime / 1000)
+			expect(artifact.getTimestamp()).toEqual(secondsTime)
+		})
+		it("setTimestamp enforces that it is a number", () => {
+			let artifact = Artifact();
+			let time = "not-time"
+			artifact.setTimestamp(time)
+			expect(artifact.getTimestamp()).toBeUndefined()
+		})
+		it("setTitle and getTitle", () => {
+			let artifact = Artifact();
+			artifact.setTitle("title")
+			expect(artifact.getTitle()).toBe("title")
+		})
+		it("getTitle is blank string if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getTitle()).toBe("")
+		})
+		it("setDescription and getDescription", () => {
+			let artifact = Artifact();
+			artifact.setDescription("it description")
+			expect(artifact.getDescription()).toBe("it description")
+		})
+		it("getDescription is blank string if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getDescription()).toBe("")
+		})
+		it("setType and getType", () => {
+			let artifact = Artifact();
+			artifact.setType("Audio")
+			expect(artifact.getType()).toBe("Audio")
+		})
+		it("setType capitalizeFirstLetter", () => {
+			let artifact = Artifact();
+			artifact.setType("audio")
+			expect(artifact.getType()).toBe("Audio")
+		})
+		it("setType doesn't allow non-supported base types", () => {
+			let artifact = Artifact();
+			artifact.setType("Newtype")
+			expect(artifact.getType()).toBeUndefined()
+		})
+		it("getType is undefined if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getType()).toBeUndefined()
+		})
+		it("setSubtype and getSubtype", () => {
+			let artifact = Artifact();
+			artifact.setSubtype("Basic")
+			expect(artifact.getSubtype()).toBe("Basic")
+		})
+		it("setSubtype capitalizeFirstLetter", () => {
+			let artifact = Artifact();
+			artifact.setSubtype("basic")
+			expect(artifact.getSubtype()).toBe("Basic")
+		})
+		it("getSubtype is undefined if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getSubtype()).toBeUndefined()
+		})
+		it("setYear and getYear", () => {
+			let artifact = Artifact();
+			artifact.setYear(2018)
+			expect(artifact.getYear()).toBe(2018)
+		})
+		it("setYear restricts to number", () => {
+			let artifact = Artifact();
+			artifact.setYear("Year")
+			expect(artifact.getYear()).toBeUndefined()
+		})
+		it("getYear is undefined if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getYear()).toBeUndefined()
+		})
+		it("setNSFW and getNSFW", () => {
+			let artifact = Artifact();
+			artifact.setNSFW(true)
+			expect(artifact.getNSFW()).toBe(true)
+		})
+		it("getNSFW is false if not set", () => {
+			let artifact = Artifact();
+			expect(artifact.getNSFW()).toBe(false)
+		})
+		it("setTags can be defined by array", () => {
+			let artifact = Artifact();
+			artifact.setTags(["tag1", "tag2", "tag3"])
+			expect(artifact.getTags()).toEqual(["tag1", "tag2", "tag3"])
+		})
+		it("setTags can be defined from string", () => {
+			let artifact = Artifact();
+			artifact.setTags("tag1, tag2, tag3")
+			expect(artifact.getTags()).toEqual(["tag1", "tag2", "tag3"])
+		})
+		it("getTags is blank array if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getTags()).toEqual([])
+		})
+		it("setDetail", () => {
+			let artifact = Artifact();
+			artifact.setDetail("artist", "Artist Name")
+			expect(artifact.getDetail("artist")).toBe("Artist Name")
+		})
+		it("getDetail is undefined if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getDetail("artist")).toBeUndefined()
+		})
+		it("setSignature and getSignature", () => {
+			let artifact = Artifact();
+			artifact.setSignature("signature")
+			expect(artifact.getSignature()).toBe("signature")
+		})
+		it("getSignature is undefined if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getSignature()).toBeUndefined()
+		})
+		it("setNetwork and getNetwork", () => {
+			let artifact = Artifact();
+			artifact.setNetwork("storj")
+			expect(artifact.getNetwork()).toBe("storj")
+		})
+		it("getNetwork is IPFS if not set", () => {
+			let artifact = Artifact();
+			expect(artifact.getNetwork()).toBe("IPFS")
+		})
+		it("setLocation and getLocation", () => {
+			let artifact = Artifact();
+			artifact.setLocation("location")
+			expect(artifact.getLocation()).toBe("location")
+		})
+		it("getLocation is undefined if not set", () => {
+			let artifact = Artifact();
+			expect(artifact.getLocation()).toBeUndefined()
+		})
+		it("setPaymentFiat and getPaymentFiat", () => {
+			let artifact = Artifact();
+			artifact.setPaymentFiat("usd")
+			expect(artifact.getPaymentFiat()).toBe("usd")
+		})
+		it("getPaymentFiat is undefined if not set", () => {
+			let artifact = Artifact();
+			expect(artifact.getPaymentFiat()).toBeUndefined()
+		})
+		it("setPaymentScale and getPaymentScale", () => {
+			let artifact = Artifact();
+			artifact.setPaymentScale(1000)
+			expect(artifact.getPaymentScale()).toBe(1000)
+		})
+		it("setPaymentScale from ratio string", () => {
+			let artifact = Artifact();
+			artifact.setPaymentScale("1000:1")
+			expect(artifact.getPaymentScale()).toBe(1000)
+		})
+		it("getPaymentScale is 1 if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getPaymentScale()).toBe(1)
+		})
+		it("setSuggestedTip and getSuggestedTip", () => {
+			let artifact = Artifact();
+			artifact.setSuggestedTip([1, 100, 1000])
+			expect(artifact.getSuggestedTip()).toEqual([1, 100, 1000])
+		})
+		it("getSuggestedTip is empty array if undefined", () => {
+			let artifact = Artifact();
+			expect(artifact.getSuggestedTip()).toEqual([])
+		})
+		it("addPaymentAddresses and getPaymentAddress", () => {
+			let artifact = Artifact();
+			artifact.addSinglePaymentAddress("flo", "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ")
+			artifact.addSinglePaymentAddress("ltc", "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN")
+			artifact.addSinglePaymentAddress("btc", "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps")
+			expect(artifact.getPaymentAddress(["flo"])).toEqual({flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"})
+		})
+		it("addPaymentAddresses and getPaymentAddresses with input coins", () => {
+			let artifact = Artifact();
+			artifact.addSinglePaymentAddress("flo", "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ")
+			artifact.addSinglePaymentAddress("ltc", "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN")
+			artifact.addSinglePaymentAddress("btc", "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps")
+			expect(artifact.getPaymentAddress(["flo", "ltc"])).toEqual(
+				{
+					flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ",
+					ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
+				})
+		})
+		it("addSinglePaymentAddress and getPaymentAddresses", () => {
+			let artifact = Artifact();
+			artifact.addSinglePaymentAddress("flo", "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
+			expect(artifact.getPaymentAddresses()).toEqual({flo: "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"})
+		})
+		it("getPaymentAddresses is blank array if unset & no mainAddress is set", () => {
+			let artifact = Artifact();
+			expect(artifact.getPaymentAddresses()).toEqual({})
+		})
+		it("getPaymentAddresses returns main address if unset", () => {
+			let artifact = Artifact();
+			artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
+			expect(artifact.getPaymentAddresses()).toEqual({"flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"})
 		})
 
 	})
