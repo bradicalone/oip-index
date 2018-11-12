@@ -23,18 +23,19 @@ const FLODATA_MAX_LEN = 1040;
 export default function Artifact(input) {
 	/**
 	 * Create a new Artifact
+	 * This function is an es5 constructor that returns a new Object class based on the type of input
 	 * ##### Examples
 	 * Create a blank Artifact
 	 * ```
 	 * import { Artifact } from 'oip-index'
 	 *
-	 * let artifact = new Artifact()
+	 * let artifact = Artifact()
 	 * ```
 	 * Create an Artifact from JSON
 	 * ```
 	 * import { Artifact } from 'oip-index'
 	 *
-	 * let artifact = new Artifact({
+	 * let artifact = Artifact({
 	 *   "oip042": {
 	 *         "artifact": {
 	 *             "floAddress": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
