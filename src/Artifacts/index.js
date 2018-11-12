@@ -6,7 +6,7 @@ import ResearchTomogram from './ResearchTomogram'
 //this file is used to export all Specialized Artifact es6 classes (and not the basic generic Artifact class
 //which is exported in src/main.js
 
-export default {
+module.exports = {
 	PropertyTenure,
 	PropertySpatialUnit,
 	PropertyParty,
