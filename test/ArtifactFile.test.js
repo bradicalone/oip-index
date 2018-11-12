@@ -1,4 +1,4 @@
-import ArtifactFile from '../src/ArtifactFile'
+import ArtifactFile from '../src/OIPComponents/ArtifactFile'
 
 test('instanceof ArtifactFile', () => {
     let af = new ArtifactFile();
