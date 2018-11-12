@@ -1,5 +1,5 @@
 import ARTIFACTS from '../Artifacts/index'
-import {Artifact} from "../Artifacts/Artifact";
+import Artifact from "../Artifacts/Artifact";
 
 const SUPPORTED_TYPES = ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
 
@@ -8,6 +8,7 @@ const SUPPORTED_ARTIFACTS = {}
 for (let type in ARTIFACTS) {
 	SUPPORTED_ARTIFACTS[ARTIFACTS[type].getTypeAndSubtype()] = ARTIFACTS[type]
 }
+// console.log(ARTIFACTS)
 
 /**
  * Return a hydrated Artifact from a JSON input
