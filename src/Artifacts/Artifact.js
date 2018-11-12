@@ -517,7 +517,7 @@ export default function Artifact(input) {
 	 * let fiat = artifact.getPaymentFiat()
 	 * @return {string} Returns undefined if no fiat is set
 	 */
-	Artifact.prototype.getPaymentFia = function t() {
+	Artifact.prototype.getPaymentFiat = function t() {
 		return this.artifact.payment.fiat
 	}
 
