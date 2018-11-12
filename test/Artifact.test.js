@@ -168,29 +168,61 @@ const artifactResearchTomogramJSON = {
 	}
 }
 
-// const artifact041Payments = {
-//     "oip-041": {
-//         "artifact": {
-//             "payment": {
-//                 "addresses": [
-//                     {
-//                         "token": "btc",
-//                         "address": "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps"
-//                     },
-//                     {
-//                         "token": "ltc",
-//                         "address": "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"
-//                     },
-//                     {
-//                         "token": "flo",
-//                         "address": "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
-//                     }
-//                 ]
-//
-//             }
-//         }
-//     }
-// }
+const artifact041Payments = {
+	"artifact": {
+		"publisher": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
+		"payment": {
+			"addresses": [
+				{
+					"address": "1FjQxmrue5jdgVhmVMN3Y4XjXdtiDC257K",
+					"token": "BTC"
+				}
+			],
+			"retailer": 15,
+			"sugTip": [],
+			"fiat": "USD",
+			"scale": "1000:1",
+			"promoter": 15,
+			"maxdisc": 30
+		},
+		"storage": {
+			"files": [
+				{
+					"fname": "scout.jpg",
+					"fsize": 1571667,
+					"disBuy": true,
+					"sugPlay": 1,
+					"type": "Image"
+				}
+			],
+			"location": "QmcEAy2sEp7dTdyPea7TCUe9zwpkwaxGZRiq9d79YyNxip",
+			"network": "IPFS"
+		},
+		"type": "Image-Basic",
+		"info": {
+			"year": 2018,
+			"description": "A super amazing puppy!",
+			"title": "Scouty Test",
+			"extraInfo": {
+				"artist": "Sky Young",
+				"genre": "Animals/Wildlife",
+				"tags": [
+					"Border Collie",
+					"Puppy",
+					"Dog"
+				]
+			}
+		},
+		"timestamp": 1532632036
+	},
+	"meta": {
+		"block_hash": "b83d0ada97384cdf23866bbbce70fb94fc295bc3085318ab304c8eade9984df7",
+		"txid": "9f02a90bd126bd5b2aa78a06821843eaf1e9ab338430da8fe8003933d317656c",
+		"block": 2866488,
+		"time": 1532632038,
+		"type": "oip041"
+	}
+}
 
 //======================================================================
 
