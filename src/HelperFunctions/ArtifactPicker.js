@@ -16,9 +16,8 @@ for (let type in ARTIFACTS) {
  * @return {Artifact|Object} - an Artifact class object (or an extension thereof)
  */
 export default function ArtifactPicker(jsonArtifact) {
-	if (!jsonArtifact.meta) {
-		return {success: false, error: 'Invalid artifact. Check: artifact.meta', artifact: jsonArtifact}
-	}
+	if (!jsonArtifact || !jsonArtifact.meta)
+		return new Artifact(jsonArtifact)
 
 	let type, subtype
 	switch (jsonArtifact.meta.type) {
