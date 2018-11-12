@@ -1,4 +1,6 @@
 import ArtifactPicker from '../src/HelperFunctions/ArtifactPicker'
+import {Artifact} from '../src/main'
+import {ResearchTomogram} from '../src/Artifacts/index'
 
 let artifact041JSON = {
 	"artifact": {
@@ -170,10 +172,12 @@ describe('Helper Functions', () => {
 		let art = ArtifactPicker(artifact041JSON)
 		expect(art.getInternalTypeAndSubtype()).toEqual('generic-record')
 		expect(art.isValid().success).toBeTruthy()
+		expect(art instanceof Artifact).toBeTruthy()
 	})
 	it('Should Hydrate a ResearchTomogram Artifact', () => {
 		let art = ArtifactPicker(artifactResearchTomogramJSON)
 		expect(art.getInternalTypeAndSubtype()).toEqual('research-tomogram')
 		expect(art.isValid().success).toBeTruthy()
+		expect(art instanceof ResearchTomogram).toBeTruthy()
 	})
 })
