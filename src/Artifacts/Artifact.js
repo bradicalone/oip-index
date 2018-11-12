@@ -20,7 +20,7 @@ const FLODATA_MAX_LEN = 1040;
  * along with a location on a network to find that file,
  * and optionally payment information.
  */
-export function Artifact(input) {
+export default function Artifact(input) {
 	/**
 	 * Create a new Artifact
 	 * ##### Examples
@@ -1444,5 +1444,3 @@ export function Artifact(input) {
 	}
 
 }
-
-export default Artifact
