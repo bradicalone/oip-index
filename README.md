@@ -6,12 +6,12 @@
 ## Table of Contents
 * [Installation Instructions](https://github.com/oipwg/oip-index/#installation-instructions)
 * [Getting Started](https://github.com/oipwg/oip-index/#getting-started)
-	* [Getting an Artifact from the Index](https://github.com/oipwg/oip-index/#)
+	* [Getting an Artifact_DEPRECATED from the Index](https://github.com/oipwg/oip-index/#)
 	* [Use a Custom OIPd Server](https://github.com/oipwg/oip-index/#)
-	* [Create a new Artifact](https://github.com/oipwg/oip-index/#)
+	* [Create a new Artifact_DEPRECATED](https://github.com/oipwg/oip-index/#)
 * [API Documentation](https://github.com/oipwg/oip-index/#api-documentation)
 	* [Index](https://oipwg.github.io/oip-index/Index_.html)
-	* [Artifact](https://oipwg.github.io/oip-index/Artifact.html)
+	* [Artifact_DEPRECATED](https://oipwg.github.io/oip-index/Artifact_DEPRECATED.html)
 * [License](https://github.com/oipwg/oip-index/#license)
 
 ## Installation Instructions
@@ -21,9 +21,9 @@ $ npm install --save oip-index
 ```
 ## Getting Started
 
-### Getting an Artifact from the Index
+### Getting an Artifact_DEPRECATED from the Index
 
-To get an Artifact back from the Index, we will first need to spawn a new `Index` object. This `Index` object is what we will interact with in order to get Artifacts back from the Index.  After you have created a new `Index` you can lookup a specific Artifact using the [`.getArtifact(artifact_id)` method](https://oipwg.github.io/oip-index/Index_.html#getArtifact). The `getArtifact` method returns a Promise that will resolve to the requested [Artifact](https://oipwg.github.io/oip-index/Artifact.html), or will reject if there was an error.
+To get an Artifact_DEPRECATED back from the Index, we will first need to spawn a new `Index` object. This `Index` object is what we will interact with in order to get Artifacts back from the Index.  After you have created a new `Index` you can lookup a specific Artifact_DEPRECATED using the [`.getArtifact(artifact_id)` method](https://oipwg.github.io/oip-index/Index_.html#getArtifact). The `getArtifact` method returns a Promise that will resolve to the requested [Artifact_DEPRECATED](https://oipwg.github.io/oip-index/Artifact_DEPRECATED.html), or will reject if there was an error.
 
 ```javascript
 import { Index } from 'oip-index'
@@ -44,28 +44,28 @@ import { Index } from 'oip-index'
 var index = new Index("https://my-oipd-url.com/api")
 ```
 
-### Create a new Artifact
+### Create a new Artifact_DEPRECATED
 
-Creating a new Artifact allows you to build your own Artifact that can then be handed off to `oip-account` for publishing to the Index. To create a new Artifact, we first need to import the Artifact class from `oip-index`. After we have imported the class, we can then create a new Artifact.
+Creating a new Artifact_DEPRECATED allows you to build your own Artifact_DEPRECATED that can then be handed off to `oip-account` for publishing to the Index. To create a new Artifact_DEPRECATED, we first need to import the Artifact_DEPRECATED class from `oip-index`. After we have imported the class, we can then create a new Artifact_DEPRECATED.
 
 ```javascript
-import { Artifact } from 'oip-index'
+import { Artifact_DEPRECATED } from 'oip-index'
 
-var myArtifact = new Artifact();
+var myArtifact = new Artifact_DEPRECATED();
 ```
 
-After we have created our new Artifact, we can then start setting values on it, as well as adding files. In this example, I am just going to set the Title, and Description.
+After we have created our new Artifact_DEPRECATED, we can then start setting values on it, as well as adding files. In this example, I am just going to set the Title, and Description.
 
 ```javascript
 myArtifact.setTitle("My Great Title")
-myArtifact.setDescription("The description for the Artifact we are creating")
+myArtifact.setDescription("The description for the Artifact_DEPRECATED we are creating")
 ```
 
 ## API Documentation
 Learn more about how each Class works, or take a look at all functions available to you.
 * [Documentation Home](https://oipwg.github.io/oip-index/)
 	* [Index](https://oipwg.github.io/oip-index/Index_.html)
-	* [Artifact](https://oipwg.github.io/oip-index/Artifact.html)
+	* [Artifact_DEPRECATED](https://oipwg.github.io/oip-index/Artifact_DEPRECATED.html)
 
 ## License
 MIT License
