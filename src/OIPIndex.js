@@ -1,4 +1,5 @@
 import axios from 'axios';
+import MPSingle from './OIPComponents/MPSingle'
 import FloDataTX from './OIPComponents/FloDataTX'
 import ArtifactPicker from './HelperFunctions/ArtifactPicker'
 
@@ -238,6 +239,33 @@ class OIPIndex {
 			return {success: false, error: 'Missing axios data response', response: res}
 		}
 	}
+
+	/**
+	 * Get OIP Multiparts by the First TXID Reference
+	 * @param {string} ref - the TXID reference of the first multipart
+	 * @param {number} [limit] - max num of results
+	 * @return {Promise<Object>}
+	 */
+	async getMultipartsByRef(ref, limit) {
+		let res;
+		let querystring = `/multipart/get/ref/${ref}`
+		if (limit) querystring += `/${limit}`
+		try {
+			res = await this.index.get(querystring)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let total = res.data.total
+			let results = res.data.results
+			let multiparts = []
+			for (let mp of results) {
+				multiparts.push(new MPSingle(mp))
+			}
+			return {success: true, multiparts, total}
+
+		} else {
+			return {success: false, error: "Missing axios data response", response: res}
 		}
 	}
 
