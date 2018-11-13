@@ -1,4 +1,5 @@
 import OIPIndex from '../src/OIPIndex'
+import MPSingle from "../src/OIPComponents/MPSingle";
 let index = new OIPIndex()
 
 describe('OIPIndex API', () => {
@@ -49,6 +50,15 @@ describe('OIPIndex API', () => {
 			for (let data of floDataTXs) {
 				// console.log(data)
 				expect(data.isValid()).toBeTruthy()
+			}
+		})
+		it('GET Multiparts via Reference', async () => {
+			let ref = '8c204c5f39'
+			let response = await index.getMultipartsByRef(ref)
+			expect(response.success).toBeTruthy()
+			expect(response.multiparts.length).toEqual(response.total)
+			for (let mp of response.multiparts) {
+				expect(mp instanceof MPSingle).toBeTruthy()
 			}
 		})
 	})
