@@ -235,7 +235,9 @@ class OIPIndex {
 			return {success: true, floData: hydrateFloDataTX(txs)}
 
 		} else {
-			return {success: false, error: 'No data returned from axios request', response: res}
+			return {success: false, error: 'Missing axios data response', response: res}
+		}
+	}
 		}
 	}
 
