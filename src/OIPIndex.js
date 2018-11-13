@@ -267,6 +267,39 @@ class OIPIndex {
 		} else {
 			return {success: false, error: "Missing axios data response", response: res}
 		}
+
+	}
+
+	/**
+	 * Get Multipart by its TXID
+	 * @param txid
+	 * @return {Promise<Object>}
+	 */
+	async getMultipartByID(txid) {
+		let res;
+		try {
+			res = await this.index.get(`/multipart/get/id/${txid}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let total = res.data.total
+			let results = res.data.results
+			let multiparts = []
+			for (let mp of results) {
+				multiparts.push(new MPSingle(mp))
+			}
+			if (!total) {
+				return {success: false, message: "No parts found", responseData: res.data}
+			} else if (total > 1) {
+				return {success: false, message: "Collision: mulitple parts found with single ID", multiparts}
+			} else {
+				return {success: true, multipart: multiparts[0]}
+			}
+		} else {
+			return {success: false, error: "Missing axios data response", response: res}
+		}
+
 	}
 
 }
