@@ -61,5 +61,15 @@ describe('OIPIndex API', () => {
 				expect(mp instanceof MPSingle).toBeTruthy()
 			}
 		})
+		it('GET Multiparts via Reference w/ Limit', async () => {
+			let ref = '8c204c5f39'
+			let limit = 3
+			let response = await index.getMultipartsByRef(ref, limit)
+			expect(response.success).toBeTruthy()
+			expect(response.multiparts.length).toEqual(response.limit)
+			for (let mp of response.multiparts) {
+				expect(mp instanceof MPSingle).toBeTruthy()
+			}
+		})
 	})
 })
