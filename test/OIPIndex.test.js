@@ -71,5 +71,11 @@ describe('OIPIndex API', () => {
 				expect(mp instanceof MPSingle).toBeTruthy()
 			}
 		})
+		it('GET Multipart via TXID', async () => {
+			let mpTXID = 'f550b9739e7453224075630d44cba24c31959af913aeb7cb364a563f96f54548'
+			let response = await index.getMultipartByID(mpTXID)
+			expect(response.success).toBeTruthy()
+			expect(response.multipart instanceof MPSingle).toBeTruthy()
+		})
 	})
 })
