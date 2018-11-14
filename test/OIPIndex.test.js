@@ -77,5 +77,8 @@ describe('OIPIndex API', () => {
 			expect(response.success).toBeTruthy()
 			expect(response.multipart instanceof MPSingle).toBeTruthy()
 		})
+		it("GET version", async () => {
+			expect(await index.getVersion()).toBeDefined()
+		})
 	})
 })
