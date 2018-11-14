@@ -558,6 +558,28 @@ class OIPIndex {
 		}
 	}
 
+
+	/**
+	 * Get the latest historian data points
+	 * @param {number} [limit=100]
+	 * @return {Promise<{Object}>}
+	 */
+	async getLastestHistorianData(limit = 100) {
+		let res
+		try {
+			res = await this.index.get(`historian/get/latest/${limit}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		return res.data
+		if (res && res.data) {
+			let results = res.data.results
+			return {success: true, results}
+		} else {
+			return {success: false, response: res.data, error: "No data returned from axios request"}
+		}
+	}
+
 }
 
 export default OIPIndex;
