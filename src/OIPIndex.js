@@ -167,7 +167,7 @@ class OIPIndex {
 			if (artifacts.length === limit)
 				return {success: true, artifacts: hydrateArray(artifacts)}
 		} else {
-			return {success: false, error: 'No data returned from axios request', response: res}
+			return {success: false, error: 'No data returned from axios request', response: res.data}
 		}
 	}
 
