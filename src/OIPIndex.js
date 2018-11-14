@@ -311,6 +311,44 @@ class OIPIndex {
 		return res.data
 	}
 
+	/**
+	 * Get the Latest OIP041 Artifacts published to the Index
+	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
+	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
+	 * @return {Promise<Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: Array.<Artifact>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getLatest041Artifacts(limit = 100, nsfw = false) {
+		let res
+		try {
+			res = await this.index.get(`/oip041/artifact/get/latest/${limit}`, {
+				params: {
+					nsfw
+				}
+			});
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: false, error: 'No artifacts found', response: res.data}
+			if (artifacts.length > 0 && artifacts.length < limit)
+				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
+			if (artifacts.length === limit) {
+				return {success: true, artifacts: hydrateArray(artifacts)}
+			}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res}
+		}
+	}
+
 }
 
 export default OIPIndex;
