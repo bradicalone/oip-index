@@ -98,5 +98,19 @@ describe('OIPIndex API', () => {
 			console.log(response.artifact)
 			expect(response.artifact.getVersionType()).toEqual("oip041")
 		});
+		it('GET multiple OIP041 artifacts by ID | get041Artifacts()', async () => {
+			const txid1 = '8c204c5f39b67431c59c7703378b2cd3b746a64743e130de0f5cfb2118b5136b'
+			const txid2 = 'a690609a2a8198fbf4ed3fd7e4987637a93b7e1cad96a5aeac2197b7a7bf8fb9'
+			const txid3 = 'b4e6c9e86d14ca3565e57fed8b482d742a7a1cff0dd4cabfe9e3ea29efb3211c'
+			let txArray = [txid1, txid2, txid3]
+			let response = await index.get041Artifacts(txArray)
+			expect(response.success).toBeTruthy()
+			let artifacts = response.artifacts
+			expect(artifacts.length).toEqual(txArray.length)
+			for (let art of artifacts) {
+				expect(art.getVersionType()).toEqual("oip041")
+				expect(art.isValid().success).toBeTruthy()
+			}
+		})
 	})
 })
