@@ -492,6 +492,38 @@ class OIPIndex {
 		}
 	}
 
+	/**
+	 * Get a specific Alexandria Media Artifact from the Index by TXID
+	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
+	 * @return {Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
+	 * @example
+	 * //return example
+	 * {success: true, artifact: Artifact}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getAlexandriaMediaArtifactByTXID(txid) {
+		let res
+		try {
+			res = await this.index.get(`/alexandria/artifact/get/${txid}`);
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let resultArray = res.data.results
+
+			if (resultArray.length === 0) {
+				return {success: false, error: "No results found", response: res.data}
+			} else if (resultArray.length > 1) {
+				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
+			} else return {success: true, artifact: Artifact(resultArray[0])}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res.data}
+		}
+	}
+
 }
 
 export default OIPIndex;
