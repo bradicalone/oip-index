@@ -112,5 +112,16 @@ describe('OIPIndex API', () => {
 				expect(art.isValid().success).toBeTruthy()
 			}
 		})
+		it('GET latest OIP042 artifacts | getLatest042Artifacts()', async () => {
+			const limit = 50
+			let response = await index.getLatest042Artifacts(limit)
+			expect(response.success).toBeTruthy()
+			let artifacts = response.artifacts
+			expect(artifacts.length).toEqual(limit)
+			for (let art of artifacts) {
+				expect(art.isValid().success).toBeTruthy()
+				expect(art.getVersionType()).toEqual("oip042")
+			}
+		})
 	})
 })
