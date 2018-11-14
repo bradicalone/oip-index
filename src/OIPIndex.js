@@ -297,6 +297,20 @@ class OIPIndex {
 
 	}
 
+	/**
+	 * Get OIP Daemon specs
+	 * @return {Promise<Object>}
+	 */
+	async getVersion() {
+		let res
+		try {
+			res = await this.index.get('/version')
+		} catch (err) {
+			return {success: false, error: "Missing axios data response", response: res}
+		}
+		return res.data
+	}
+
 }
 
 export default OIPIndex;
