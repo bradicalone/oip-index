@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MPSingle from './OIPComponents/MPSingle'
 import FloDataTX from './OIPComponents/FloDataTX'
-import ArtifactPicker from './HelperFunctions/ArtifactPicker'
+import Artifact from './Artifacts/Artifact'
 
 /**
  * The Transaction ID on the Blockchain.
@@ -15,7 +15,7 @@ import ArtifactPicker from './HelperFunctions/ArtifactPicker'
 const hydrateArray = (artifacts) => {
 	let tmpArray = []
 	for (let art of artifacts) {
-		tmpArray.push(ArtifactPicker(art))
+		tmpArray.push(Artifact(art))
 	}
 	return tmpArray
 }
@@ -123,7 +123,7 @@ class OIPIndex {
 				return {success: false, error: "No results found", response: res}
 			} else if (resultArray.length > 1) {
 				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
-			} else return {success: true, artifact: ArtifactPicker(resultArray[0])}
+			} else return {success: true, artifact: Artifact(resultArray[0])}
 
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res}
