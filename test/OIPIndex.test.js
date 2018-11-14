@@ -95,7 +95,7 @@ describe('OIPIndex API', () => {
 			let txid = '8c204c5f39b67431c59c7703378b2cd3b746a64743e130de0f5cfb2118b5136b'
 			let response = await index.get041ArtifactByTXID(txid)
 			expect(response.success).toBeTruthy()
-			console.log(response.artifact)
+			// console.log(response.artifact)
 			expect(response.artifact.getVersionType()).toEqual("oip041")
 		});
 		it('GET multiple OIP041 artifacts by ID | get041Artifacts()', async () => {
@@ -156,6 +156,7 @@ describe('OIPIndex API', () => {
 		})
 		it(`GET latest historian data point | getLastestHistorianData`, async () => {
 			let response = await index.getLastestHistorianData()
+			// console.log(response)
 			expect(response.success).toBeTruthy()
 		})
 		it(`GET historian data point by ID | getLastestHistorianDataByTXID`, async () => {
