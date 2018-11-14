@@ -142,11 +142,7 @@ class OIPIndex {
 	 * //or error
 	 * {success: false, error: error}
 	 */
-	async getLatestArtifacts(limit, nsfw = false) {
-		if (!limit)
-			limit = 100
-		if (limit > 1000)
-			limit = 1000
+	async getLatestArtifacts(limit = 100, nsfw = false) {
 		let res
 		try {
 			res = await this.index.get(`/artifact/get/latest/${limit}`, {
