@@ -94,7 +94,7 @@ class OIPIndex {
 				return {success: false, error: 'No artifacts found', response: res.data}
 			return {success: true, artifacts: hydrateArray(artifacts)}
 		} else {
-			return {success: false, error: 'No data returned from axios request', response: res}
+			return {success: false, error: 'No data returned from axios request', response: res.data}
 		}
 	}
 
@@ -120,13 +120,13 @@ class OIPIndex {
 			let resultArray = res.data.results
 
 			if (resultArray.length === 0) {
-				return {success: false, error: "No results found", response: res}
+				return {success: false, error: "No results found", response: res.data}
 			} else if (resultArray.length > 1) {
 				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
 			} else return {success: true, artifact: Artifact(resultArray[0])}
 
 		} else {
-			return {success: false, error: 'No data returned from axios request', response: res}
+			return {success: false, error: 'No data returned from axios request', response: res.data}
 		}
 	}
 
@@ -234,9 +234,8 @@ class OIPIndex {
 		if (res && res.data) {
 			let txs = res.data.results
 			return {success: true, floData: hydrateFloDataTX(txs)}
-
 		} else {
-			return {success: false, error: 'Missing axios data response', response: res}
+			return {success: false, error: 'Missing axios data response', response: res.data}
 		}
 	}
 
