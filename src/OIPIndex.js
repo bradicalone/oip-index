@@ -580,6 +580,30 @@ class OIPIndex {
 		}
 	}
 
+	/**
+	 * Get a historian data point by its txid
+	 * @param {string} txid
+	 * @return {Promise<Object>}
+	 */
+	async getHistorianDataByTXID(txid) {
+		let res
+		try {
+			res = await this.index.get(`historian/get/${txid}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let result = res.data.results
+			if (Array.isArray(result)) {
+				if (result.length === 1) {
+					result = result[0]
+				}
+				return {success: true, result}
+			}
+		} else {
+			return {success: false, response: res.data, error: "No data returned from axios request"}
+		}
+	}
 }
 
 export default OIPIndex;
