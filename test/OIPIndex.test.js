@@ -164,6 +164,11 @@ describe('OIPIndex API', () => {
 			let response = await index.getHistorianDataByTXID(id)
 			expect(response.success).toBeTruthy()
 		})
+		it('GET floData by txid', async () => {
+			let id = '83452d60230d3c2c69000c2a79da79fe60cdf63012f946ac46e6df3409fb1fa7'
+			let response = await index.getFloData(id)
+			expect(response.success).toBeTruthy()
+		})
 
 	})
 })
