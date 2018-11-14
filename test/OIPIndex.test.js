@@ -66,7 +66,7 @@ describe('OIPIndex API', () => {
 			let limit = 3
 			let response = await index.getMultipartsByRef(ref, limit)
 			expect(response.success).toBeTruthy()
-			expect(response.multiparts.length).toEqual(response.limit)
+			expect(response.multiparts.length).toEqual(limit)
 			for (let mp of response.multiparts) {
 				expect(mp instanceof MPSingle).toBeTruthy()
 			}
