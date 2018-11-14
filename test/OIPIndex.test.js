@@ -140,5 +140,19 @@ describe('OIPIndex API', () => {
 			expect(response.success).toBeTruthy()
 			expect(response.artifact.getVersionType()).toEqual('alexandria-media')
 		});
+		it('GET multiple Alexandria Media artifacts by ID | getAlexandriaMediaArtifacts()', async () => {
+			const txid1 = '33e04cb2dcf7004a460d0719eea36129ebaf48fb10cffff19653bfeeca9bc7ad'
+			const txid2 = 'a2110a1058b620d91bc78ad71e466d736f6b8b078025d19c23ddac6a3c0355ee'
+			const txid3 = 'b6f89f3c6410276f7d4cf9c3c58c4f0577495650e742e71dddc669c9e912217c'
+			let txArray = [txid1, txid2, txid3]
+			let response = await index.getAlexandriaMediaArtifacts(txArray)
+			expect(response.success).toBeTruthy()
+			let artifacts = response.artifacts
+			expect(artifacts.length).toEqual(txArray.length)
+			for (let art of artifacts) {
+				expect(art.isValid().success).toBeTruthy()
+				expect(art.getVersionType()).toEqual('alexandria-media')
+			}
+		})
 	})
 })
