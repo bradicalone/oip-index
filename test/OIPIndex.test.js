@@ -134,5 +134,11 @@ describe('OIPIndex API', () => {
 				expect(art.getVersionType()).toEqual('alexandria-media')
 			}
 		})
+		it('GET an Alexandria Media Artifact by TXID | getAlexandriaMediaArtifactByTXID()', async () => {
+			let txid = '756f9199c8992cd42c750cbd73d1fa717b31feafc3b4ab5871feadae9848acac'
+			let response = await index.getAlexandriaMediaArtifactByTXID(txid)
+			expect(response.success).toBeTruthy()
+			expect(response.artifact.getVersionType()).toEqual('alexandria-media')
+		});
 	})
 })
