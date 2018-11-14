@@ -158,5 +158,11 @@ describe('OIPIndex API', () => {
 			let response = await index.getLastestHistorianData()
 			expect(response.success).toBeTruthy()
 		})
+		it(`GET historian data point by ID | getLastestHistorianDataByTXID`, async () => {
+			let id = '83452d60230d3c2c69000c2a79da79fe60cdf63012f946ac46e6df3409fb1fa7'
+			let response = await index.getHistorianDataByTXID(id)
+			expect(response.success).toBeTruthy()
+		})
+
 	})
 })
