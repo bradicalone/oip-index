@@ -154,5 +154,9 @@ describe('OIPIndex API', () => {
 				expect(art.getVersionType()).toEqual('alexandria-media')
 			}
 		})
+		it(`GET latest historian data point | getLastestHistorianData`, async () => {
+			let response = await index.getLastestHistorianData()
+			expect(response.success).toBeTruthy()
+		})
 	})
 })
