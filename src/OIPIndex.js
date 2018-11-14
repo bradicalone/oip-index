@@ -266,7 +266,7 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get Multipart by its TXID
+	 * Get a Multipart by its TXID
 	 * @param txid
 	 * @return {Promise<Object>}
 	 */
