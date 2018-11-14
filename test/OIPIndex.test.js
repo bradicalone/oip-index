@@ -91,5 +91,12 @@ describe('OIPIndex API', () => {
 				expect(art.isValid().success).toBeTruthy()
 			}
 		})
+		it('GET an OIP041 Artifact by TXID | get041ArtifactByTXID()', async () => {
+			let txid = '8c204c5f39b67431c59c7703378b2cd3b746a64743e130de0f5cfb2118b5136b'
+			let response = await index.get041ArtifactByTXID(txid)
+			expect(response.success).toBeTruthy()
+			console.log(response.artifact)
+			expect(response.artifact.getVersionType()).toEqual("oip041")
+		});
 	})
 })
