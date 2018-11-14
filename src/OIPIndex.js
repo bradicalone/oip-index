@@ -202,6 +202,32 @@ class OIPIndex {
 	}
 
 	/**
+	 * Get floData by TXID
+	 * @param {string} txid - the transaction id you wish to grab the floData from
+	 */
+	async getFloData(txid) {
+		let res;
+		try {
+			res = await this.index.get(`/floData/get/${txid}`)
+		} catch (err) {
+			return {sucess: false, error: err}
+		}
+		if (res && res.data) {
+			let results = res.data.results
+			if (results.length === 0) {
+				return {success: false, error: 'No floData found', response: res.data}
+			} else if (results.length > 1) {
+				return {success: false, error: 'Collision: multiple data points found', response: res.data}
+			} else {
+				return {success: true, floData: res.data.results[0].tx.floData}
+			}
+		} else {
+			return {success: false, error: 'Missing data', response: res.data}
+		}
+
+	}
+
+	/**
 	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
 	 * @param {string} query - your search query
 	 * @param {number} [limit] - max num of results
