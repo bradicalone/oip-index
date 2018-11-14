@@ -524,6 +524,40 @@ class OIPIndex {
 		}
 	}
 
+	/**
+	 * Get multiple Alexandria Media Artifacts by their TXID
+	 * @param {Array.<string>} txids - an array of transaction IDs
+	 * @return {Promise<Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: artifacts>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getAlexandriaMediaArtifacts(txids) {
+		if (!Array.isArray(txids)) {
+			return {success: false, error: `'txids' must be an Array of transaction IDs`}
+		}
+		let artifacts = []
+		let errors = []
+		for (let txid of txids) {
+			let res
+			try {
+				res = await this.getAlexandriaMediaArtifactByTXID(txid)
+			} catch (err) {
+				return {success: false, error: err}
+			}
+			if (res.success) artifacts.push(res.artifact)
+			else errors.push(res.artifact)
+		}
+		if (errors.length > 0) {
+			return {success: false, error: 'Not [all artifacts] found', errors, artifacts}
+		} else {
+			return {success: true, artifacts: artifacts}
+		}
+	}
+
 }
 
 export default OIPIndex;
