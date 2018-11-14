@@ -597,7 +597,6 @@ class OIPIndex {
 		} catch (err) {
 			return {success: false, error: err}
 		}
-		return res.data
 		if (res && res.data) {
 			let results = res.data.results
 			return {success: true, results}
