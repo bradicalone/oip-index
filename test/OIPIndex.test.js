@@ -123,5 +123,16 @@ describe('OIPIndex API', () => {
 				expect(art.getVersionType()).toEqual("oip042")
 			}
 		})
+		it('GET latest Alexandria Media artifacts | getLatestAlexandriaMediaArtifacts()', async () => {
+			const limit = 50
+			let response = await index.getLatestAlexandriaMediaArtifacts(limit)
+			expect(response.success).toBeTruthy()
+			let artifacts = response.artifacts
+			expect(artifacts.length).toEqual(limit)
+			for (let art of artifacts) {
+				expect(art.isValid().success).toBeTruthy()
+				expect(art.getVersionType()).toEqual('alexandria-media')
+			}
+		})
 	})
 })
