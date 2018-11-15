@@ -28,6 +28,7 @@ const hydrateFloDataTX = (floDataTXs) => {
 	return tmpArray
 }
 	//ToDo: change to 'https' when ready
+const localhost = "http://localhost:1606"
 const defaultOIPdURL = "http://snowflake.oip.fun:1606";
 
 class OIPIndex {
@@ -40,7 +41,8 @@ class OIPIndex {
 	constructor(settings) {
 		if (settings && settings.OIPdURL) {
 			this.setOIPdURL(settings.OIPdURL)
-		} else this.setOIPdURL(defaultOIPdURL)
+			//ToDo: switch back to defaultOIPdURL
+		} else this.setOIPdURL(localhost)
 	}
 
 	setOIPdURL(OIPdURL) {
@@ -131,43 +133,6 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get the Latest Artifacts published to the Index
-	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
-	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
-	 * @return {Promise<Object>}
-	 * @example
-	 * //return example
-	 * {success: true, artifacts: Array.<Artifact>}
-	 *
-	 * //or error
-	 * {success: false, error: error}
-	 */
-	async getLatestArtifacts(limit = 100, nsfw = false) {
-		let res
-		try {
-			res = await this.index.get(`/artifact/get/latest/${limit}`, {
-				params: {
-					nsfw
-				}
-			});
-		} catch (err) {
-			return {success: false, error: err}
-		}
-
-		if (res && res.data) {
-			let artifacts = res.data.results
-			if (artifacts.length === 0)
-				return {success: false, error: 'No artifacts found', response: res.data}
-			if (artifacts.length > 0 && artifacts.length < limit)
-				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
-			if (artifacts.length === limit)
-				return {success: true, artifacts: hydrateArray(artifacts)}
-		} else {
-			return {success: false, error: 'No data returned from axios request', response: res.data}
-		}
-	}
-
-	/**
 	 * Get multiple Artifacts by their TXID
 	 * @param {Array.<string>} txids - an array of transaction IDs
 	 * @return {Promise<Object>}
@@ -202,139 +167,40 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get floData by TXID
-	 * @param {string} txid - the transaction id you wish to grab the floData from
-	 */
-	async getFloData(txid) {
-		let res;
-		try {
-			res = await this.index.get(`/floData/get/${txid}`)
-		} catch (err) {
-			return {sucess: false, error: err}
-		}
-		if (res && res.data) {
-			let results = res.data.results
-			if (results.length === 0) {
-				return {success: false, error: 'No floData found', response: res.data}
-			} else if (results.length > 1) {
-				return {success: false, error: 'Collision: multiple data points found', response: res.data}
-			} else {
-				return {success: true, floData: res.data.results[0].tx.floData}
-			}
-		} else {
-			return {success: false, error: 'Missing data', response: res.data}
-		}
-
-	}
-
-	/**
-	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
-	 * @param {string} query - your search query
-	 * @param {number} [limit] - max num of results
+	 * Get the Latest Artifacts published to the Index
+	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
+	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
 	 * @return {Promise<Object>}
+	 * @example
 	 * //return example
-	 * {success: true, floData: Array.<FloDataTXs>}
+	 * {success: true, artifacts: Array.<Artifact>}
 	 *
 	 * //or error
 	 * {success: false, error: error}
 	 */
-	async searchFloData(query, limit) {
-		if (typeof query !== 'string') {
-			return {success: false, error: `'query' must be of type string`}
-		}
-		let res;
-		try {
-			res = await this.index.get(`/floData/search`, {
-				params: {
-					q: query
-				},
-				limit
-			})
-		} catch (err) {
-			return {success: false, error: err}
-		}
-		if (res && res.data) {
-			let txs = res.data.results
-			return {success: true, floData: hydrateFloDataTX(txs)}
-		} else {
-			return {success: false, error: 'Missing axios data response', response: res.data}
-		}
-	}
-
-	/**
-	 * Get OIP Multiparts by the First TXID Reference
-	 * @param {string} ref - the TXID reference of the first multipart
-	 * @param {number} [limit] - max num of results
-	 * @return {Promise<Object>}
-	 */
-	async getMultipartsByRef(ref, limit) {
-		let res;
-		let querystring = `/multipart/get/ref/${ref}`
-		if (limit) querystring += `/${limit}`
-		try {
-			res = await this.index.get(querystring)
-		} catch (err) {
-			return {success: false, error: err}
-		}
-		if (res && res.data) {
-			let total = res.data.total
-			let results = res.data.results
-			let multiparts = []
-			for (let mp of results) {
-				multiparts.push(new MPSingle(mp))
-			}
-			return {success: true, multiparts, total}
-
-		} else {
-			return {success: false, error: "Missing axios data response", response: res}
-		}
-
-	}
-
-	/**
-	 * Get a Multipart by its TXID
-	 * @param txid
-	 * @return {Promise<Object>}
-	 */
-	async getMultipartByID(txid) {
-		let res;
-		try {
-			res = await this.index.get(`/multipart/get/id/${txid}`)
-		} catch (err) {
-			return {success: false, error: err}
-		}
-		if (res && res.data) {
-			let total = res.data.total
-			let results = res.data.results
-			let multiparts = []
-			for (let mp of results) {
-				multiparts.push(new MPSingle(mp))
-			}
-			if (!total) {
-				return {success: false, message: "No parts found", responseData: res.data}
-			} else if (total > 1) {
-				return {success: false, message: "Collision: mulitple parts found with single ID", multiparts}
-			} else {
-				return {success: true, multipart: multiparts[0]}
-			}
-		} else {
-			return {success: false, error: "Missing axios data response", response: res}
-		}
-
-	}
-
-	/**
-	 * Get OIP Daemon specs
-	 * @return {Promise<Object>}
-	 */
-	async getVersion() {
+	async getLatestArtifacts(limit = 100, nsfw = false) {
 		let res
 		try {
-			res = await this.index.get('/version')
+			res = await this.index.get(`/artifact/get/latest/${limit}`, {
+				params: {
+					nsfw
+				}
+			});
 		} catch (err) {
-			return {success: false, error: "Missing axios data response", response: res}
+			return {success: false, error: err}
 		}
-		return res.data
+
+		if (res && res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: false, error: 'No artifacts found', response: res.data}
+			if (artifacts.length > 0 && artifacts.length < limit)
+				return {success: true, artifacts: hydrateArray(artifacts), message: 'Not all requested artifacts were found'}
+			if (artifacts.length === limit)
+				return {success: true, artifacts: hydrateArray(artifacts)}
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res.data}
+		}
 	}
 
 	/**
@@ -376,7 +242,7 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get a specific OIP041 Artifact from the Index by TXID
+	 * Get an OIP041 Artifact from the Index by TXID
 	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
 	 * @return {Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
 	 * @example
@@ -386,7 +252,7 @@ class OIPIndex {
 	 * //or error
 	 * {success: false, error: error}
 	 */
-	async get041ArtifactByTXID(txid) {
+	async get041Artifact(txid) {
 		let res
 		try {
 			res = await this.index.get(`/oip041/artifact/get/${txid}`);
@@ -428,7 +294,7 @@ class OIPIndex {
 		for (let txid of txids) {
 			let res
 			try {
-				res = await this.get041ArtifactByTXID(txid)
+				res = await this.get041Artifact(txid)
 			} catch (err) {
 				return {success: false, error: err}
 			}
@@ -519,7 +385,7 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get a specific Alexandria Media Artifact from the Index by TXID
+	 * Get an Alexandria Media Artifact from the Index by TXID
 	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
 	 * @return {Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
 	 * @example
@@ -529,7 +395,7 @@ class OIPIndex {
 	 * //or error
 	 * {success: false, error: error}
 	 */
-	async getAlexandriaMediaArtifactByTXID(txid) {
+	async getAlexandriaMediaArtifact(txid) {
 		let res
 		try {
 			res = await this.index.get(`/alexandria/artifact/get/${txid}`);
@@ -551,12 +417,12 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get multiple Alexandria Media Artifacts by their TXID
+	 * Get one or more Alexandria Media Artifacts by their TXID
 	 * @param {Array.<string>} txids - an array of transaction IDs
 	 * @return {Promise<Object>}
 	 * @example
 	 * //return example
-	 * {success: true, artifacts: artifacts>}
+	 * {success: true, artifacts: artifacts}
 	 *
 	 * //or error
 	 * {success: false, error: error}
@@ -570,7 +436,7 @@ class OIPIndex {
 		for (let txid of txids) {
 			let res
 			try {
-				res = await this.getAlexandriaMediaArtifactByTXID(txid)
+				res = await this.getAlexandriaMediaArtifact(txid)
 			} catch (err) {
 				return {success: false, error: err}
 			}
@@ -584,6 +450,153 @@ class OIPIndex {
 		}
 	}
 
+	/**
+	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
+	 * @param {string} query - your search query
+	 * @param {number} [limit] - max num of results
+	 * @return {Promise<Object>}
+	 * //return example
+	 * {success: true, floData: Array.<FloDataTXs>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async searchFloData(query, limit) {
+		if (typeof query !== 'string') {
+			return {success: false, error: `'query' must be of type string`}
+		}
+		let res;
+		try {
+			res = await this.index.get(`/floData/search`, {
+				params: {
+					q: query
+				},
+				limit
+			})
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let txs = res.data.results
+			//ToDo: consider not initializing a class for tx data
+			return {success: true, txs: hydrateFloDataTX(txs)}
+		} else {
+			return {success: false, error: 'Missing axios data response', response: res.data}
+		}
+	}
+
+	/**
+	 * Get floData by TXID
+	 * @param {string} txid - the transaction id you wish to grab the floData from
+	 */
+	async getFloData(txid) {
+		let res;
+		try {
+			res = await this.index.get(`/floData/get/${txid}`)
+		} catch (err) {
+			return {sucess: false, error: err}
+		}
+		if (res && res.data) {
+			let results = res.data.results
+			if (results.length === 0) {
+				return {success: false, error: 'No floData found', response: res.data}
+			} else if (results.length > 1) {
+				return {success: false, error: 'Collision: multiple data points found', response: res.data}
+			} else {
+				return {success: true, floData: res.data.results[0].tx.floData}
+			}
+		} else {
+			return {success: false, error: 'Missing data', response: res.data}
+		}
+
+	}
+
+	/**
+	 * Get a Multipart by its TXID
+	 * @param txid
+	 * @return {Promise<Object>}
+	 */
+	async getMultipart(txid) {
+		let res;
+		try {
+			res = await this.index.get(`/multipart/get/id/${txid}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let total = res.data.total
+			let results = res.data.results
+			let multiparts = []
+			for (let mp of results) {
+				multiparts.push(new MPSingle(mp))
+			}
+			if (!total) {
+				return {success: false, message: "No parts found", responseData: res.data}
+			} else if (total > 1) {
+				return {success: false, message: "Collision: mulitple parts found with single ID", multiparts}
+			} else {
+				return {success: true, multipart: multiparts[0]}
+			}
+		} else {
+			return {success: false, error: "Missing axios data response", response: res}
+		}
+
+	}
+
+	/**
+	 * Get OIP Multiparts by the First TXID Reference
+	 * @param {string} ref - the TXID reference of the first multipart
+	 * @param {number} [limit] - max num of results
+	 * @return {Promise<Object>}
+	 */
+	async getMultiparts(ref, limit) {
+		let res;
+		let querystring = `/multipart/get/ref/${ref}`
+		if (limit) querystring += `/${limit}`
+		try {
+			res = await this.index.get(querystring)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let total = res.data.total
+			let results = res.data.results
+			let multiparts = []
+			for (let mp of results) {
+				multiparts.push(new MPSingle(mp))
+			}
+			return {success: true, multiparts, total}
+
+		} else {
+			return {success: false, error: "Missing axios data response", response: res}
+		}
+
+	}
+
+	/**
+	 * Get a historian data point by its txid
+	 * @param {string} txid
+	 * @return {Promise<Object>}
+	 */
+	async getHistorianData(txid) {
+		let res
+		try {
+			res = await this.index.get(`historian/get/${txid}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res && res.data) {
+			let result = res.data.results
+			if (Array.isArray(result)) {
+				if (result.length === 1) {
+					result = result[0]
+				}
+				return {success: true, result}
+			}
+		} else {
+			return {success: false, response: res.data, error: "No data returned from axios request"}
+		}
+	}
 
 	/**
 	 * Get the latest historian data points
@@ -606,28 +619,17 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get a historian data point by its txid
-	 * @param {string} txid
+	 * Get OIP Daemon specs
 	 * @return {Promise<Object>}
 	 */
-	async getHistorianDataByTXID(txid) {
+	async getVersion() {
 		let res
 		try {
-			res = await this.index.get(`historian/get/${txid}`)
+			res = await this.index.get('/version')
 		} catch (err) {
-			return {success: false, error: err}
+			return {success: false, error: "Missing axios data response", response: res}
 		}
-		if (res && res.data) {
-			let result = res.data.results
-			if (Array.isArray(result)) {
-				if (result.length === 1) {
-					result = result[0]
-				}
-				return {success: true, result}
-			}
-		} else {
-			return {success: false, response: res.data, error: "No data returned from axios request"}
-		}
+		return res.data
 	}
 }
 
