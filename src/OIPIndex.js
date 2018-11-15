@@ -109,7 +109,7 @@ class OIPIndex {
 	 * //or error
 	 * {success: false, error: error}
 	 */
-	async getArtifactByTXID(txid) {
+	async getArtifact(txid) {
 		let res
 		try {
 			res = await this.index.get(`/artifact/get/${txid}`);
