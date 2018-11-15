@@ -91,7 +91,7 @@ class OIPIndex {
 		if (res && res.data) {
 			let artifacts = res.data.results
 			if (artifacts.length === 0)
-				return {success: false, error: 'No artifacts found', response: res.data}
+				return {success: true, message: `No artifacts found with query: ${query}`, artifacts}
 			return {success: true, artifacts: hydrateArray(artifacts)}
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res.data}
