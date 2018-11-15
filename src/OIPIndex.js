@@ -73,7 +73,7 @@ class OIPIndex {
 	 * //or error
 	 * {success: false, error: error, ...}
 	 */
-	async search(query, limit) {
+	async searchArtifacts(query, limit) {
 		if (typeof query !== 'string') {
 			return {success: false, error: `'query' must be of type string`}
 		}
