@@ -63,15 +63,15 @@ class OIPIndex {
 	}
 
 	/**
-	 * Search The Index
+	 * Search The Index for Artifacts that match your search query
 	 * @param {string} query - your search query
 	 * @param {number} [limit=100] - max num of results
 	 * @return {Promise<Object>}
 	 * //return example
-	 * {success: true, artifacts: artifacts>}
+	 * {success: true, artifacts: artifacts, ...}
 	 *
 	 * //or error
-	 * {success: false, error: error}
+	 * {success: false, error: error, ...}
 	 */
 	async search(query, limit) {
 		if (typeof query !== 'string') {
@@ -99,7 +99,7 @@ class OIPIndex {
 	}
 
 	/**
-	 * Get a specific Artifact from the Index by TXID
+	 * Get an Artifact from the Index by TXID
 	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
 	 * @return {Promise<Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
 	 * @example
