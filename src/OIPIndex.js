@@ -187,7 +187,7 @@ class OIPIndex {
 		for (let txid of txids) {
 			let res
 			try {
-				res = await this.getArtifactByTXID(txid)
+				res = await this.getArtifact(txid)
 			} catch (err) {
 				return {success: false, error: err}
 			}
