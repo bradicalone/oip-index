@@ -22,22 +22,10 @@ class Publisher {
 		}
 	}
 
-	/**
-	 * Set the TXID of the OIP Class
-	 * @param {string} txid - The TXID that identifies the OIP Class
-	 * @example
-	 * artifact.setTXID("1cb19b83dd20614d05ea64fffb111d588cf513ee65aa488953944fc7fe95e2c4")
-	 */
 	setTXID(txid) {
 		this.txid = txid;
 	}
 
-	/**
-	 * Get the TXID of Class
-	 * @return {string} Returns the TXID of the OIP Class, or `undefined` if the txid has not been set
-	 * @example
-	 * var txid = artifact.getTXID()
-	 */
 	getTXID() {
 		return this.txid;
 	}

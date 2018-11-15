@@ -35,32 +35,7 @@ export default function Artifact(input) {
 	 * ```
 	 * import { Artifact } from 'oip-index'
 	 *
-	 * let artifact = Artifact({
-	 *   "oip042": {
-	 *         "artifact": {
-	 *             "floAddress": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
-	 *             "type": "Image",
-	 *             "info": {
-	 *                 "title": "Example Artifact",
-	 *                 "description": "Example Artifact Description"
-	 *             },
-	 *             "storage": {
-	 *                 "network": "IPFS",
-	 *                 "files": [
-	 *                     {
-	 *                         "fname": "my_cool_picture.png",
-	 *                         "fsize": 23591,
-	 *                         "type": "Image"
-	 *                     }
-	 *                 ],
-	 *                 "location": "QmQh7uTC5YSinJG2FgWLrd8MYSNtr8G5JGAckR5ARwmyET"
-	 *             },
-	 *             "payment": {},
-	 *             "timestamp": 1508188263,
-	 *             "signature": "IAiCzx8ICjAKoj98yw5VwKLCzIuAGM1fVIewZjC/PrBHVkUsl67R2Pv0Eu1fFaWsoONmVc1lZA+lpmQ4/dGVG6o="
-	 *         }
-	 *     }
-	 * })
+	 * let artifact = Artifact(*insert JSON artifact*)
 	 * ```
 	 * Create an Artifact from a JSON string
 	 * ```

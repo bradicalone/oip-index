@@ -20,64 +20,7 @@ const FLODATA_MAX_LEN = 528;
  */
 class Artifact_DEPRECATED {
 	/**
-	 * Create a new Artifact_DEPRECATED
-	 * ##### Examples
-	 * Create a blank Artifact_DEPRECATED
-	 * ```
-	 * import { Artifact_DEPRECATED } from 'oip-index'
-	 *
-	 * var artifact = new Artifact_DEPRECATED()
-	 * ```
-	 * Create an Artifact_DEPRECATED from JSON
-	 * ```
-	 * import { Artifact_DEPRECATED } from 'oip-index'
-	 *
-	 * var artifact = new Artifact_DEPRECATED({
-	 *   "oip042": {
-	 *         "artifact": {
-	 *             "floAddress": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
-	 *             "type": "Image",
-	 *             "info": {
-	 *                 "title": "Example Artifact_DEPRECATED",
-	 *                 "description": "Example Artifact_DEPRECATED Description"
-	 *             },
-	 *             "storage": {
-	 *                 "network": "IPFS",
-	 *                 "files": [
-	 *                     {
-	 *                         "fname": "my_cool_picture.png",
-	 *                         "fsize": 23591,
-	 *                         "type": "Image"
-	 *                     }
-	 *                 ],
-	 *                 "location": "QmQh7uTC5YSinJG2FgWLrd8MYSNtr8G5JGAckR5ARwmyET"
-	 *             },
-	 *             "payment": {},
-	 *             "timestamp": 1508188263,
-	 *             "signature": "IAiCzx8ICjAKoj98yw5VwKLCzIuAGM1fVIewZjC/PrBHVkUsl67R2Pv0Eu1fFaWsoONmVc1lZA+lpmQ4/dGVG6o="
-	 *         }
-	 *     }
-	 * })
-	 * ```
-	 * Create an Artifact_DEPRECATED from a JSON string
-	 * ```
-	 * import { Artifact_DEPRECATED } from 'oip-index'
-	 *
-	 * var artifact = new Artifact_DEPRECATED('{"oip042":{"artifact":{"floAddress":"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k","type":"Image","info":{"title":"Example Artifact_DEPRECATED","description":"Example Artifact_DEPRECATED Description"},"storage":{"network":"IPFS","files":[{"fname":"my_cool_picture.png","fsize":23591,"type":"Image"}],"location":"QmQh7uTC5YSinJG2FgWLrd8MYSNtr8G5JGAckR5ARwmyET"},"payment":{},"timestamp":1508188263,"signature":"IAiCzx8ICjAKoj98yw5VwKLCzIuAGM1fVIewZjC/PrBHVkUsl67R2Pv0Eu1fFaWsoONmVc1lZA+lpmQ4/dGVG6o="}}}')
-	 * ```
-	 * Create an Artifact_DEPRECATED from Multiparts
-	 * ```
-	 * import { Artifact_DEPRECATED, Multipart } from 'oip-index'
-	 *
-	 * var multiparts = [
-	 *    new Multipart('oip-mp(0,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,,IPw0M1gDPlY21v7aFYyYBiM7C641PhnSLUAw0jla9B18FteQ6f8dHc2m0a0rpMNmh8gUjRDbHTFYqz4MD/S820Y=):{"oip-041":{"artifact":{"type":"Image-Basic","info":{"extraInfo":{"genre":"The Arts"},"title":"Alexandria Logo"},"storage":{"network":"IPFS","files":[{"fname":"Alexandria.png","fsize":638001,"type":"Image"}],"location":"QmNmVHfXuh5Tub76H1fog7wSM8of4Njfm2j1oTg8ZYUBZm"},"payment":{"fiat":"USD","scale":"1000:1","maxdisc":30,"promoter":15,"retailer":15,"sugTip":[],"addres'),
-	 * 	new Multipart('oip-mp(1,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,2c5140f5da,H8fjRKrXyMJlxjZLGWxjzdJG/BW5Bn+k+tmud5yGf3sYGhAQDd+aYVtAC1H8LGy+w011kYPjApuF29jrcZPQJP4=):ses\":[]},\"timestamp\":1526153770,\"publisher\":\"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k\"},\"signature\":\"IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=\"}}')
-	 * ]
-	 *
-	 * var artifact = new Artifact_DEPRECATED(multiparts)
-	 * ```
-	 * @param  {Array<Multipart>|string|Object} input - Pass in either an array of Multiparts, an Artifact_DEPRECATED JSON string, or an Artifact_DEPRECATED JSON object to be loaded from
-	 * @return {Artifact_DEPRECATED}
+	 * DEPRECATED
 	 */
 	constructor(input) {
 
