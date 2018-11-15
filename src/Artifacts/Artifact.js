@@ -54,6 +54,7 @@ export default function Artifact(input) {
 	 *
 	 * let artifact = new Artifact(multiparts)
 	 * ```
+	 * @class
 	 * @param  {Array<Multipart>|string|Object} input - Pass in either an array of Multiparts, an Artifact JSON string, or an Artifact JSON object to be loaded from
 	 * @return {Artifact}
 	 */

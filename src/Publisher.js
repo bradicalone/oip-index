@@ -1,4 +1,3 @@
-/** Create and view a Publisher along with publishing Artifacts */
 class Publisher {
 	constructor() {
 		this.txid = undefined

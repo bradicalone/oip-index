@@ -3,22 +3,8 @@ import Artifact from './Artifacts/Artifact_DEPRECATED';
 import Multipart from './OIPComponents/Multipart'
 
 
-/**
- * The Transaction ID on the Blockchain.
- * @typedef {string} TXID
- * @example <caption>Full TXID Reference</caption>
- * 8a83ecb7812ca2770814d996529e153b07b103424cd389b800b743baa9604c5b
- * @example <caption>Shortened TXID Reference</caption>
- * 8a83ec
- */
 const defaultOIPdURL = "https://snowflake.oip.fun/alexandria/v2";
 class Index {
-	/**
-	 * Spawn a new OIP Index with a specific OIPd URL
-	 * @param  {Object} [settings] - The Settings to use for the Index
-	 * @param {string} [settings.OIPdURL="https://snowflake.oip.fun/alexandria/v2"] [description]
-	 * @return {Index}
-	 */
 	constructor(settings){
 		if (settings && settings.OIPdURL) {
 			this.setOIPdURL(settings.OIPdURL)

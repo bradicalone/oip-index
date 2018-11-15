@@ -13,15 +13,8 @@ const FLODATA_MAX_LEN = 528;
  * @property {string} error - The error text (if there was an error)
  */
 
-/**
- * An Artifact_DEPRECATED contains metadata about a file/piece of content,
- * along with a location on a network to find that file,
- * and optionally payment information.
- */
+
 class Artifact_DEPRECATED {
-	/**
-	 * DEPRECATED
-	 */
 	constructor(input) {
 
 		this.artifact = {
