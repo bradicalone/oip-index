@@ -1435,20 +1435,15 @@ export default function Artifact(input) {
 
 	//constructor
 	if (input) {
-		// If we are being passed in an array, it might be multiparts so try to load from that
-		if (Array.isArray(input) && input.length > 1 && input[0] instanceof Multipart) {
-			this.fromMultiparts(input)
-		} else if (typeof input === "string") {
+		if (typeof input === "string") {
 			if (input.startsWith("json:")) {
 				input = input.slice(5)
 			}
 			try {
 				this.fromJSON(JSON.parse(input))
-			} catch (e) {
-			}
+			} catch (e) {console.error('Error parsing input in Artifact constructor', e)}
 		} else if (typeof input === "object") {
 			this.fromJSON(input)
 		}
 	}
-
 }
