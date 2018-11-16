@@ -220,6 +220,8 @@ class MPSingle {
 	 * @return {*}
 	 */
 	getAssembled() {
+		if (!this.isComplete())
+			return 'Multipart not complete'
 		return this.meta.assembled
 	}
 
@@ -282,6 +284,7 @@ class MPSingle {
 
 		if (input.meta.complete) {
 			this.setIsComplete(input.meta.complete)
+			this.setAssembled(input.meta.assembled)
 		}
 		if (input.meta.stale) {
 			this.setIsStale(input.meta.stale)
