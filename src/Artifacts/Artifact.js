@@ -1006,18 +1006,17 @@ export default function Artifact(input) {
 
 			switch (artifact.meta.type) {
 				case 'alexandria-media':
-					this.importAlexandriaMedia(artifact)
+					this.importAlexandriaMedia(artifact.artifact)
 					break
 				case 'oip041':
-					this.import041(artifact)
+					this.import041(artifact.artifact)
 					break
 				case 'oip042':
-					this.import042(artifact)
+					this.import042(artifact.artifact)
 					break
 				default:
 					return {success: false, error: 'Unsupported media type. Check artifact.meta.type', detail: artifact}
 			}
-
 		} else {
 			return {success: false, error: "Artifact Not Provided!"}
 		}
@@ -1036,8 +1035,6 @@ export default function Artifact(input) {
 	 * @param artifact
 	 */
 	Artifact.prototype.importAlexandriaMedia = function (artifact) {
-		artifact = artifact.artifact
-
 		if (artifact.publisher) {
 			this.setMainAddress(artifact.publisher)
 		}
@@ -1148,8 +1145,6 @@ export default function Artifact(input) {
 	 * @param artifact
 	 */
 	Artifact.prototype.import041 = function (artifact) {
-		artifact = artifact.artifact
-
 		if (artifact.publisher) {
 			this.setMainAddress(artifact.publisher)
 		}
@@ -1244,8 +1239,6 @@ export default function Artifact(input) {
 	 * @param artifact
 	 */
 	Artifact.prototype.import042 = function (artifact) {
-		artifact = artifact.artifact
-
 		if (artifact.floAddress) {
 			this.setMainAddress(artifact.floAddress)
 		}
