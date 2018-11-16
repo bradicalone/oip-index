@@ -44,6 +44,6 @@
     "lib"
   ],
   "jest": {
-	"testEnvironment": "node"
+    "testEnvironment": "node"
   }
 }
