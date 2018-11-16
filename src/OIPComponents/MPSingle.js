@@ -1,5 +1,6 @@
 class MPSingle {
 	constructor(input) {
+		this.prefix = "oip-mp"
 		this._source = input
 
 		this.part = undefined
