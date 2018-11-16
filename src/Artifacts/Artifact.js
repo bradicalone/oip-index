@@ -965,8 +965,38 @@ export default function Artifact(input) {
 	 */
 	Artifact.prototype.fromJSON = function (artifact) {
 		if (artifact) {
-			if (!artifact.meta)
-				return {success: false, error: 'Invalid Artifact: no meta property'}
+			if (!artifact.meta) {
+				if (artifact['media-data']) {
+					if (artifact['media-data']['alexandria-media']) {
+						this.setVersionType("alexandria-media")
+						return this.importAlexandriaMedia(artifact['media-data']['alexandria-media'])
+					} else {
+						return {success: false, error: "No Artifact_DEPRECATED under Version!"}
+					}
+				} else if (artifact['oip-041']) {
+					this.setVersionType("oip041")
+					if (artifact['oip-041'].signature) {
+						this.setSignature(artifact['oip-041'].signature)
+					}
+					if (artifact['oip-041'].artifact) {
+						return this.import041(artifact['oip-041'].artifact)
+					} else {
+						return {success: false, error: "No Artifact_DEPRECATED under Version!"}
+					}
+				} else if (artifact.oip042) {
+					if (artifact.oip042.signature) {
+						this.setSignature(artifact.oip042.signature)
+					}
+					if (artifact.oip042.artifact) {
+						this.setVersionType("oip042")
+						return this.import042(artifact.oip042.artifact)
+					} else if (artifact.oip042.publish && artifact.oip042.publish.artifact) {
+						return this.import042(artifact.oip042.publish.artifact)
+					} else {
+						return {success: false, error: "No Artifact_DEPRECATED under Version!"}
+					}
+				}
+			}
 
 			this.setBlock(artifact.meta.block)
 			this.setBlockHash(artifact.meta.block_hash)
