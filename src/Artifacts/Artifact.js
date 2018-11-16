@@ -92,8 +92,6 @@ export default function Artifact(input) {
 	}
 
 	this.FileObjects = [];
-	this.Multiparts = [];
-	this.fromMultipart = false;
 
 	/**
 	 * Returns the Artifact Type (to be used before class initialization)
