@@ -950,17 +950,11 @@ export default function Artifact(input) {
 		}
 
 		let retJSON = {
-			oip042: {
-				artifact: this.artifact
-			}
+			artifact: this.getArtifact(),
+			meta: this.getMeta()
 		}
 
-		if (this.txid) {
-			retJSON.txid = this.txid;
-		}
-		if (this.publisherName) {
-			retJSON.publisherName = this.publisherName;
-		}
+
 		return JSON.parse(JSON.stringify(retJSON))
 	}
 
