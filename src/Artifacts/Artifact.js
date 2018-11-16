@@ -923,6 +923,13 @@ export default function Artifact(input) {
 	}
 
 	/**
+	 * Get the Artifact object
+	 * @return {Object}
+	 */
+	Artifact.prototype.getArtifact = function () {
+		return this.artifact
+	}
+	/**
 	 * Get the Artifact JSON. This is the "Dehydrated" version of this class.
 	 * @return {Object}
 	 */
