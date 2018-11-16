@@ -137,7 +137,7 @@ export default function Artifact(input) {
 	 * Returns the original data fed to the constructor
 	 * @returns {*}
 	 */
-	Artifact.prototype.returnSourceData = function () {
+	Artifact.prototype._getSource = function () {
 		return this._source
 	}
 
