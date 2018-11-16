@@ -8,7 +8,6 @@ const SUPPORTED_TYPES = ["Audio", "Video", "Image", "Text", "Software", "Web", "
 
 const CHOP_MAX_LEN = 890;
 const FLODATA_MAX_LEN = 1040;
-
 /**
  * @typedef {Object} StatusObject
  * @property {Boolean} success - If the attempt was successful
@@ -19,45 +18,84 @@ const FLODATA_MAX_LEN = 1040;
  * An Artifact contains metadata about a file/piece of content,
  * along with a location on a network to find that file,
  * and optionally payment information.
+ *
+ * Create a new Artifact
+ * This function is an es5 constructor that returns a new Artifact class based on the version of the artifact/record
+ * ##### Examples
+ * Create a blank Artifact
+ * ```
+ * import { Artifact } from 'oip-index'
+ *
+ * let artifact = Artifact()
+ * ```
+ * Create an Artifact from JSON
+ * ```
+ * import { Artifact } from 'oip-index'
+ *
+ * let artifact = Artifact({
+	"artifact": {
+		"publisher": "FPkvwEHjddvva2smpYwQ4trgudwFcrXJ1X",
+		"payment": {
+			"addresses": [],
+			"retailer": 15,
+			"sugTip": [],
+			"fiat": "USD",
+			"scale": "1000:1",
+			"promoter": 15,
+			"maxdisc": 30
+		},
+		"storage": {
+			"files": [
+				{
+					"fname": "headshot.jpg",
+					"fsize": 100677,
+					"type": "Image"
+				}
+			],
+			"location": "QmUjSCcBda9YdEUKVLPQomHzSatwytPqQPAh4fdMiRV8bp",
+			"network": "IPFS"
+		},
+		"type": "Image-Basic",
+		"info": {
+			"title": "Headshot",
+			"extraInfo": {
+				"artist": "David Vasandani",
+				"genre": "People"
+			}
+		},
+		"timestamp": 1531065099
+	},
+	"meta": {
+		"block_hash": "a2ca4c3f06032dc4f9df7eca829b42b91da9595dbe9f4623a1c7f92a5508cfb9",
+		"txid": "5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207",
+		"block": 2832215,
+		"time": 1531065167,
+		"type": "oip041"
+	}
+})
+ * ```
+ * Create an Artifact from a JSON string
+ * ```
+ * import { Artifact } from 'oip-index'
+ *
+ * let artifact = new Artifact("{"artifact":{"publisher":"FPkvwEHjddvva2smpYwQ4trgudwFcrXJ1X","payment":{"addresses":[],"retailer":15,"sugTip":[],"fiat":"USD","scale":"1000:1","promoter":15,"maxdisc":30},"storage":{"files":[{"fname":"headshot.jpg","fsize":100677,"type":"Image"}],"location":"QmUjSCcBda9YdEUKVLPQomHzSatwytPqQPAh4fdMiRV8bp","network":"IPFS"},"type":"Image-Basic","info":{"title":"Headshot","extraInfo":{"artist":"David Vasandani","genre":"People"}},"timestamp":1531065099},"meta":{"block_hash":"a2ca4c3f06032dc4f9df7eca829b42b91da9595dbe9f4623a1c7f92a5508cfb9","txid":"5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207","block":2832215,"time":1531065167,"type":"oip041"}}")
+ * ```
+ * Create an Artifact from Multiparts
+ * ```
+ * import { Artifact, Multipart } from 'oip-index'
+ *
+ * let multiparts = [
+ *    new Multipart('oip-mp(0,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,,IPw0M1gDPlY21v7aFYyYBiM7C641PhnSLUAw0jla9B18FteQ6f8dHc2m0a0rpMNmh8gUjRDbHTFYqz4MD/S820Y=):{"oip-041":{"artifact":{"type":"Image-Basic","info":{"extraInfo":{"genre":"The Arts"},"title":"Alexandria Logo"},"storage":{"network":"IPFS","files":[{"fname":"Alexandria.png","fsize":638001,"type":"Image"}],"location":"QmNmVHfXuh5Tub76H1fog7wSM8of4Njfm2j1oTg8ZYUBZm"},"payment":{"fiat":"USD","scale":"1000:1","maxdisc":30,"promoter":15,"retailer":15,"sugTip":[],"addres'),
+ * 	new Multipart('oip-mp(1,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,2c5140f5da,H8fjRKrXyMJlxjZLGWxjzdJG/BW5Bn+k+tmud5yGf3sYGhAQDd+aYVtAC1H8LGy+w011kYPjApuF29jrcZPQJP4=):ses\":[]},\"timestamp\":1526153770,\"publisher\":\"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k\"},\"signature\":\"IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=\"}}')
+ * ]
+ *
+ * let artifact = new Artifact(multiparts)
+ * ```
+ * @class Artifact
+ * @param  {Array<Multipart>|string|Object} input - Pass in either an array of Multiparts, an Artifact JSON string, or an Artifact JSON object to be loaded from
+ * @return {Artifact}
  */
 export default function Artifact(input) {
-	/**
-	 * Create a new Artifact
-	 * This function is an es5 constructor that returns a new Object class based on the type of input
-	 * ##### Examples
-	 * Create a blank Artifact
-	 * ```
-	 * import { Artifact } from 'oip-index'
-	 *
-	 * let artifact = Artifact()
-	 * ```
-	 * Create an Artifact from JSON
-	 * ```
-	 * import { Artifact } from 'oip-index'
-	 *
-	 * let artifact = Artifact(*insert JSON artifact*)
-	 * ```
-	 * Create an Artifact from a JSON string
-	 * ```
-	 * import { Artifact } from 'oip-index'
-	 *
-	 * let artifact = new Artifact('{"oip042":{"artifact":{"floAddress":"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k","type":"Image","info":{"title":"Example Artifact","description":"Example Artifact Description"},"storage":{"network":"IPFS","files":[{"fname":"my_cool_picture.png","fsize":23591,"type":"Image"}],"location":"QmQh7uTC5YSinJG2FgWLrd8MYSNtr8G5JGAckR5ARwmyET"},"payment":{},"timestamp":1508188263,"signature":"IAiCzx8ICjAKoj98yw5VwKLCzIuAGM1fVIewZjC/PrBHVkUsl67R2Pv0Eu1fFaWsoONmVc1lZA+lpmQ4/dGVG6o="}}}')
-	 * ```
-	 * Create an Artifact from Multiparts
-	 * ```
-	 * import { Artifact, Multipart } from 'oip-index'
-	 *
-	 * let multiparts = [
-	 *    new Multipart('oip-mp(0,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,,IPw0M1gDPlY21v7aFYyYBiM7C641PhnSLUAw0jla9B18FteQ6f8dHc2m0a0rpMNmh8gUjRDbHTFYqz4MD/S820Y=):{"oip-041":{"artifact":{"type":"Image-Basic","info":{"extraInfo":{"genre":"The Arts"},"title":"Alexandria Logo"},"storage":{"network":"IPFS","files":[{"fname":"Alexandria.png","fsize":638001,"type":"Image"}],"location":"QmNmVHfXuh5Tub76H1fog7wSM8of4Njfm2j1oTg8ZYUBZm"},"payment":{"fiat":"USD","scale":"1000:1","maxdisc":30,"promoter":15,"retailer":15,"sugTip":[],"addres'),
-	 * 	new Multipart('oip-mp(1,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,2c5140f5da,H8fjRKrXyMJlxjZLGWxjzdJG/BW5Bn+k+tmud5yGf3sYGhAQDd+aYVtAC1H8LGy+w011kYPjApuF29jrcZPQJP4=):ses\":[]},\"timestamp\":1526153770,\"publisher\":\"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k\"},\"signature\":\"IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=\"}}')
-	 * ]
-	 *
-	 * let artifact = new Artifact(multiparts)
-	 * ```
-	 * @class
-	 * @param  {Array<Multipart>|string|Object} input - Pass in either an array of Multiparts, an Artifact JSON string, or an Artifact JSON object to be loaded from
-	 * @return {Artifact}
-	 */
 	if (!(this instanceof Artifact)) {
 		//return new Artifact based on type of input
 		return ArtifactPicker(input)
