@@ -929,6 +929,15 @@ export default function Artifact(input) {
 	Artifact.prototype.getArtifact = function () {
 		return this.artifact
 	}
+
+	/**
+	 * Get the Meta Object
+	 * @return {Object}
+	 */
+	Artifact.prototype.getMeta = function() {
+		return this.meta
+	}
+
 	/**
 	 * Get the Artifact JSON. This is the "Dehydrated" version of this class.
 	 * @return {Object}
