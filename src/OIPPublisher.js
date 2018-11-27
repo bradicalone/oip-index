@@ -83,7 +83,7 @@ class OIPPublisher {
 		} else {
 			let txid
 			try {
-				txid = await this.publishMessage("json:" + broadcast_string)
+				txid = await this.publishData("json:" + broadcast_string)
 			} catch (err) {
 				throw new Error(`Failed to broadcast message: ${err}`)
 			}
@@ -91,7 +91,7 @@ class OIPPublisher {
 		}
 	}
 
-	async publishMessage(floData) {
+	async publishData(data) {
 		let hex
 		try {
 			hex = await this.buildTX(floData)
@@ -120,7 +120,7 @@ class OIPPublisher {
 			}
 
 			try {
-				let txid = await this.broadcastMessage(mp.toString())
+				let txid = await this.publishData(mp.toString())
 				txids.push(txid)
 			} catch (err) {
 				throw new Error(`Failed to broadcase mp single: ${err}`)
