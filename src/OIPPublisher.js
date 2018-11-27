@@ -381,6 +381,23 @@ class OIPPublisher {
 		localStorage.setItem('publisher_history', JSON.stringify(serialized))
 	}
 
+	/**
+	 * Imports publisher history from localStorage
+	 */
+	deserialize() {
+		let deserialized = JSON.parse(localStorage.getItem('publisher_history'))
+		if (!deserialized)
+			deserialized = {}
+
+		if (deserialized.spentTransactions) {
+			this.spentTransactions = deserialized.spentTransactions
+		}
+
+		if (deserialized.history) {
+			this.history = deserialized.history
+		}
+	}
+
 }
 
 export default OIPPublisher
