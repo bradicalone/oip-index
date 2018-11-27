@@ -108,7 +108,7 @@ class OIPPublisher {
 		}
 		let txid
 		try {
-			txid = await this.broadcastMessage(hex)
+			txid = await this.broadcastRawHex(hex)
 		} catch (err) {
 			throw new Error(`Error broadcasting TX Hex: ${err}`)
 		}
