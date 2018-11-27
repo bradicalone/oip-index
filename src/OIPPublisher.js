@@ -20,22 +20,33 @@ class OIPPublisher {
 		this.p2pkh = bitcoin.payments.p2pkh({pubkey: this.ECPair.publicKey, network: this.network}).address
 	}
 
+	/**
+	 * Publish string data to the chain
+	 * @param {string} input - the string data you wish to publish
+	 * @return {Promise<string|Array<string>>} - the txid(s) of the broadcasted messages
+	 */
 	async publish(input) {
 		if (!typeof input === 'string') {
 			throw new Error(`Input must be of type string`)
 		}
-		if (input.length > FLODATA_MAX_LEN) {
+		let broadcast_string = `{oip042:${message}}`
+
+		if (broadcast_string.length > FLODATA_MAX_LEN) {
+			let txids
 			try {
-				await this.broadcastMultiparts(input)
+				txids = await this.publishtMultiparts(broadcast_string)
 			} catch (err) {
 				throw new Error(`Failed to broadcast multiparts: ${err}`)
 			}
+			return txids
 		} else {
+			let txid
 			try {
-				await this.broadcastMessage(input)
+				txid = await this.publishMessage("json:" + broadcast_string)
 			} catch (err) {
 				throw new Error(`Failed to broadcast message: ${err}`)
 			}
+			return txid
 		}
 	}
 
