@@ -62,9 +62,9 @@ class OIPPublisher {
 	}
 
 	/**
-	 * Publish string data to the chain
-	 * @param {string} input - the string data you wish to publish
-	 * @return {Promise<string|Array<string>>} - the txid(s) of the broadcasted messages
+	 * Publish OIP Objects to the FLO Chain (will format it as best it can to the protocol spec)
+	 * @param {string} data - the string data you wish to publish !!Make sure to stringify your objects/classes
+	 * @return {Promise<string|Array<string>>} txid - the txid(s) of the broadcasted messages
 	 */
 	async publish(data) {
 		if (typeof data !== 'string') {
