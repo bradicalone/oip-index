@@ -209,6 +209,11 @@ class OIPPublisher {
 		return builtHex
 	}
 
+	/**
+	 * Builds the inputs and outputs to form a valid transaction hex
+	 * @param {string} [floData=""] - defaults to an empty string
+	 * @return {Promise<Object>} selected - Returns the selected inputs to use for the transaction hex
+	 */
 	async buildInputsAndOutputs(floData = "") {
 		let utxo
 		try {
