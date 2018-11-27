@@ -115,6 +115,11 @@ class OIPPublisher {
 		return txid
 	}
 
+	/**
+	 * Publish data that exceeds the maximum floData length in multiple parts
+	 * @param {string} data - The data you wish to publish
+	 * @return {Promise<*>} //ToDo::
+	 */
 	async publishMultiparts(data) {
 		let mpx = new MultipartX(input)
 		let mps = mpx.toMultiParts()
