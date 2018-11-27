@@ -94,7 +94,7 @@ class OIPPublisher {
 	async publishData(data) {
 		let hex
 		try {
-			hex = await this.buildTX(floData)
+			hex = await this.buildTXHex(data)
 		} catch (err) {
 			throw new Error(`Error building TX Hex: ${err}`)
 		}
@@ -128,7 +128,7 @@ class OIPPublisher {
 		}
 	}
 
-	async buildTX(floData) {
+	async buildTXHex(floData = "") {
 		let selected
 		try {
 			selected = await this.buildInputsAndOutputs(floData)
