@@ -15,4 +15,11 @@ const ECPair = bitcoin.ECPair.fromWIF(wif, network)
 const p2pkh = bitcoin.payments.p2pkh({pubkey: ECPair.publicKey, network}).address
 
 describe(`OIP Publisher`, () => {
+	describe('ECPair', () => {
+		it('ECPair from WIF', () => {
+			expect(isValidWIF(wif)).toBeTruthy()
+			expect(ECPair.publicKey).toBeDefined()
+			expect(ECPair.privateKey).toBeDefined()
+		})
+	})
 })
