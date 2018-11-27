@@ -50,13 +50,20 @@ class OIPPublisher {
 		}
 	}
 
-	/**
-	 *  Broadcast string data to FLO network
-	 * @param message
-	 * @return {Promise<string>} txid - returns a transaction id on success
-	 */
-	async broadcastMessage(message) {
-
+	async publishMessage(floData) {
+		let hex
+		try {
+			hex = await this.buildTX(floData)
+		} catch (err) {
+			throw new Error(`Error building TX Hex: ${err}`)
+		}
+		let txid
+		try {
+			txid = await this.broadcastMessage(hex)
+		} catch (err) {
+			throw new Error(`Error broadcasting TX Hex: ${err}`)
+		}
+		return txid
 	}
 	async broadcastMultiparts(input) {
 		let mpx = new MultipartX(input)
