@@ -1,5 +1,6 @@
 import bitcoin from 'bitcoinjs-lib'
 import coinselect from 'coinselect'
+import {isValidWIF} from './util'
 import {sign} from './HelperFunctions/TXSigner'
 import MultipartX from './OIPComponents/MultipartX'
 import Artifact from './Artifacts/Artifact'
@@ -43,13 +44,17 @@ class OIPPublisher {
 	 * @param {string} wif - private key in Wallet Import Format (WIF)
 	 * @param {string} [network="mainnet"] - Use "testnet" for testnet
 	 *
-	 * @return {OIPPublisher}
+	 * @return {OIPPublisher|Object}
 	 */
 	//ToDo:: Switch to mainnet for prod
 	constructor(wif, network = "testnet") {
 		if (network === "testnet")
 			network = flo_testnet
 		else network = flo
+		
+		if (!isValidWIF(wif, network.network)) {
+			return {success: false, message: "Invalid WIF", wif, network: network.network}
+		}
 
 		this.coininfo = network
 		this.network = network.network
