@@ -65,14 +65,15 @@ class OIPPublisher {
 		}
 		return txid
 	}
-	async broadcastMultiparts(input) {
+
+	async publishtMultiparts(input) {
 		let mpx = new MultipartX(input)
 		let mps = mpx.toMultiParts()
 
 		let txids = []
 
 		for (let mp of mps) {
-			if (txids.length > 0){
+			if (txids.length > 0) {
 				mp.setFirstPartTXID(txids[0])
 				mp.sign(this._address) //@ToDO: add address
 			}
@@ -85,9 +86,7 @@ class OIPPublisher {
 			}
 		}
 	}
-	async sendTransaction(data) {}
 
-	sign() {}
 }
 
 export default OIPPublisher
