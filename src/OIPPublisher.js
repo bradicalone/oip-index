@@ -150,6 +150,55 @@ class OIPPublisher {
 		return builtHex
 	}
 
+	async buildInputsAndOutputs(floData) {
+		let utxo
+		try {
+			utxo = await this.getUTXO()
+		} catch (err) {
+			throw err
+		}
+
+		if (utxo.length === 0) {
+			throw new Error(`P2PKH: ${this.p2pkh} has no unspent transaction outputs.`)
+		}
+
+		let formattedUtxos = utxo.map(utxo => {
+			return {
+				address: utxo.address,
+				txId: utxo.txid,
+				vout: utxo.vout,
+				scriptPubKey: utxo.scriptPubKey,
+				value: utxo.satoshis,
+				confirmations: utxo.confirmations
+			}
+		})
+
+		let output = {
+			address: this.p2pkh,
+			value: Math.floor(0.0001 * this.coininfo.satPerCoin)
+		}
+
+		let targets = [output]
+
+		let extraBytes = this.coininfo.getExtraBytes({floData});
+		let extraBytesLength = extraBytes.length
+
+		console.log(formattedUtxos)
+
+		let utxosNoUnconfirmed = formattedUtxos.filter(utx => utx.confirmations > 0)
+
+		console.log(utxosNoUnconfirmed)
+		//ToDo:: Filter unconfirmed check
+
+		let selected = coinselect(utxosNoUnconfirmed, targets, Math.ceil(this.coininfo.feePerByte), extraBytesLength)
+
+		// Check if we are able to build inputs/outputs off only unconfirmed transactions with confirmations > 0
+		if (!selected.inputs || selected.inputs.length === 0 || !selected.outputs || selected.outputs.length === 0 || !selected.fee) {
+			selected = coinselect(formattedUtxos, targets, Math.ceil(this.coininfo.feePerByte), extraBytesLength)
+		}
+
+		return selected
+	}
 }
 
 export default OIPPublisher
