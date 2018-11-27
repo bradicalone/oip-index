@@ -416,6 +416,17 @@ class OIPPublisher {
 		}
 	}
 
+	/**
+	 * Returns publisher history variables
+	 * @return {{history: Array, spentTransactions: Array}}
+	 */
+	getHistory() {
+		return {
+			history: this.history,
+			spentTransactions: this.spentTransactions
+		}
+	}
+
 }
 
 export default OIPPublisher
