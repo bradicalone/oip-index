@@ -164,6 +164,7 @@ class OIPPublisher {
 			throw new Error(`Failed to build inputs and outputs: ${err}`)
 		}
 
+		this.selected = selected
 		// console.log('selected: ', selected)
 		let {inputs, outputs, fee} = selected
 
