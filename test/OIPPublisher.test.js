@@ -22,4 +22,13 @@ describe(`OIP Publisher`, () => {
 			expect(ECPair.privateKey).toBeDefined()
 		})
 	})
+	describe('Transaction Builder', () => {
+		it('fetch UTXO | getUTXO', async () => {
+			let pub = new OIPPublisher(wif)
+			let utxo = await pub.getUTXO()
+			// console.log(utxo)
+			expect(utxo).toBeDefined()
+			expect(Array.isArray(utxo)).toBeTruthy()
+		})
+	})
 })
