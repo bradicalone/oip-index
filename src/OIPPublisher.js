@@ -199,6 +199,16 @@ class OIPPublisher {
 
 		return selected
 	}
+
+	async getUTXO() {
+		let utxo
+		try {
+			utxo = await this.explorer.getAddressUtxo(this.p2pkh)
+		} catch (err) {
+			throw new Error(`Error fetching UTXO: ${err}`)
+		}
+		return utxo
+	}
 }
 
 export default OIPPublisher
