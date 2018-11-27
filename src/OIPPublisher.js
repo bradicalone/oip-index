@@ -251,10 +251,10 @@ class OIPPublisher {
 		return utxo
 	}
 
-	async broadcastMessage(hex) {
-		let txid
+	async broadcastRawHex(hex) {
+		let response
 		try {
-			txid = await this.explorer.broadcastRawTransaction(hex)
+			response = await this.explorer.broadcastRawTransaction(hex)
 		} catch (err) {
 			throw new Error(`Failed to broadcast TX Hex: ${err}`)
 		}
