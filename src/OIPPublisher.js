@@ -56,6 +56,9 @@ class OIPPublisher {
 		this.explorer = network.explorer
 		this.ECPair = bitcoin.ECPair.fromWIF(wif, network.network)
 		this.p2pkh = bitcoin.payments.p2pkh({pubkey: this.ECPair.publicKey, network: this.network}).address
+		this.spentTransactions = []
+		this.history = []
+
 	}
 
 	/**
