@@ -191,7 +191,7 @@ class OIPPublisher {
 		return builtHex
 	}
 
-	async buildInputsAndOutputs(floData) {
+	async buildInputsAndOutputs(floData = "") {
 		let utxo
 		try {
 			utxo = await this.getUTXO()
