@@ -75,7 +75,7 @@ class OIPPublisher {
 		if (broadcast_string.length > FLODATA_MAX_LEN) {
 			let txids
 			try {
-				txids = await this.publishtMultiparts(broadcast_string)
+				txids = await this.publishMultiparts(broadcast_string)
 			} catch (err) {
 				throw new Error(`Failed to broadcast multiparts: ${err}`)
 			}
@@ -107,7 +107,7 @@ class OIPPublisher {
 		return txid
 	}
 
-	async publishtMultiparts(input) {
+	async publishMultiparts(data) {
 		let mpx = new MultipartX(input)
 		let mps = mpx.toMultiParts()
 
