@@ -266,12 +266,11 @@ class OIPPublisher {
 		let extraBytes = this.coininfo.getExtraBytes({floData});
 		let extraBytesLength = extraBytes.length
 
-		console.log(formattedUtxos)
+		// console.log(formattedUtxos)
 
 		let utxosNoUnconfirmed = formattedUtxos.filter(utx => utx.confirmations > 0)
 
-		console.log(utxosNoUnconfirmed)
-		//ToDo:: Filter unconfirmed check
+		// console.log(utxosNoUnconfirmed)
 
 		let selected = coinselect(utxosNoUnconfirmed, targets, Math.ceil(this.coininfo.feePerByte), extraBytesLength)
 
