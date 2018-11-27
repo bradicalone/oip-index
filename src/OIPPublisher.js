@@ -46,10 +46,14 @@ class OIPPublisher {
 	 * @return {OIPPublisher}
 	 */
 	//ToDo:: Switch to mainnet for prod
-	constructor(wif, network = flo_testnet) {
-		this.explorer = network.explorer
+	constructor(wif, network = "testnet") {
+		if (network === "testnet")
+			network = flo_testnet
+		else network = flo
+
 		this.coininfo = network
 		this.network = network.network
+		this.explorer = network.explorer
 		this.ECPair = bitcoin.ECPair.fromWIF(wif, network.network)
 		this.p2pkh = bitcoin.payments.p2pkh({pubkey: this.ECPair.publicKey, network: this.network}).address
 	}
