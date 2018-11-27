@@ -264,6 +264,10 @@ class OIPPublisher {
 		return selected
 	}
 
+	/**
+	 * Get Unspent Transaction Outputs for the given keypair
+	 * @return {Promise<Array.<Object>>} utxo - Returns unspent transaction outputs
+	 */
 	async getUTXO() {
 		let utxo
 		try {
