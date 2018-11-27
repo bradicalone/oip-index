@@ -34,7 +34,7 @@ describe(`OIP Publisher`, () => {
 	})
 	describe('Transaction Builder', () => {
 		it('fetch UTXO | getUTXO', async () => {
-			let pub = new OIPPublisher(wif)
+			let pub = new OIPPublisher(wif, "testnet")
 			let utxo = await pub.getUTXO()
 			// console.log(utxo)
 			expect(utxo).toBeDefined()
@@ -43,7 +43,7 @@ describe(`OIP Publisher`, () => {
 	})
 	describe('Publisher', () => {
 		it('build and broadcast TX hex | publishData', async () => {
-			let pub = new OIPPublisher(wif)
+			let pub = new OIPPublisher(wif, "testnet")
 			let txid = await pub.publishData(`publish test: ${Date.now()}`)
 			expect(typeof txid === 'string').toBeTruthy()
 			// console.log(txid)
