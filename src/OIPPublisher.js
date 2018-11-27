@@ -66,11 +66,11 @@ class OIPPublisher {
 	 * @param {string} input - the string data you wish to publish
 	 * @return {Promise<string|Array<string>>} - the txid(s) of the broadcasted messages
 	 */
-	async publish(input) {
-		if (!typeof input === 'string') {
-			throw new Error(`Input must be of type string`)
+	async publish(data) {
+		if (typeof data !== 'string') {
+			throw new Error(`Data input must be of type string`)
 		}
-		let broadcast_string = `{oip042:${message}}`
+		let broadcast_string = `{oip042:${data}}`
 
 		if (broadcast_string.length > FLODATA_MAX_LEN) {
 			let txids
