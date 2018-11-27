@@ -112,6 +112,14 @@ class OIPPublisher {
 		} catch (err) {
 			throw new Error(`Error broadcasting TX Hex: ${err}`)
 		}
+
+		// Add txid to spentTransactions for each spent input
+		for (let inp of this.selected.inputs) {
+			if (this.p2pkh === inp.address) {
+				this.addSpentTransaction(inp.txId)
+			}
+		}
+
 		return txid
 	}
 
@@ -304,6 +312,15 @@ class OIPPublisher {
 		}
 
 		return unspent;
+	}
+
+	/**
+	 * Add a spent transaction to local memory
+	 * @param {string} txid - transaction id
+	 * @return {void}
+	 */
+	addSpentTransaction(txid) {
+		this.spentTransactions.push(txid);
 	}
 
 	async broadcastRawHex(hex) {
