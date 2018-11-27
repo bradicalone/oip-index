@@ -41,7 +41,7 @@ describe(`OIP Publisher`, () => {
 			expect(Array.isArray(utxo)).toBeTruthy()
 		})
 	})
-	describe('Publisher', () => {
+	describe('Publishing', () => {
 		it('build and broadcast TX hex | publishData', async () => {
 			let pub = new OIPPublisher(wif, "testnet")
 			let txid = await pub.publishData(`publish test: ${Date.now()}`)
