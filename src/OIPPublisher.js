@@ -97,6 +97,9 @@ class OIPPublisher {
  	 * @return {Promise<string>} txid - Returns the id of the transaction that contains the published data
 	 */
 	async publishData(data) {
+		if (data.length > 1040) {
+			return `Error: data length exceeds 1040 characters. Try using OIPPublisher.publish(data) instead.`
+		}
 		let hex
 		try {
 			hex = await this.buildTXHex(data)
