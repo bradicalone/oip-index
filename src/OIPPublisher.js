@@ -209,6 +209,16 @@ class OIPPublisher {
 		}
 		return utxo
 	}
+
+	async broadcastMessage(hex) {
+		let txid
+		try {
+			txid = await this.explorer.broadcastRawTransaction(hex)
+		} catch (err) {
+			throw new Error(`Failed to broadcast TX Hex: ${err}`)
+		}
+		return txid
+	}
 }
 
 export default OIPPublisher
