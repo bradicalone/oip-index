@@ -369,6 +369,18 @@ class OIPPublisher {
 
 		return txid
 	}
+	/**
+	 * Stores important local variables to localStorage such as spent transactions and publish history
+	 */
+	serialize() {
+		let serialized = {
+			spentTransactions: this.spentTransactions,
+			history: this.history
+		}
+
+		localStorage.setItem('publisher_history', JSON.stringify(serialized))
+	}
+
 }
 
 export default OIPPublisher
