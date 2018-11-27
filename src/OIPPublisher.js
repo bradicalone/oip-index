@@ -335,6 +335,38 @@ class OIPPublisher {
 		} catch (err) {
 			throw new Error(`Failed to broadcast TX Hex: ${err}`)
 		}
+		let txid
+
+		/** Handle { txid: "txid" } */
+		if (response && typeof response.txid === "string")
+			txid = response.txid
+
+		/**
+		 * Handle
+		 * {
+		 *    txid: {
+		 *        result: '05d2dd88d69cc32717d315152bfb474b0b1b561ae9a477aae091714c4ab216ac',
+		 *        error: null,
+		 *        id: 47070
+		 *     }
+		 * }
+		 */
+		if (response && response.txid && response.txid.result) {
+			txid = response.txid.result
+		}
+
+		/**
+		 * Handle
+		 * {
+		 *     result: '05d2dd88d69cc32717d315152bfb474b0b1b561ae9a477aae091714c4ab216ac',
+		 *     error: null,
+		 *     id: 47070
+		 * }
+		 */
+		if (response && response.result) {
+			txid = response.result
+		}
+
 		return txid
 	}
 }
