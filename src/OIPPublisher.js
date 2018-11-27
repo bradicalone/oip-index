@@ -9,10 +9,15 @@ import {flo, flo_testnet} from './networks'
 const CHOP_MAX_LEN = 890;
 const FLODATA_MAX_LEN = 1040;
 
+//ToDo:: JSDOC
 class OIPPublisher {
-	constructor(input, wallet) {
-		this._input = input
-		this._wallet = wallet
+	//ToDo:: Switch to mainnet for prod
+	constructor(wif, network = flo_testnet) {
+		this.explorer = network.explorer
+		this.coininfo = network
+		this.network = network.network
+		this.ECPair = bitcoin.ECPair.fromWIF(wif, network.network)
+		this.p2pkh = bitcoin.payments.p2pkh({pubkey: this.ECPair.publicKey, network: this.network}).address
 	}
 
 	async publish(input) {
