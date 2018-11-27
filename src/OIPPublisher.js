@@ -141,6 +141,11 @@ class OIPPublisher {
 		}
 	}
 
+	/**
+	 * Build a valid FLO Raw TX Hex containing floData
+	 * @param {string} [floData=""] - defaults to an empty string
+	 * @return {Promise<string>} hex - Returns raw transaction hex
+	 */
 	async buildTXHex(floData = "") {
 		let selected
 		try {
