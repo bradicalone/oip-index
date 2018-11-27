@@ -67,6 +67,7 @@ class OIPPublisher {
 		this.deserialize()
 	}
 
+	//ToDo::
 	/**
 	 * Publish OIP Objects to the FLO Chain (will format it as best it can to the protocol spec)
 	 * @param {string} data - the string data you wish to publish !!Make sure to stringify your objects/classes
@@ -131,6 +132,7 @@ class OIPPublisher {
 		return txid
 	}
 
+	//ToDo::
 	/**
 	 * Publish data that exceeds the maximum floData length in multiple parts
 	 * @param {string} data - The data you wish to publish
