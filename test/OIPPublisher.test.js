@@ -31,4 +31,12 @@ describe(`OIP Publisher`, () => {
 			expect(Array.isArray(utxo)).toBeTruthy()
 		})
 	})
+	describe('Publisher', () => {
+		it('build and broadcast TX hex | publishData', async () => {
+			let pub = new OIPPublisher(wif)
+			let txid = await pub.publishData(`publish test: ${Date.now()}`)
+			expect(typeof txid === 'string').toBeTruthy()
+			// console.log(txid)
+		})
+	})
 })
