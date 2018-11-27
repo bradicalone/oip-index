@@ -27,7 +27,7 @@ describe(`OIP Publisher`, () => {
 	})
 	describe('ECPair', () => {
 		it('ECPair from WIF', () => {
-			expect(isValidWIF(wif)).toBeTruthy()
+			expect(isValidWIF(wif, network)).toBeTruthy()
 			expect(ECPair.publicKey).toBeDefined()
 			expect(ECPair.privateKey).toBeDefined()
 		})
