@@ -120,6 +120,8 @@ class OIPPublisher {
 			}
 		}
 
+		this.save(txid, hex)
+
 		return txid
 	}
 
@@ -369,6 +371,20 @@ class OIPPublisher {
 
 		return txid
 	}
+
+	/**
+	 * Saves a transaction to localStorage and memory
+	 * @param {string} txid
+	 * @param {string} hex
+	 */
+	save(txid, hex) {
+		let tmpObj = {}
+		tmpObj[txid] = hex
+
+		this.history.push(tmpObj)
+		this.serialize()
+	}
+
 	/**
 	 * Stores important local variables to localStorage such as spent transactions and publish history
 	 */
