@@ -77,7 +77,7 @@ class OIPPublisher {
 			try {
 				txids = await this.publishMultiparts(broadcast_string)
 			} catch (err) {
-				throw new Error(`Failed to broadcast multiparts: ${err}`)
+				throw new Error(`Failed to publish multiparts: ${err}`)
 			}
 			return txids
 		} else {
