@@ -275,7 +275,35 @@ class OIPPublisher {
 		} catch (err) {
 			throw new Error(`Error fetching UTXO: ${err}`)
 		}
-		return utxo
+
+
+		return this.removeSpent(utxo)
+	}
+
+	/**
+	 * Removes already spent transactions (that are kept in local memory)
+	 * @param unspentTransactions
+	 * @return {Array.<Object>}
+	 */
+	removeSpent(unspentTransactions) {
+		if (!unspentTransactions || !Array.isArray(unspentTransactions))
+			return
+
+		let unspent = [];
+
+		for (let tx of unspentTransactions) {
+			let spent = false
+			for (let txid of this.spentTransactions) {
+				if (txid === tx.txid) {
+					spent = true;
+				}
+			}
+
+			if (!spent)
+				unspent.push(tx);
+		}
+
+		return unspent;
 	}
 
 	async broadcastRawHex(hex) {
