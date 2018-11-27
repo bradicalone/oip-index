@@ -17,8 +17,34 @@ if (typeof window === "undefined" || typeof window.localStorage === "undefined")
 const CHOP_MAX_LEN = 890;
 const FLODATA_MAX_LEN = 1040;
 
-//ToDo:: JSDOC
+/**
+ * Easily publish data onto the FLO chain (mainnet or testnet)
+ */
 class OIPPublisher {
+	/**
+	 * Create a new Publisher. Use in conjuction with the Artifact class to publish valid OIP Records or just post random data onto the chain
+	 *
+	 * ##### Example
+	 * Instantiate and use a Publisher
+	 * ```
+	 * let wif = "cRVa9rNx5N1YKBw8PhavegJPFCiYCfC4n8cYmdc3X1Y6TyFZGG4B"
+	 * network = "testnet" //defaults to mainnet
+	 * let publisher = new OIPPublisher(wif, network)
+	 *
+	 * //Publish arbitrary data
+	 * publisher.publishData('Hello, Testnet)').then(txid => txid).catch(err => err)
+	 *
+	 * //Publish data when using the OIP Spec
+	 * let artifact = new Artifact()
+	 * publisher.publish(artifact.toString()).then(response => response).catch(err => err)
+	 * ```
+	 *
+	 * @class
+	 * @param {string} wif - private key in Wallet Import Format (WIF)
+	 * @param {string} [network="mainnet"] - Use "testnet" for testnet
+	 *
+	 * @return {OIPPublisher}
+	 */
 	//ToDo:: Switch to mainnet for prod
 	constructor(wif, network = flo_testnet) {
 		this.explorer = network.explorer
