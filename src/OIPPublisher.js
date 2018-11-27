@@ -91,6 +91,11 @@ class OIPPublisher {
 		}
 	}
 
+	/**
+	 * Publish arbitrary data to the FLO chain
+	 * @param {string} data - String data. Must be below or equal to 1040 characters
+ 	 * @return {Promise<string>} txid - Returns the id of the transaction that contains the published data
+	 */
 	async publishData(data) {
 		let hex
 		try {
