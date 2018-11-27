@@ -22,7 +22,7 @@
     "Retailer",
     "Affiliate"
   ],
-  "author": "Sky Young <sky@alexandria.io>",
+  "author": "Sky Young <sky@alexandria.io> && Ryan Chacon <ohryan@alexandria.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/oipwg/oip-index/issues"
@@ -38,7 +38,12 @@
     "jsdoc-template": "git+https://github.com/oipwg/jsdoc-template.git"
   },
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "bitcoinjs-lib": "git+https://github.com/oipwg/bitcoinjs-lib.git#export-classify",
+    "coinselect": "^3.1.11",
+    "insight-explorer": "^1.0.10",
+    "varuint-bitcoin": "^1.1.0",
+    "wif": "^2.0.6"
   },
   "files": [
     "lib"
