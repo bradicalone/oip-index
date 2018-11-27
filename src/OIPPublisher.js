@@ -59,6 +59,7 @@ class OIPPublisher {
 		this.spentTransactions = []
 		this.history = []
 
+		this.deserialize()
 	}
 
 	/**
