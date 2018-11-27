@@ -323,6 +323,11 @@ class OIPPublisher {
 		this.spentTransactions.push(txid);
 	}
 
+	/**
+	 * Broadcast raw transaction hex to the FLO chain
+	 * @param hex
+	 * @return {Promise<string>} txid - Returns a transaction id
+	 */
 	async broadcastRawHex(hex) {
 		let response
 		try {
