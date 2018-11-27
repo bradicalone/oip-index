@@ -15,6 +15,16 @@ const ECPair = bitcoin.ECPair.fromWIF(wif, network)
 // const p2pkh = bitcoin.payments.p2pkh({pubkey: ECPair.publicKey, network}).address
 
 describe(`OIP Publisher`, () => {
+	describe('Initialization', () => {
+		it(`Should construct successfully with valid WIF`, () => {
+			let pub = new OIPPublisher(wif, "testnet")
+			expect(pub).toBeInstanceOf(OIPPublisher)
+		})
+		it(`Should construct unsuccessfully with an invalid WIF`, () => {
+			let pub = new OIPPublisher(wif, "mainnet")
+			expect(pub.success).toBeFalsy()
+		})
+	})
 	describe('ECPair', () => {
 		it('ECPair from WIF', () => {
 			expect(isValidWIF(wif)).toBeTruthy()
