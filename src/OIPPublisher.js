@@ -427,6 +427,13 @@ class OIPPublisher {
 		}
 	}
 
+	/**
+	 * Deletes the publisher history from localStorage
+	 */
+	deleteHistory() {
+		localStorage.removeItem('publisher_history')
+	}
+
 }
 
 export default OIPPublisher
