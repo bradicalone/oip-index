@@ -270,8 +270,16 @@ class MPSingle {
 	}
 
 	fromInput(input) {
-		if (!input) return
-		if (typeof input === 'string') input = JSON.parse(input)
+		if (!input)
+			return new Error(`No input!`)
+
+		if (typeof input === 'string') {
+			try {
+				input = JSON.parse(input)
+			} catch (err) {
+				return new Error(`Input is invalid JSON: ${err}`)
+			}
+		}
 
 		if (input.part || input.part === 0) {
 			this.setPart(input.part)
