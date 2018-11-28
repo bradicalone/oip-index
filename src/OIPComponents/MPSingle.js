@@ -11,8 +11,8 @@ class MPSingle {
 	 * @param {String|Object} input - JSON please! :)
 	 */
 	constructor(input) {
-		this.prefix = "oip-mp"
 		this._source = input
+		this.prefix = "oip-mp"
 
 		this.part = undefined
 		this.max = undefined
