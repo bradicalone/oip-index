@@ -12,10 +12,11 @@ const FLODATA_MAX_LEN = 1040;
  * @class
  */
 class MultipartX {
-	constructor(input, wallet, privAddr, pubAddr) {
-		this._wallet = wallet
-		this.privAddr = privAddr
-		this.pubAddr = pubAddr
+	constructor(input) {
+
+		this.multiparts = []
+		this.assembled = undefined
+
 		this.isValid = true
 		this.errors = {}
 		
