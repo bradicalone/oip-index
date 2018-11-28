@@ -140,7 +140,7 @@ class OIPPublisher {
 	/**
 	 * Publish data that exceeds the maximum floData length in multiple parts
 	 * @param {string} data - The data you wish to publish
-	 * @return {Promise<*>} //ToDo::
+	 * @return {Promise<Array.<String>>} txids - An array of transaction IDs
 	 */
 	async publishMultiparts(data) {
 		if (typeof data !== 'string') {
