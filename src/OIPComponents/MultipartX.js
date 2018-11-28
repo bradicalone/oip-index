@@ -70,11 +70,17 @@ class MultipartX {
 				return this.invalidate(`Array passed into constructor does not contain all MPSingles`)
 		}
 
-		let dataString = ""
 		MPSingles.sort((a, b) => a.getPart() - b.getPart())
-		this.setMPSingles(MPSingles)
+
+		this.multiparts = MPSingles
+
+		let assembled = ""
 		for (let mp of MPSingles) {
-			dataString += mp.getData()
+			assembled += mp.getData()
+		}
+		this.assembled = assembled
+	}
+
 	getMultiparts() {
 		if (!this.multiparts) {
 			return {success: false, error: `No mulitparts found.`}
