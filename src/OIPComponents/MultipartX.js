@@ -39,18 +39,31 @@ class MultipartX {
 	 * @param jsonString
 	 */
 	fromString(jsonString) {
-		if (jsonString > CHOP_MAX_LEN) {
-			let chunks = []
-			while (jsonString.length > CHOP_MAX_LEN) {
-				chunks.push(jsonString.slice(0,CHOP_MAX_LEN))
-				jsonString = jsonString.slice(CHOP_MAX_LEN)
-			}
-			chunks.push(jsonString)
-			let max = chunks.length - 1
-			//@ToDO get pub/priv address
-			//@ToDO create signatures
-			//@ToDO get txid
-			//@ToDO create multiparts
+		this.assembled = jsonString
+
+		let chunks = []
+		//ToDo:: FLODATA_MAX_LEN vs CHOP_MAX_LEN ???
+		while (jsonString.length > CHOP_MAX_LEN) {
+			chunks.push(jsonString.slice(0,CHOP_MAX_LEN))
+			jsonString = jsonString.slice(CHOP_MAX_LEN)
+		}
+		chunks.push(jsonString)
+
+		let max = chunks.length - 1
+
+		//We can do part, max, and data here | ref, sig, and addr are done in publisher
+		let multiparts = []
+		for (let i = 0; i < chunks.length; i++) {
+			let tmpObj = {}
+			tmpObj.part = i
+			tmpObj.max = max
+			tmpObj.data = chunks[i]
+			let mps = new MPSingle(tmpObj)
+			multiparts.push(mps)
+		}
+
+		this.multiparts = multiparts
+	}
 		}
 	}
 	toString() {}
