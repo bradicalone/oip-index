@@ -218,7 +218,7 @@ class OIPPublisher {
 		let extraBytes = this.coininfo.getExtraBytes({floData})
 
 		for (let i in inputs) {
-			if (this.p2pkh !== inputs[i].address) throw new Error(`Invalid inputs. Addresses don't match on line #170: ${inputs} & ${this.p2pkh}`)
+			if (this.p2pkh !== inputs[i].address) throw new Error(`Invalid inputs. Addresses don't match: ${inputs} & ${this.p2pkh}`)
 			sign(txb, extraBytes, parseInt(i), this.ECPair)
 		}
 
