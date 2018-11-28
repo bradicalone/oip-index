@@ -357,7 +357,7 @@ class MPSingle {
 		return {success: true}
 	}
 
-	toFloData() {
+	toString() {
 		if (this.isValid().success) {
 			if (this.isValid().success) {
 				return this.prefix() + "(" +
