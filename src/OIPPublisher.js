@@ -90,7 +90,8 @@ class OIPPublisher {
 		} else {
 			let txid
 			try {
-				txid = await this.publishData("json:" + broadcast_string)
+				//ToDo: Make sure Artifacts get json: prefix when stringified
+				txid = await this.publishData(broadcast_string)
 			} catch (err) {
 				throw new Error(`Failed to broadcast message: ${err}`)
 			}
