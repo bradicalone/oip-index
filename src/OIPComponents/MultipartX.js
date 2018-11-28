@@ -62,7 +62,7 @@ class MultipartX {
 
 	/**
 	 * Recombines the data from multipart singles
-	 * @param Array.<MPSingles> - an array of MultiPart Singles
+	 * @param {Array.<MPSingle>} MPSingles - an array of multiparts [MPSingle,]
 	 */
 	fromMultiparts(MPSingles) {
 		for (let mp of MPSingles) {
