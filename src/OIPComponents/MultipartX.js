@@ -3,13 +3,12 @@ import MPSingle from './MPSingle'
 const CHOP_MAX_LEN = 890;
 const FLODATA_MAX_LEN = 1040;
 /**
- * MultipartX takes in a json string or an array of Mulitpart Singles
- * From a json string, you can convert to multipart singles
- * From Multipart singles, you can convert to a json string
- * All the MultipartX class cares about is serializing and deserializing floData accordingly
- * @param {string|Array.<MPSingle>} input - The data string you want to multipart or an array of MPSingles you want to combine
- * @param {string} [privAddr] - private address to create signed multiparts
- * @param {string} [pubAddr] - public address to create signed multiparts
+ * MultipartX converts large data into valid OIP Multiparts and vice versa
+ * MultipartX just take in string data > 1040 bytes or an array of OIP Multiparts (MPSingle)
+ * Function 1: String data to Multiparts
+ * Function 2: Multiparts to string data
+ * All the MultipartX class cares about is serializing and deserializing floData (string data) accordingly
+ * @param {string|Array.<MPSingle>} input - String data or OIP Multiparts (MPSingle)s (hint: can pass in an JSON object)
  * @class
  */
 class MultipartX {
