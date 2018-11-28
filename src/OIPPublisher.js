@@ -143,10 +143,10 @@ class OIPPublisher {
 	 * @return {Promise<*>} //ToDo::
 	 */
 	async publishMultiparts(data) {
-		let mpx = new MultipartX(input)
 		if (typeof data !== 'string') {
 			throw new Error(`Data must be of type string. Got: ${typeof data}`)
 		}
+		let mpx = new MultipartX(data)
 		let mps = mpx.toMultiParts()
 
 		let txids = []
