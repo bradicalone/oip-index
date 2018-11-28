@@ -75,7 +75,7 @@ class OIPPublisher {
 	 */
 	async publish(data) {
 		if (typeof data !== 'string') {
-			throw new Error(`Data input must be of type string`)
+			throw new Error(`Data must be of type string. Got: ${typeof data}`)
 		}
 		let broadcast_string = `{oip042:${data}}`
 
@@ -104,6 +104,9 @@ class OIPPublisher {
  	 * @return {Promise<string>} txid - Returns the id of the transaction that contains the published data
 	 */
 	async publishData(data) {
+		if (typeof data !== 'string') {
+			throw new Error(`Data must be of type string. Got: ${typeof data}`)
+		}
 		if (data.length > 1040) {
 			return `Error: data length exceeds 1040 characters. Try using OIPPublisher.publish(data) instead.`
 		}
@@ -140,6 +143,9 @@ class OIPPublisher {
 	 */
 	async publishMultiparts(data) {
 		let mpx = new MultipartX(input)
+		if (typeof data !== 'string') {
+			throw new Error(`Data must be of type string. Got: ${typeof data}`)
+		}
 		let mps = mpx.toMultiParts()
 
 		let txids = []
