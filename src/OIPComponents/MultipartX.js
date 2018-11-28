@@ -19,8 +19,11 @@ class MultipartX {
 
 		this.isValid = true
 		this.errors = {}
-		
+
 		if (typeof input === 'string') {
+			if (input.length < FLODATA_MAX_LEN) {
+				return {success: false, error: 'Data does not exceed max floData length of 1040 bytes. MPX not needed.'}
+			}
 			this.fromString(input)
 		} else if (Array.isArray(input)) {
 			this.fromMultiparts(input)
