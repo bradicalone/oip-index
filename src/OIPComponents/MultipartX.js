@@ -64,13 +64,22 @@ class MultipartX {
 
 		this.multiparts = multiparts
 	}
+
+	toString() {
+		if (!this.getMultiparts()) {
+			return {success: false, error: `No mulitparts found.`}
 		}
+		let datastring = ""
+		for (let mp of this.multiparts) {
+			datastring += mp.getData()
+		}
+		return datastring
 	}
-	toString() {}
 
 	fromJSON(json) {
 		this.fromString(JSON.stringify(json))
 	}
+
 	toJSON() {}
 
 	/**
