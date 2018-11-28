@@ -377,7 +377,60 @@ class MPSingle {
 			"-" + this.getData();
 	}
 
+	/**
+	 * Get the signature of a specific message that can be verified by others
+	 * @param   {Object} ECPair - Elliptic Curve Key Pair (bitcoinjs-lib/ecpair)
+	 * @return  {Object} success - Returns a success object
+	 * @example
+	 * //returns
+	 * {success: true, signature: 'base64', error: undefined}
+	 *
+	 * //or something like
+	 * {success: false, signature: undefined, error: "Missing address for signature}
+	 *
+	 * //nice little trick:
+	 * ```
+	 * let {success, signature, error} = mp.signSelf(ECPair)
+	 *
+	 * if (success) {
+	 *     mp.setSignature(signature)
+	 * } else {
+	 *     handle(error)
+	 * }
+	 * ```
+	 */
+	signSelf(ECPair) {
+		if (!ECPair)
+			return {success: false, error: "No Private Key available! Unable to sign message!"}
+
+		if (!this.getPart()) {
+			return {success: false, error: "Missing part number! Unable to sign message!"}
 		}
+
+		if (!this.getMax()) {
+			return {success: false, error: "Missing maximum part number! Unable to sign message!"}
+		}
+
+		if (!this.getReference()) {
+			return {success: false, error: "Missing first txid reference! Unable to sign message!"}
+		}
+
+		if (!this.getData()) {
+			return {success: false, error: "Missing data! Unable to sign message!"}
+		}
+
+		let privateKeyBuffer = ECPair.privateKey;
+
+		let compressed = ECPair.compressed || true;
+
+		let signature_buffer
+		try {
+			signature_buffer = sign(this.getSignatureData(), privateKeyBuffer, compressed, ECPair.network.messagePrefix)
+		} catch (e) {
+			return {success: false, error: e}
+		}
+
+		return {success: true, signature: signature_buffer.toString('base64')}
 	}
 }
 
