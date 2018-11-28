@@ -11,6 +11,7 @@ const FLODATA_MAX_LEN = 528;
  * @typedef {Object} StatusObject
  * @property {Boolean} success - If the attempt was successful
  * @property {string} error - The error text (if there was an error)
+ * @deprecated
  */
 
 
