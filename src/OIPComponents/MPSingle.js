@@ -359,15 +359,16 @@ class MPSingle {
 
 	toString() {
 		if (this.isValid().success) {
-			if (this.isValid().success) {
-				return this.prefix() + "(" +
-					this.getPart() + "," +
-					this.getMax() + "," +
-					this.getAddress() + "," +
-					this.getReference() + "," +
-					this.getSignature() + "):" +
-					this.getData();
-			} else return new Error(`Invalid multipart: ${this.isValid().message}`)
+			return this.prefix() + "(" +
+				this.getPart() + "," +
+				this.getMax() + "," +
+				this.getAddress() + "," +
+				this.getReference() + "," +
+				this.getSignature() + "):" +
+				this.getData();
+		} else return new Error(`Invalid multipart: ${this.isValid().message}`)
+	}
+
 		}
 	}
 }
