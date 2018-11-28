@@ -369,6 +369,14 @@ class MPSingle {
 		} else return new Error(`Invalid multipart: ${this.isValid().message}`)
 	}
 
+	getSignatureData() {
+		return this.getPart() +
+			"-" + this.getMax() +
+			"-" + this.getAddress() +
+			"-" + this.getReference() +
+			"-" + this.getData();
+	}
+
 		}
 	}
 }
