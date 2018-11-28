@@ -1,3 +1,4 @@
+import {sign, verify, magicHash} from 'bitcoinjs-message'
 class MPSingle {
 	constructor(input) {
 		this.prefix = "oip-mp"
