@@ -153,17 +153,26 @@ class OIPPublisher {
 
 		for (let mp of mps) {
 			if (txids.length > 0) {
-				mp.setFirstPartTXID(txids[0])
-				mp.sign(this._address) //@ToDO: add address
+				//set reference, addr, and sign
+				mp.setReference(txids[0])
+				mp.setAddress(this.p2pkh)
+				let {success, signature, error} = mp.signSelf(this.ECPair)
+				if (success) {
+					mp.setSignature(signature)
+				} else {
+					throw new Error(error)
+				}
 			}
 
+			let txid
 			try {
-				let txid = await this.publishData(mp.toString())
-				txids.push(txid)
+				txid = await this.publishData(mp.toString())
 			} catch (err) {
-				throw new Error(`Failed to broadcase mp single: ${err}`)
+				throw new Error(`Failed to broadcast mp single: ${err}`)
 			}
+			txids.push(txid)
 		}
+		return txids
 	}
 
 	/**
