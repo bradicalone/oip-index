@@ -82,8 +82,11 @@ class MultipartX {
 		return this.multiparts
 	}
 
+	getAssembled() {
+		if (!this.assembled) {
+			return {success: false, error: `No data found.`}
 		}
-		this.setData(dataString)
+		return this.assembled
 	}
 
 	invalidate(error) {
