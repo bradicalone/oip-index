@@ -1,5 +1,15 @@
 import {sign, verify, magicHash} from 'bitcoinjs-message'
+
+/**
+ * Multipart Single is an es6 class that parses a single multipart
+ * @class
+ */
 class MPSingle {
+	/**
+	 * Construct a Multipart
+	 * Pass in an object or a valid JSON string!
+	 * @param {String|Object} input - JSON please! :)
+	 */
 	constructor(input) {
 		this.prefix = "oip-mp"
 		this._source = input
