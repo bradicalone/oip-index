@@ -75,10 +75,16 @@ class MultipartX {
 		this.setMPSingles(MPSingles)
 		for (let mp of MPSingles) {
 			dataString += mp.getData()
+	getMultiparts() {
+		if (!this.multiparts) {
+			return {success: false, error: `No mulitparts found.`}
+		}
+		return this.multiparts
+	}
+
 		}
 		this.setData(dataString)
 	}
-	toMultiParts() {}
 
 	invalidate(error) {
 		this.isValid = false
