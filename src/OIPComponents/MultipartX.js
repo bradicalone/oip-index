@@ -17,9 +17,6 @@ class MultipartX {
 		this.multiparts = []
 		this.assembled = undefined
 
-		this.isValid = true
-		this.errors = {}
-
 		if (typeof input === 'string') {
 			if (input.length < FLODATA_MAX_LEN) {
 				return {success: false, error: 'Data does not exceed max floData length of 1040 bytes. MPX not needed.'}
@@ -30,7 +27,7 @@ class MultipartX {
 		} else if (typeof input === 'object' && input !== null) {
 			this.fromJSON(input)
 		} else {
-			this.invalidate('Input is not of correct type. Must be a string, an object, or an array of MPSingles')
+			return {success: false, error: 'Invalid input type. Must provide string, object, or array of multiparts'}
 		}
 	}
 
@@ -116,19 +113,6 @@ class MultipartX {
 		}
 		return this.assembled
 	}
-
-	invalidate(error) {
-		this.isValid = false
-		let errLen = Object.keys(this.errors).length
-		this.errors[errLen] = error
-	}
-	isValid() {
-		return this.isValid
-	}
-	errors() {
-		return this.errors
-	}
-
 }
 
 export default MultipartX
