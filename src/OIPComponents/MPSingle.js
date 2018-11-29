@@ -322,7 +322,7 @@ class MPSingle {
 		if (input.meta.block_hash) {
 			this.setBlockHash(input.meta.block_hash)
 		}
-		
+
 		// if (input.meta.tx) {
 		// 	this.setTX(input.meta.tx)
 		// }
@@ -356,7 +356,10 @@ class MPSingle {
 
 		//signature validation
 		if (!verify(this.getSignatureData(), this.getAddress(), this.getSignature(), '\u001bFlorincoin Signed Message:\n')) {
-			return {success: false, message: 'Signature did not pass validation. Check sigData, address, and message prefix'}
+			return {
+				success: false,
+				message: 'Signature did not pass validation. Check sigData, address, and message prefix'
+			}
 		}
 
 

@@ -114,7 +114,7 @@ describe("MPSingle", () => {
 			let network = flo_testnet.network
 			let ECPair = bitcoin.ECPair.makeRandom({network})
 			let address = bitcoin.payments.p2pkh({pubkey: ECPair.publicKey, network}).address
-			let mps = new MPSingle({part:0, max: 1, reference: 'reference', address, data: 'data'})
+			let mps = new MPSingle({part: 0, max: 1, reference: 'reference', address, data: 'data'})
 			let {success, signature, error} = mps.signSelf(ECPair)
 
 			expect(success).toBeTruthy()
@@ -210,5 +210,4 @@ describe("MPSingle", () => {
 			expect(mps.getSignatureData()).toEqual('0-1-address-reference-data')
 		})
 	})
-
 })
