@@ -190,16 +190,16 @@ describe("MPSingle", () => {
 			mps.setAssembled('assembled')
 			expect(mps.getAssembled()).toEqual('assembled')
 		})
-		it('Get and Set TX', () => {
-			let mps = new MPSingle()
-			mps.setTX({tx: 'tx'})
-			expect(mps.getTX()).toEqual({tx: 'tx'})
-		})
-		it('Get _source', () => {
-			//ToDo:: do we need the source data?
-			let mps = new MPSingle()
-			expect(mps._getSource()).toBeUndefined()
-		})
+		// it('Get and Set TX', () => {
+		// 	let mps = new MPSingle()
+		// 	mps.setTX({tx: 'tx'})
+		// 	expect(mps.getTX()).toEqual({tx: 'tx'})
+		// })
+		// it('Get _source', () => {
+		// 	//ToDo:: do we need the source data?
+		// 	let mps = new MPSingle()
+		// 	expect(mps._getSource()).toBeUndefined()
+		// })
 		it('Get Signature Data', () => {
 			let mps = new MPSingle()
 			mps.setPart(0)
