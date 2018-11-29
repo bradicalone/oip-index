@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      Global - Documentation
+      OIPPublisher - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -80,7 +80,7 @@
   <div id="main">
     
       <h1 class="page-title">
-        Global
+        OIPPublisher
       </h1>
     
 
@@ -91,10 +91,14 @@
     
       <h2>
         
-        
+        OIPPublisher
         
       </h2>
 
+      
+        <div class="class-description">
+          <p>Easily publish data onto the FLO chain (mainnet or testnet)</p>
+        </div>
       
     
   </header>
@@ -104,81 +108,23 @@
       
         
 
-        
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-        
-      
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-      <h3 class="subsection-title">Methods</h3>
-
-      
-        
-
 <br />
 <br />
 <hr />
 
 
   
+    <h2>Constructor</h2>
+  
 
   <span class='name-container'>
-    <a class="link-icon" href="#isValidWIF">
+    <a class="link-icon" href="#OIPPublisher">
       <svg height="20" width="20" style="fill: black;">
         <use xlink:href="#linkIcon"></use>
       </svg>
     </a>
-    <h4 class="name" id="isValidWIF">
-      <span class="type-signature"></span>isValidWIF<span class="signature">(key, network)</span><span class="type-signature"> &rarr; {Boolean}</span>
+    <h4 class="name" id="OIPPublisher">
+      <span class="type-signature"></span>new OIPPublisher<span class="signature">(wif, network<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
     </h4>
   </span>
 
@@ -187,7 +133,18 @@
 
 
   <div class="description">
-    <p>Check if a WIF is valid for a specific CoinNetwork</p>
+    <p>Create a new Publisher. Use in conjuction with the Artifact class to publish valid OIP Records or just post random data onto the chain</p>
+<h5>Example</h5><p>Instantiate and use a Publisher</p>
+<pre class="prettyprint source"><code>let wif = &quot;cRVa9rNx5N1YKBw8PhavegJPFCiYCfC4n8cYmdc3X1Y6TyFZGG4B&quot;
+network = &quot;testnet&quot; //defaults to mainnet
+let publisher = new OIPPublisher(wif, network)
+
+//Publish arbitrary data
+publisher.publishData('Hello, Testnet)').then(txid => txid).catch(err => err)
+
+//Publish data when using the OIP Spec
+let artifact = new Artifact()
+publisher.publish(artifact.toString()).then(response => response).catch(err => err)</code></pre>
   </div>
 
 
@@ -209,7 +166,11 @@
       <th>Type</th>
 
       
+        <th>Attributes</th>
+      
 
+      
+        <th>Default</th>
       
 
       <th class="last">Description</th>
@@ -220,7 +181,7 @@
     
       <tr>
         
-          <td class="name"><code>key</code></td>
+          <td class="name"><code>wif</code></td>
         
 
         <td class="type">
@@ -237,11 +198,23 @@
         </td>
 
         
+          <td class="attributes">
+            
 
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
         
 
         <td class="description last">
-          <p>Base58 WIF Private Key</p>
+          <p>private key in Wallet Import Format (WIF)</p>
           
         </td>
       </tr>
@@ -256,7 +229,7 @@
           
             
     <span class="param-type">
-      <a href="global.html#CoinNetwork">CoinNetwork</a>
+      string
     </span>
 
     
@@ -266,11 +239,27 @@
         </td>
 
         
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
 
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              "mainnet"
+            
+          </td>
         
 
         <td class="description last">
-          
+          <p>Use &quot;testnet&quot; for testnet</p>
           
         </td>
       </tr>
@@ -314,7 +303,177 @@
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="util.js.html">util.js</a>, <a href="util.js.html#line10">line 10</a>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line24">line 24</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+      <h3 class="subsection-title">Methods</h3>
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#addSpentTransaction">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="addSpentTransaction">
+      <span class="type-signature"></span>addSpentTransaction<span class="signature">(txid)</span><span class="type-signature"> &rarr; {void}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Add a spent transaction to local memory</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>txid</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>transaction id</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line372">line 372</a>
         </li>
       </ul>
     </dd>
@@ -351,7 +510,7 @@
     <dd>
       
     <span class="param-type">
-      Boolean
+      void
     </span>
 
     
@@ -364,13 +523,7 @@
     
 
       
-    
-
-    
-      <h3 class="subsection-title">Type Definitions</h3>
-
-      
-          
+        
 
 <br />
 <br />
@@ -380,13 +533,13 @@
   
 
   <span class='name-container'>
-    <a class="link-icon" href="#CoinInfo">
+    <a class="link-icon" href="#broadcastRawHex">
       <svg height="20" width="20" style="fill: black;">
         <use xlink:href="#linkIcon"></use>
       </svg>
     </a>
-    <h4 class="name" id="CoinInfo">
-      <span class="type-signature"></span>CoinInfo<span class="type-signature"> :Object</span>
+    <h4 class="name" id="broadcastRawHex">
+      <span class="type-signature">(async) </span>broadcastRawHex<span class="signature">(hex)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
     </h4>
   </span>
 
@@ -395,7 +548,7 @@
 
 
   <div class="description">
-    <p>An object that contains information about a coins Name, Network, and access to an explorer</p>
+    <p>Broadcast raw transaction hex to the FLO chain</p>
   </div>
 
 
@@ -404,14 +557,10 @@
 
 
 
-
-
-
-  <h5 class="subsection-title">Properties:</h5>
-
+  <h5>Parameters:</h5>
   
 
-<table class="props">
+<table class="params">
   <thead>
     <tr>
       
@@ -430,385 +579,29 @@
 
   <tbody>
     
-
-    <tr>
-      
-        <td class="name"><code>name</code></td>
-      
-
-      <td class="type">
+      <tr>
         
+          <td class="name"><code>hex</code></td>
+        
+
+        <td class="type">
           
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-        
-      </td>
+        </td>
 
         
 
         
 
         <td class="description last">
-          <p>All lowercase &quot;name&quot; of the CoinInfo, this is what is passed in to the <code>supported_coins</code> check. This cannot include spaces.</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>displayName</code></td>
-      
-
-      <td class="type">
-        
           
-    <span class="param-type">
-      string
-    </span>
+          
+        </td>
+      </tr>
 
     
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The Display Name for the Coin, this would be the full official name and can include spaces.</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>ticker</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The &quot;Ticker&quot; that is used to track the Coin on Exchanges</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>satPerCoin</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The number of satoshis per single coin</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>feePerKb</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The amount of fee in satoshis to pay per kilobyte of data being put into the blockchain</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>feePerByte</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The amount of fee in satoshis to pay per byte of data being put into the blockchain</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>maxFeePerByte</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The maximum fee to pay per byte of data being put into the blockchain</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>minFee</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The minimum fee that should ever be paid</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>dust</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>Amount in Satoshis of the minimum value allowed to be sent around the network</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>txVersion</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The current TX version number for the coin</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>explorer</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      InsightExplorer
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>An InsightExplorer for the current coin so that data can be retreived from the network</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>getExtraBytes</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      function
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>A function that is passed options from TransactionBuilder when a transaction is being built/sent. You can use this to add custom logic/tx hex building.</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>network</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      <a href="global.html#CoinNetwork">CoinNetwork</a>
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The specific coin network variables, same as used in bitcoinjs-lib</p>
-          </td>
-    </tr>
-
-  
   </tbody>
 </table>
+
 
 
 
@@ -844,7 +637,7 @@
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="networks.js.html">networks.js</a>, <a href="networks.js.html#line6">line 6</a>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line381">line 381</a>
         </li>
       </ul>
     </dd>
@@ -869,46 +662,36 @@
 
 
 
-  <div class="example-container">
-    <a class="link-icon" href="#CoinInfo-examples">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h5 id="CoinInfo-examples">Example</h5>
-    
-
-  <pre class="prettyprint"><code>{
-	name: 'flo',
-	displayName: 'Flo',
-	ticker: 'FLO',
-	satPerCoin: 1e8,
-	feePerKb: floFeePerKb,
-	feePerByte: floFeePerKb / 1024,
-	maxFeePerByte: 100,
-	minFee: floFeePerKb,
-	dust: 100000,
-
-	txVersion: 2,
-
-	explorer: new Insight('https://livenet.flocha.in/api'),
-
-	getExtraBytes: function(options){
-		var fData = options.floData || ""
-		return varIntBuffer(fData.length).toString("hex") + Buffer.from(fData).toString("hex")
-	},
-
-	network: CoinNetwork
-}</code></pre>
 
 
+<h5>Returns:</h5>
+
+        
+  <div class="param-desc">
+    <p>txid - Returns a transaction id</p>
   </div>
 
 
 
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Promise.&lt;string>
+    </span>
 
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
         
-          
 
 <br />
 <br />
@@ -918,13 +701,13 @@
   
 
   <span class='name-container'>
-    <a class="link-icon" href="#CoinNetwork">
+    <a class="link-icon" href="#buildInputsAndOutputs">
       <svg height="20" width="20" style="fill: black;">
         <use xlink:href="#linkIcon"></use>
       </svg>
     </a>
-    <h4 class="name" id="CoinNetwork">
-      <span class="type-signature"></span>CoinNetwork<span class="type-signature"> :Object</span>
+    <h4 class="name" id="buildInputsAndOutputs">
+      <span class="type-signature">(async) </span>buildInputsAndOutputs<span class="signature">(floData<span class="signature-attributes">opt</span>, output)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span>
     </h4>
   </span>
 
@@ -933,7 +716,7 @@
 
 
   <div class="description">
-    <p>An object that contains version variables specific to the Coin</p>
+    <p>Builds the inputs and outputs to form a valid transaction hex</p>
   </div>
 
 
@@ -942,14 +725,10 @@
 
 
 
-
-
-
-  <h5 class="subsection-title">Properties:</h5>
-
+  <h5>Parameters:</h5>
   
 
-<table class="props">
+<table class="params">
   <thead>
     <tr>
       
@@ -959,7 +738,11 @@
       <th>Type</th>
 
       
+        <th>Attributes</th>
+      
 
+      
+        <th>Default</th>
       
 
       <th class="last">Description</th>
@@ -968,15 +751,59 @@
 
   <tbody>
     
-
-    <tr>
-      
-        <td class="name"><code>bip32</code></td>
-      
-
-      <td class="type">
+      <tr>
         
+          <td class="name"><code>floData</code></td>
+        
+
+        <td class="type">
           
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              ""
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>defaults to an empty string</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>output</code></td>
+        
+
+        <td class="type">
+          
+            
     <span class="param-type">
       Object
     </span>
@@ -984,250 +811,35 @@
     
 
 
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>BIP32 Variables</p>
           
-            <h6>Properties</h6>
+        </td>
+
+        
+          <td class="attributes">
             
 
-<table class="props">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
+            
 
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-
-    <tr>
-      
-        <td class="name"><code>public</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
+            
+          </td>
         
 
+        
+          <td class="default">
+            
+          </td>
         
 
         <td class="description last">
-          <p>The Extended Public Key version bytes</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>private</code></td>
-      
-
-      <td class="type">
-        
+          <p>custom output object</p>
           
-    <span class="param-type">
-      number
-    </span>
+        </td>
+      </tr>
 
     
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The Extended Private Key version bytes</p>
-          </td>
-    </tr>
-
-  
   </tbody>
 </table>
 
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>slip44</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The <code>coin_type</code> number for the coin, must match <a href="https://github.com/satoshilabs/slips/blob/master/slip-0044.md">SLIP-0044</a></p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>messagePrefix</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The Prefix to add on when checking/signing a message</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>pubKeyHash</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The coin specific &quot;version&quot; used when creating a Public Key Hash (Public Address)</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>scriptHash</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The coin specific &quot;version&quot; used when creating a Script Hash</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>wif</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      number
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>Wallet Import Format &quot;version&quot; for this specific coin</p>
-          </td>
-    </tr>
-
-  
-  </tbody>
-</table>
 
 
 
@@ -1263,7 +875,7 @@
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="networks.js.html">networks.js</a>, <a href="networks.js.html#line48">line 48</a>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line276">line 276</a>
         </li>
       </ul>
     </dd>
@@ -1288,225 +900,36 @@
 
 
 
-  <div class="example-container">
-    <a class="link-icon" href="#CoinNetwork-examples">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h5 id="CoinNetwork-examples">Example</h5>
-    
-
-  <pre class="prettyprint"><code>{
-	bip32: {
-		public: 0x0134406b,
-		private: 0x01343c31
-	},
-	slip44: 216,
-	messagePrefix: '\x1bFlorincoin Signed Message:\n',
-	pubKeyHash: 35,
-	scriptHash: 94,
-	wif: 163
-}</code></pre>
 
 
+<h5>Returns:</h5>
+
+        
+  <div class="param-desc">
+    <p>selected - Returns the selected inputs to use for the transaction hex</p>
   </div>
 
 
 
-
-        
-          
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#StatusObject">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="StatusObject">
-      <span class="type-signature"></span>StatusObject<span class="type-signature"> :Object</span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <h5 class="subsection-title">Properties:</h5>
-
-  
-
-<table class="props">
-  <thead>
-    <tr>
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
       
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-
-    <tr>
-      
-        <td class="name"><code>success</code></td>
-      
-
-      <td class="type">
-        
-          
     <span class="param-type">
-      Boolean
+      Promise.&lt;Object>
     </span>
 
     
 
 
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>If the attempt was successful</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>error</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The error text (if there was an error)</p>
-          </td>
-    </tr>
-
-  
-  </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="important tag-deprecated">Deprecated:</dt>
-    
-        <dd class="yes-def tag-deprecated">
-          <ul class="dummy">
-            <li>Yes</li>
-          </ul>
-        </dd>
-      
-    <br>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="Artifacts_Artifact_DEPRECATED.js.html">Artifacts/Artifact_DEPRECATED.js</a>, <a href="Artifacts_Artifact_DEPRECATED.js.html#line10">line 10</a>
-        </li>
-      </ul>
     </dd>
-  
-
-  
-
-  
-
-  
-</dl>
+  </dl>
 
 
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+      
         
-          
 
 <br />
 <br />
@@ -1516,193 +939,13 @@
   
 
   <span class='name-container'>
-    <a class="link-icon" href="#StatusObject">
+    <a class="link-icon" href="#buildTXHex">
       <svg height="20" width="20" style="fill: black;">
         <use xlink:href="#linkIcon"></use>
       </svg>
     </a>
-    <h4 class="name" id="StatusObject">
-      <span class="type-signature"></span>StatusObject<span class="type-signature"> :Object</span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <h5 class="subsection-title">Properties:</h5>
-
-  
-
-<table class="props">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-
-    <tr>
-      
-        <td class="name"><code>success</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      Boolean
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>If the attempt was successful</p>
-          </td>
-    </tr>
-
-  
-
-    <tr>
-      
-        <td class="name"><code>error</code></td>
-      
-
-      <td class="type">
-        
-          
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-        
-      </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The error text (if there was an error)</p>
-          </td>
-    </tr>
-
-  
-  </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="Artifacts_Artifact.js.html">Artifacts/Artifact.js</a>, <a href="Artifacts_Artifact.js.html#line11">line 11</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-          
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#TXID">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="TXID">
-      <span class="type-signature"></span>TXID<span class="type-signature"> :string</span>
+    <h4 class="name" id="buildTXHex">
+      <span class="type-signature">(async) </span>buildTXHex<span class="signature">(floData<span class="signature-attributes">opt</span>, output)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
     </h4>
   </span>
 
@@ -1711,7 +954,264 @@
 
 
   <div class="description">
-    <p>The Transaction ID on the Blockchain.</p>
+    <p>Build a valid FLO Raw TX Hex containing floData</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+        <th>Attributes</th>
+      
+
+      
+        <th>Default</th>
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>floData</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+              &lt;optional><br>
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+              ""
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>defaults to an empty string</p>
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>output</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      Object
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+          <td class="attributes">
+            
+
+            
+
+            
+          </td>
+        
+
+        
+          <td class="default">
+            
+          </td>
+        
+
+        <td class="description last">
+          <p>custom output object</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line201">line 201</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="example-container">
+    <a class="link-icon" href="#buildTXHex-examples">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h5 id="buildTXHex-examples">Example</h5>
+    
+
+  <pre class="prettyprint"><code>```
+let output = {
+		address: `{p2pkh}`,
+		value: 100000 //satoshis
+	}
+```</code></pre>
+
+
+  </div>
+
+
+
+<h5>Returns:</h5>
+
+        
+  <div class="param-desc">
+    <p>hex - Returns raw transaction hex</p>
+  </div>
+
+
+
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Promise.&lt;string>
+    </span>
+
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#deleteHistory">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="deleteHistory">
+      <span class="type-signature"></span>deleteHistory<span class="signature">()</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Deletes the publisher history from localStorage</p>
   </div>
 
 
@@ -1754,7 +1254,7 @@
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="OIPIndex.js.html">OIPIndex.js</a>, <a href="OIPIndex.js.html#line6">line 6</a>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line511">line 511</a>
         </li>
       </ul>
     </dd>
@@ -1779,35 +1279,1323 @@
 
 
 
-  <div class="example-container">
-    <a class="link-icon" href="#TXID-examples">
+
+
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#deserialize">
       <svg height="20" width="20" style="fill: black;">
         <use xlink:href="#linkIcon"></use>
       </svg>
     </a>
-    <h5 id="TXID-examples">Examples</h5>
-    
-  <p class="code-caption">
-    Full TXID Reference
-  </p>
+    <h4 class="name" id="deserialize">
+      <span class="type-signature"></span>deserialize<span class="signature">()</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
 
 
-  <pre class="prettyprint"><code>8a83ecb7812ca2770814d996529e153b07b103424cd389b800b743baa9604c5b</code></pre>
 
-  <p class="code-caption">
-    Shortened TXID Reference
-  </p>
-
-
-  <pre class="prettyprint"><code>8a83ec</code></pre>
-
-
+  <div class="description">
+    <p>Imports publisher history from localStorage</p>
   </div>
 
 
 
 
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line483">line 483</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
         
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#getHistory">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="getHistory">
+      <span class="type-signature"></span>getHistory<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Returns publisher history variables</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line501">line 501</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Object
+    </span>
+
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#getUTXO">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="getUTXO">
+      <span class="type-signature">(async) </span>getUTXO<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Get Unspent Transaction Outputs for the given keypair</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line329">line 329</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+  <div class="param-desc">
+    <p>utxo - Returns unspent transaction outputs</p>
+  </div>
+
+
+
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Promise.&lt;Array.&lt;Object>>
+    </span>
+
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#publish">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="publish">
+      <span class="type-signature">(async) </span>publish<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;(string|Array.&lt;string>)>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Publish OIP Objects to the FLO Chain (will format it as best it can to the protocol spec)</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>data</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>the string data you wish to publish !!Make sure to stringify your objects/classes</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line84">line 84</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+  <div class="param-desc">
+    <p>txid - the txid(s) of the broadcasted messages</p>
+  </div>
+
+
+
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Promise.&lt;(string|Array.&lt;string>)>
+    </span>
+
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#publishData">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="publishData">
+      <span class="type-signature">(async) </span>publishData<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Publish arbitrary data to the FLO chain</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>data</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>String data. Must be below or equal to 1040 characters</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line117">line 117</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+  <div class="param-desc">
+    <p>txid - Returns the id of the transaction that contains the published data</p>
+  </div>
+
+
+
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Promise.&lt;string>
+    </span>
+
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#publishMultiparts">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="publishMultiparts">
+      <span class="type-signature">(async) </span>publishMultiparts<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;String>>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Publish data that exceeds the maximum floData length in multiple parts</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>data</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          <p>The data you wish to publish</p>
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line154">line 154</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+  <div class="param-desc">
+    <p>txids - An array of transaction IDs</p>
+  </div>
+
+
+
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Promise.&lt;Array.&lt;String>>
+    </span>
+
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#removeSpent">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="removeSpent">
+      <span class="type-signature"></span>removeSpent<span class="signature">(unspentTransactions)</span><span class="type-signature"> &rarr; {Array.&lt;Object>}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Removes already spent transactions (that are kept in local memory)</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>unspentTransactions</code></td>
+        
+
+        <td class="type">
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line346">line 346</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+  <dl class="param-type">
+    <dt>Type: </dt>
+    <dd>
+      
+    <span class="param-type">
+      Array.&lt;Object>
+    </span>
+
+    
+
+
+    </dd>
+  </dl>
+
+
+    
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#save">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="save">
+      <span class="type-signature"></span>save<span class="signature">(txid, hex)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Saves a transaction to localStorage and memory</p>
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>txid</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>hex</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line460">line 460</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+<br />
+<br />
+<hr />
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#serialize">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="serialize">
+      <span class="type-signature"></span>serialize<span class="signature">()</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    <p>Stores important local variables to localStorage such as spent transactions and publish history</p>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="OIPPublisher.js.html">OIPPublisher.js</a>, <a href="OIPPublisher.js.html#line471">line 471</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    
+
+    
 
     
   </article>

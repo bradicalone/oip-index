@@ -1,14 +1,28 @@
 import {sign, verify} from 'bitcoinjs-message'
 
 /**
- * Multipart Single is an es6 class that parses a single multipart
+ * An ES6 Multipart Single Class
  * @class
  */
 class MPSingle {
 	/**
-	 * Construct a Multipart
-	 * Pass in an object or a valid JSON string!
-	 * @param {String|Object} input - an object or a stringified object
+	 * Construct a Multipart Single by passing in an object or a valid JSON string
+	 * ##### Examples
+	 * ```javascript
+	 * let myOIPObject = {
+	 *     part: 0,
+	 *     max: 1,
+	 *     reference: `${firstTXIDRef}`,
+	 *     address: `${p2pkh}`,
+	 *     signature: `${signature}`,
+	 *     data: `${data}`
+	 * }
+	 * let mps = new MPSingle(myOIPObject)
+	 * //or
+	 * mps = new MPSingle(JSON.stringify(myOIPObject))
+	 * ```
+	 * @param {String|Object} input - a multipart chunk
+	 * @return {MPSingle}
 	 */
 	constructor(input) {
 		// this._source = input
@@ -117,7 +131,7 @@ class MPSingle {
 
 	/**
 	 * Get multipart data
-	 * @return {*}
+	 * @return {string}
 	 */
 	getData() {
 		return this.data
@@ -125,7 +139,7 @@ class MPSingle {
 
 	/**
 	 * Set multipart data
-	 * @param {*} data
+	 * @param {string} data - floData
 	 */
 	setData(data) {
 		this.data = data
@@ -133,7 +147,7 @@ class MPSingle {
 
 	/**
 	 * Get the multipart meta data
-	 * @return {{complete: undefined, stale: undefined, time: undefined, txid: undefined, block: undefined, block_hash: undefined, assembled: undefined, tx: undefined}|*}
+	 * @return {Object}
 	 */
 	getMeta() {
 		return this.meta
@@ -157,7 +171,7 @@ class MPSingle {
 
 	/**
 	 * Check if multipart is stale
-	 * @return {undefined|*}
+	 * @return {Boolean}
 	 */
 	isStale() {
 		return this.meta.stale
@@ -229,7 +243,7 @@ class MPSingle {
 
 	/**
 	 * Get assembled multipart
-	 * @return {*}
+	 * @return {string}
 	 */
 	getAssembled() {
 		return this.meta.assembled
@@ -237,7 +251,7 @@ class MPSingle {
 
 	/**
 	 * Set assembled multipart
-	 * @param {*} assembled
+	 * @param {string} assembled - assembled multipart
 	 */
 	setAssembled(assembled) {
 		this.meta.assembled = assembled
@@ -270,6 +284,11 @@ class MPSingle {
 	// 	return this._source
 	// }
 
+	/**
+	 * Construct a MPSingle from a JSON string or Object
+	 * @param {string|object} input - see constructor example
+	 * @return {null}
+	 */
 	fromInput(input) {
 		if (!input)
 			return new Error(`No input!`)
@@ -367,6 +386,14 @@ class MPSingle {
 		return {success: true}
 	}
 
+	/**
+	 * Convert MPSingle to string
+	 * @return {string}
+	 * @example
+	 * ```
+	 * oip-mp(4,6,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,8c204c5f39,H9dqFw5Pd//qwHeEQA+ENifGvvs/0X1sLUXLQKj2L5qdI/BIJMBX2w3TKETHeNg3MMhA1i3PYVT2FnC8y/BxvUM=):":"Single Track","duration":268},{"fname":"miltjordan-vanishingbreed.jpg","fsize":40451,"type":"Image","subtype":"album-art"},{"fname":"miltjordan-angelsgettheblues.jpg","fsize":54648,"type":"Image","subtype":"cover"}],"location":"QmWmth4ES4ZH9Wgz6Z7S7dRFF8MzJVGgDhit5KzH5uCvZz"},"payment":{"fiat":"USD","scale":"1000:1","maxdisc":30,"promoter":15,"retailer":15,"sugTip"
+	 * ```
+	 */
 	toString() {
 		if (this.isValid().success) {
 			return this.prefix + "(" +
@@ -379,6 +406,10 @@ class MPSingle {
 		} else return new Error(`Invalid multipart: ${this.isValid().message}`)
 	}
 
+	/**
+	 * Get Signature Data (the message parameter for the signing function)
+	 * @return {string} signatureData
+	 */
 	getSignatureData() {
 		return this.getPart() +
 			"-" + this.getMax() +
@@ -391,15 +422,16 @@ class MPSingle {
 	 * Get the signature of a specific message that can be verified by others
 	 * @param   {Object} ECPair - Elliptic Curve Key Pair (bitcoinjs-lib/ecpair)
 	 * @return  {Object} success - Returns a success object
-	 * @example
-	 * //returns
+	 * ```javascript
 	 * {success: true, signature: 'base64', error: undefined}
 	 *
 	 * //or something like
-	 * {success: false, signature: undefined, error: "Missing address for signature}
 	 *
-	 * //nice little trick:
-	 * ```
+	 * {success: false, signature: undefined, error: "Missing address for signature}
+	 *```
+	 *
+	 * ```javascript
+	 * //nice little trick
 	 * let {success, signature, error} = mp.signSelf(ECPair)
 	 *
 	 * if (success) {
