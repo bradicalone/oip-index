@@ -232,8 +232,6 @@ class MPSingle {
 	 * @return {*}
 	 */
 	getAssembled() {
-		if (!this.isComplete())
-			return 'Multipart not complete'
 		return this.meta.assembled
 	}
 
