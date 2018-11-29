@@ -3,11 +3,7 @@ import MPSingle from './MPSingle'
 const CHOP_MAX_LEN = 890;
 const FLODATA_MAX_LEN = 1040;
 /**
- * MultipartX converts large data into valid OIP Multiparts and vice versa
- * MultipartX just take in string data > 1040 bytes or an array of OIP Multiparts (MPSingle)
- * Function 1: String data to Multiparts
- * Function 2: Multiparts to string data
- * All the MultipartX class cares about is serializing and deserializing floData (string data) accordingly
+ * An OIP Multipart Converter (X); converts large data into OIP Multiparts and vice versa
  * @param {string|Array.<MPSingle>} input - String data or OIP Multiparts (MPSingle)s (hint: can pass in an JSON object)
  * @class
  */
