@@ -46,6 +46,17 @@ describe("MPSingle", () => {
 				"time": 1536431891,
 				"complete": false
 			})
+			expect(mps.getPart()).toEqual(4)
+			expect(mps.getMax()).toEqual(6)
+			expect(mps.getReference()).toEqual("8c204c5f39")
+			expect(mps.getAddress()).toEqual("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
+			expect(mps.getSignature()).toEqual("H9dqFw5Pd//qwHeEQA+ENifGvvs/0X1sLUXLQKj2L5qdI/BIJMBX2w3TKETHeNg3MMhA1i3PYVT2FnC8y/BxvUM=")
+			expect(mps.getData()).toEqual(
+				"\":\"Single Track\",\"duration\":268},{\"fname\":\"miltjordan-vanishingbreed.jpg\",\"fsize\":40451,\"type\":\"Image\",\"subtype\":\"album-art\"},{\"fname\":\"miltjordan-angelsgettheblues.jpg\",\"fsize\":54648,\"type\":\"Image\",\"subtype\":\"cover\"}],\"location\":\"QmWmth4ES4ZH9Wgz6Z7S7dRFF8MzJVGgDhit5KzH5uCvZz\"},\"payment\":{\"fiat\":\"USD\",\"scale\":\"1000:1\",\"maxdisc\":30,\"promoter\":15,\"retailer\":15,\"sugTip\""
+			)
+			expect(mps.getSignatureData()).toEqual(
+				`4-6-FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k-8c204c5f39-${mps.getData()}`
+			)
 		})
 		it('from OIPIndex', async () => {
 			let mp = await index.getMultipart('1d6392c44629a1fc3eafab4b564a003084e9afad055b5cbdb8fc8c1d3f042d1d')
