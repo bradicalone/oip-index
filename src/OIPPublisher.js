@@ -1,7 +1,7 @@
 import bitcoin from 'bitcoinjs-lib'
 import coinselect from 'coinselect'
 import {isValidWIF} from './util'
-import {sign} from './HelperFunctions/TXSigner'
+import {sign} from './Functions/TXSigner'
 import MultipartX from './OIPComponents/MultipartX'
 import Artifact from './Artifacts/Artifact'
 import {flo, flo_testnet} from './networks'

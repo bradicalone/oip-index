@@ -1,6 +1,6 @@
 import ArtifactFile from '../OIPComponents/ArtifactFile.js';
 import Multipart from '../OIPComponents/Multipart.js';
-import ArtifactPicker from '../HelperFunctions/ArtifactPicker'
+import ArtifactPicker from '../Functions/ArtifactPicker'
 
 const DEFAULT_NETWORK = "IPFS";
 const SUPPORTED_TYPES = ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
