@@ -92,5 +92,22 @@ describe("MPSingle", () => {
 				"complete": false
 			})
 		})
+		it('from OIPIndex', async () => {
+			let mp = await index.getMultipart('1d6392c44629a1fc3eafab4b564a003084e9afad055b5cbdb8fc8c1d3f042d1d')
+			expect(mp.success).toBeTruthy()
+			let mps = new MPSingle(mp.multipart)
+			expect(mps.isValid().success).toBeTruthy()
+			expect(mps.isStale()).toBeTruthy()
+			expect(mps.isComplete()).toBeFalsy()
+			expect(mps.getMeta()).toEqual({
+				"stale": true,
+				"block_hash": "455e5d41a5b9b90bd907d6828dbdcb721d82bdc2738ae8b4a5a54bb3869b02cd",
+				"txid": "1d6392c44629a1fc3eafab4b564a003084e9afad055b5cbdb8fc8c1d3f042d1d",
+				"block": 2950932,
+				"time": 1536431891,
+				"complete": false
+			})
+		})
+	})
 	})
 })
