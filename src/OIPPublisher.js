@@ -178,12 +178,21 @@ class OIPPublisher {
 	/**
 	 * Build a valid FLO Raw TX Hex containing floData
 	 * @param {string} [floData=""] - defaults to an empty string
+	 * @param {Object} output - custom output object
 	 * @return {Promise<string>} hex - Returns raw transaction hex
+	 *
+	 * @example
+	 * ```
+	 * let output = {
+	 *		address: `{p2pkh}`,
+	 *		value: 100000 //satoshis
+	 *	}
+	 * ```
 	 */
-	async buildTXHex(floData = "") {
+	async buildTXHex(floData = "", output) {
 		let selected
 		try {
-			selected = await this.buildInputsAndOutputs(floData)
+			selected = await this.buildInputsAndOutputs(floData, output)
 		} catch (err) {
 			throw new Error(`Failed to build inputs and outputs: ${err}`)
 		}
@@ -214,6 +223,11 @@ class OIPPublisher {
 					address: this.p2pkh,
 					value: totalToSend
 				}]
+			} else {
+				//send the original amount to the first address and send the rest to yourself as change
+				if (outputs[0].address !== this.p2pkh && !outputs[1].address) {
+					outputs[1].address = this.p2pkh
+				}
 			}
 		}
 
@@ -247,9 +261,10 @@ class OIPPublisher {
 	/**
 	 * Builds the inputs and outputs to form a valid transaction hex
 	 * @param {string} [floData=""] - defaults to an empty string
+	 * @param {Object} output - custom output object
 	 * @return {Promise<Object>} selected - Returns the selected inputs to use for the transaction hex
 	 */
-	async buildInputsAndOutputs(floData = "") {
+	async buildInputsAndOutputs(floData = "", output) {
 		let utxo
 		try {
 			utxo = await this.getUTXO()
@@ -272,7 +287,7 @@ class OIPPublisher {
 			}
 		})
 
-		let output = {
+		output = output || {
 			address: this.p2pkh,
 			value: Math.floor(0.0001 * this.coininfo.satPerCoin)
 		}
