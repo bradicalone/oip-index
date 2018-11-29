@@ -42,7 +42,7 @@ class OIPIndex {
 		if (settings && settings.OIPdURL) {
 			this.setOIPdURL(settings.OIPdURL)
 			//ToDo: switch back to defaultOIPdURL
-		} else this.setOIPdURL(localhost)
+		} else this.setOIPdURL(defaultOIPdURL)
 	}
 
 	setOIPdURL(OIPdURL) {
