@@ -360,7 +360,7 @@ class MPSingle {
 
 	toString() {
 		if (this.isValid().success) {
-			return this.prefix() + "(" +
+			return this.prefix + "(" +
 				this.getPart() + "," +
 				this.getMax() + "," +
 				this.getAddress() + "," +
