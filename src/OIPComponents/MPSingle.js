@@ -248,18 +248,20 @@ class MPSingle {
 	/**
 	 * Get Transaction
 	 * @return {Object}
+	 * @deprecated
 	 */
-	getTX() {
-		return this.meta.tx
-	}
+	// getTX() {
+	// 	return this.meta.tx
+	// }
 
 	/**
 	 * Set Transaction
 	 * @param {Object} tx
+	 * @deprecated
 	 */
-	setTX(tx) {
-		this.meta.tx = tx
-	}
+	// setTX(tx) {
+	// 	this.meta.tx = tx
+	// }
 
 	/**
 	 * Get original source data
@@ -322,9 +324,10 @@ class MPSingle {
 		if (input.meta.block_hash) {
 			this.setBlockHash(input.meta.block_hash)
 		}
-		if (input.meta.tx) {
-			this.setTX(input.meta.tx)
-		}
+		
+		// if (input.meta.tx) {
+		// 	this.setTX(input.meta.tx)
+		// }
 	}
 
 	isValid() {
