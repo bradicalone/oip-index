@@ -233,7 +233,7 @@ class OIPPublisher {
 
 		outputs.forEach(output => {
 			if (!output.address) {
-				throw new Error(`Missing output address on line #164: ${outputs}`)
+				throw new Error(`Missing output address: ${outputs}`)
 			}
 			txb.addOutput(output.address, output.value)
 		})
