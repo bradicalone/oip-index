@@ -11,7 +11,7 @@ class MPSingle {
 	 * @param {String|Object} input - an object or a stringified object
 	 */
 	constructor(input) {
-		this._source = input
+		// this._source = input
 		this.prefix = "oip-mp"
 
 		this.part = undefined
@@ -264,10 +264,11 @@ class MPSingle {
 	/**
 	 * Get original source data
 	 * @private
+	 * @deprecated
 	 */
-	_getSource() {
-		return this._source
-	}
+	// _getSource() {
+	// 	return this._source
+	// }
 
 	fromInput(input) {
 		if (!input)
