@@ -1,4 +1,4 @@
-import ArtifactPicker from '../src/HelperFunctions/ArtifactPicker'
+import ArtifactPicker from '../src/Functions/ArtifactPicker'
 import {Artifact} from '../src/main'
 import {ResearchTomogram} from '../src/Artifacts/index'
 
