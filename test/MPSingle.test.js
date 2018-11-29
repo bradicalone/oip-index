@@ -119,7 +119,6 @@ describe("MPSingle", () => {
 			mps.setData('data')
 			expect(mps.getData()).toEqual('data')
 		})
-		//ToDo:: getMeta()
 		it('Get and Set Time', () => {
 			let mps = new MPSingle()
 			mps.setTime(1234)
@@ -151,18 +150,21 @@ describe("MPSingle", () => {
 		// 	expect(mps.getTX()).toEqual({tx: 'tx'})
 		// })
 		// it('Get _source', () => {
-		// 	//ToDo:: do we need the source data?
 		// 	let mps = new MPSingle()
 		// 	expect(mps._getSource()).toBeUndefined()
 		// })
-		it('Get Signature Data', () => {
-			let mps = new MPSingle()
-			mps.setPart(0)
-			mps.setMax(1)
-			mps.setAddress('address')
-			mps.setReference('reference')
-			mps.setData('data')
-			expect(mps.getSignatureData()).toEqual('0-1-address-reference-data')
+		it('Get Signature Data for a part 0', async () => {
+			let multi = await index.getMultipart("d148b56799")
+			multi = multi.multipart
+			expect(multi.getSignatureData()).toEqual(
+				'0-1-F95Q4zxMiafqyZDBaJRuLNyvGD7dCwjezX--{"oip-041":{"artifact":{"type":"Audio-Basic","info":{"extraInfo":{"genre":"Acoustic"},"title":"Visionen_von_Marie"},"storage":{"network":"IPFS","files":[{"fname":"Visionen_von_Marie.mp3","fsize":3771195,"type":"Audio","duration":187}],"location":"QmZCcTJJUG2Dp1uLsMhe9bSWZbWp5hCprfjfBtJiLU67bf"},"payment":{"fiat":"USD","scale":"1000:1","maxdisc":30,"promoter":15,"retai'
+			)
+		})
+		it('Get Signature Data for a part > 0', async () => {
+			let multi = await index.getMultipart("2b6036585a")
+			multi = multi.multipart
+			expect(multi.getSignatureData()).toEqual(
+				'1-1-F95Q4zxMiafqyZDBaJRuLNyvGD7dCwjezX-d148b56799-ler":15,"sugTip":[],"addresses":[]},"timestamp":1532864918,"publisher":"F95Q4zxMiafqyZDBaJRuLNyvGD7dCwjezX"},"signature":"IK9mtLY+sugytM4URKiRyRxUVtkeZGT5JaVYSw3tqlhnboRJo1HFcEv6mQjbUmkjVZ8TOgOilaBPZD+Kyj2E1sM="}}')
 		})
 	})
 })
