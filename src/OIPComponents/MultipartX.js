@@ -11,7 +11,6 @@ class MultipartX {
 	constructor(input) {
 
 		this.multiparts = []
-		this.assembled = undefined
 
 		if (typeof input === 'string') {
 			if (input.length < FLODATA_MAX_LEN) {
@@ -32,8 +31,6 @@ class MultipartX {
 	 * @param jsonString
 	 */
 	fromString(jsonString) {
-		this.assembled = jsonString
-
 		let chunks = []
 		//ToDo:: FLODATA_MAX_LEN vs CHOP_MAX_LEN ???
 		while (jsonString.length > CHOP_MAX_LEN) {
@@ -88,12 +85,6 @@ class MultipartX {
 		MPSingles.sort((a, b) => a.getPart() - b.getPart())
 
 		this.multiparts = MPSingles
-
-		let assembled = ""
-		for (let mp of MPSingles) {
-			assembled += mp.getData()
-		}
-		this.assembled = assembled
 	}
 
 	getMultiparts() {
@@ -102,12 +93,6 @@ class MultipartX {
 		}
 		return this.multiparts
 	}
-
-	getAssembled() {
-		if (!this.assembled) {
-			return {success: false, error: `No data found.`}
-		}
-		return this.assembled
 	}
 }
 
