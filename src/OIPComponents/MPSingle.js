@@ -8,7 +8,7 @@ class MPSingle {
 	/**
 	 * Construct a Multipart
 	 * Pass in an object or a valid JSON string!
-	 * @param {String|Object} input - JSON please! :)
+	 * @param {String|Object} input - an object or a stringified object
 	 */
 	constructor(input) {
 		this._source = input
