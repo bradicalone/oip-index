@@ -74,8 +74,6 @@ class MultipartX {
 		this.fromString(JSON.stringify(json))
 	}
 
-	toJSON() {}
-
 	/**
 	 * Takes in an array of {MPSingle} for later method use
 	 * @param {Array.<MPSingle>} MPSingles - an array of multiparts {MPSingle}
