@@ -377,7 +377,11 @@ class MPSingle {
 		if (!verify(this.getSignatureData(), this.getAddress(), this.getSignature(), '\u001bFlorincoin Signed Message:\n')) {
 			return {
 				success: false,
-				message: 'Signature did not pass validation. Check sigData, address, and message prefix'
+				message: 'Signature did not pass validation.',
+				signatureData: this.getSignatureData(),
+				address: this.getAddress(),
+				signature: this.getSignature(),
+				messagePrefix: '\u001bFlorincoin Signed Message:\n'
 			}
 		}
 
