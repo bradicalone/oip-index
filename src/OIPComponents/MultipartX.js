@@ -87,12 +87,12 @@ class MultipartX {
 		this.multiparts = MPSingles
 	}
 
+	/**
+	 * Return Multiparts array
+	 * @return {Array.<MPSingle>} multiparts
+	 */
 	getMultiparts() {
-		if (!this.multiparts) {
-			return {success: false, error: `No mulitparts found.`}
-		}
-		return this.multiparts
-	}
+		return this.multiparts || []
 	}
 }
 
