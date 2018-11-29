@@ -51,7 +51,7 @@ class OIPPublisher {
 		if (network === "testnet")
 			network = flo_testnet
 		else network = flo
-		
+
 		if (!isValidWIF(wif, network.network)) {
 			return {success: false, message: "Invalid WIF", wif, network: network.network}
 		}
@@ -102,7 +102,7 @@ class OIPPublisher {
 	/**
 	 * Publish arbitrary data to the FLO chain
 	 * @param {string} data - String data. Must be below or equal to 1040 characters
- 	 * @return {Promise<string>} txid - Returns the id of the transaction that contains the published data
+	 * @return {Promise<string>} txid - Returns the id of the transaction that contains the published data
 	 */
 	async publishData(data) {
 		if (typeof data !== 'string') {
@@ -136,7 +136,6 @@ class OIPPublisher {
 		return txid
 	}
 
-	//ToDo::
 	/**
 	 * Publish data that exceeds the maximum floData length in multiple parts
 	 * @param {string} data - The data you wish to publish
