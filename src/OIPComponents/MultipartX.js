@@ -27,12 +27,12 @@ class MultipartX {
 	}
 
 	/**
-	 * Splits the jsonString input into valid multiparts
-	 * @param jsonString
+	 * Splits the jsonString input into multiparts
+	 * @param {string} jsonString - string data that is too long to fit onto one FLO transaction
 	 */
 	fromString(jsonString) {
 		let chunks = []
-		//ToDo:: FLODATA_MAX_LEN vs CHOP_MAX_LEN ???
+		//ToDo:: FLODATA_MAX_LEN vs CHOP_MAX_LEN
 		while (jsonString.length > CHOP_MAX_LEN) {
 			chunks.push(jsonString.slice(0,CHOP_MAX_LEN))
 			jsonString = jsonString.slice(CHOP_MAX_LEN)
@@ -55,6 +55,10 @@ class MultipartX {
 		this.multiparts = multiparts
 	}
 
+	/**
+	 * Returns the assembled data from the multiparts
+	 * @return {string} assembled
+	 */
 	toString() {
 		if (!this.getMultiparts()) {
 			return {success: false, error: `No mulitparts found.`}
@@ -73,17 +77,15 @@ class MultipartX {
 	toJSON() {}
 
 	/**
-	 * Recombines the data from multipart singles
-	 * @param {Array.<MPSingle>} MPSingles - an array of multiparts [MPSingle,]
+	 * Takes in an array of {MPSingle} for later method use
+	 * @param {Array.<MPSingle>} MPSingles - an array of multiparts {MPSingle}
 	 */
 	fromMultiparts(MPSingles) {
 		for (let mp of MPSingles) {
 			if (!mp instanceof MPSingle)
 				return this.invalidate(`Array passed into constructor does not contain all MPSingles`)
 		}
-
 		MPSingles.sort((a, b) => a.getPart() - b.getPart())
-
 		this.multiparts = MPSingles
 	}
 
