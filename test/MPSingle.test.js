@@ -109,5 +109,21 @@ describe("MPSingle", () => {
 			})
 		})
 	})
+	describe('Signing', () => {
+		it('Should sign itself', () => {
+			let network = flo_testnet.network
+			let ECPair = bitcoin.ECPair.makeRandom({network})
+			let address = bitcoin.payments.p2pkh({pubkey: ECPair.publicKey, network}).address
+			let mps = new MPSingle({part:0, max: 1, reference: 'reference', address, data: 'data'})
+			let {success, signature, error} = mps.signSelf(ECPair)
+
+			expect(success).toBeTruthy()
+			expect(signature).toBeDefined()
+			expect(error).toBeUndefined()
+
+			let ver = verify(mps.getSignatureData(), mps.getAddress(), signature, network.messagePrefix)
+			expect(ver).toBeTruthy()
+		})
+	})
 	})
 })
