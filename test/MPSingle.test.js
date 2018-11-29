@@ -7,4 +7,12 @@ import OIPIndex from '../src/OIPIndex'
 const index = new OIPIndex()
 
 describe("MPSingle", () => {
+	describe('Construction', () => {
+		it('Builds an empty MPS', () => {
+			let mps = new MPSingle()
+			expect(mps).toBeDefined()
+			expect(mps).toBeInstanceOf(MPSingle)
+			expect(mps.isValid().success).toBeFalsy()
+		})
+	})
 })
