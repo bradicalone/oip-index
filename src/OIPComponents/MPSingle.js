@@ -415,11 +415,12 @@ class MPSingle {
 	 * @return {string} signatureData
 	 */
 	getSignatureData() {
-		return this.getPart() +
-			"-" + this.getMax() +
-			"-" + this.getAddress() +
-			"-" + this.getReference() +
-			"-" + this.getData();
+		let part = this.getPart()
+		let max = this.getMax()
+		let address = this.getAddress()
+		let reference = this.getPart() ? this.getReference() : ''
+		let data = this.getData()
+		return `${part}-${max}-${address}-${reference}-${data}`
 	}
 
 	/**
