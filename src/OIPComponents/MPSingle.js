@@ -1,4 +1,4 @@
-import {sign, verify, magicHash} from 'bitcoinjs-message'
+import {sign, verify} from 'bitcoinjs-message'
 
 /**
  * Multipart Single is an es6 class that parses a single multipart
