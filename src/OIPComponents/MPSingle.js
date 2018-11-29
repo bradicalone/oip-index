@@ -282,10 +282,10 @@ class MPSingle {
 			}
 		}
 
-		if (input.part || input.part === 0) {
+		if (input.part !== undefined) {
 			this.setPart(input.part)
 		}
-		if (input.max || input.max === 0) {
+		if (input.max !== undefined) {
 			this.setMax(input.max)
 		}
 		if (input.address) {
@@ -303,11 +303,11 @@ class MPSingle {
 
 		if (!input.meta) return
 
-		if (input.meta.complete) {
+		if (input.meta.complete !== undefined) {
 			this.setIsComplete(input.meta.complete)
 			this.setAssembled(input.meta.assembled)
 		}
-		if (input.meta.stale) {
+		if (input.meta.stale !== undefined) {
 			this.setIsStale(input.meta.stale)
 		}
 		if (input.meta.time) {
@@ -404,19 +404,19 @@ class MPSingle {
 		if (!ECPair)
 			return {success: false, error: "No Private Key available! Unable to sign message!"}
 
-		if (!this.getPart()) {
+		if (this.getPart() === undefined) {
 			return {success: false, error: "Missing part number! Unable to sign message!"}
 		}
 
-		if (!this.getMax()) {
+		if (this.getMax() === undefined) {
 			return {success: false, error: "Missing maximum part number! Unable to sign message!"}
 		}
 
-		if (!this.getReference()) {
+		if (this.getReference() === undefined) {
 			return {success: false, error: "Missing first txid reference! Unable to sign message!"}
 		}
 
-		if (!this.getData()) {
+		if (this.getData() === undefined) {
 			return {success: false, error: "Missing data! Unable to sign message!"}
 		}
 
