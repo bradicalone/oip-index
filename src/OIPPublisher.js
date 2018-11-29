@@ -411,6 +411,38 @@ class OIPPublisher {
 		return txid
 	}
 
+	async sendTX(output, floData) {
+		if (floData && typeof floData !== 'string') {
+			throw new Error(`Data must be of type string. Got: ${typeof floData}`)
+		}
+		if (floData.length > 1040) {
+			return `Error: data length exceeds 1040 characters.`
+		}
+		let hex
+		try {
+			hex = await this.buildTXHex(floData, output)
+		} catch (err) {
+			throw new Error(`Error building TX Hex: ${err}`)
+		}
+		let txid
+		try {
+			txid = await this.broadcastRawHex(hex)
+		} catch (err) {
+			throw new Error(`Error broadcasting TX Hex: ${err}`)
+		}
+
+		// Add txid to spentTransactions for each spent input
+		for (let inp of this.selected.inputs) {
+			if (this.p2pkh === inp.address) {
+				this.addSpentTransaction(inp.txId)
+			}
+		}
+
+		this.save(txid, hex)
+
+		return txid
+	}
+
 	/**
 	 * Saves a transaction to localStorage and memory
 	 * @param {string} txid
