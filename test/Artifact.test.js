@@ -1,5 +1,6 @@
 import {Artifact} from '../src/main'
-import {PropertyParty, PropertyTenure, PropertySpatialUnit, ResearchTomogram} from '../src/Artifacts/index'
+import {PropertyParty, PropertyTenure, PropertySpatialUnit, ResearchTomogram} from '../src/OIPComponents/Artifacts/index'
+import OIPRecord from "../src/OIPComponents/OIPRecord";
 
 const oip41_artifact_wJSON = "5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207"
 
@@ -227,256 +228,256 @@ const artifact041Payments = {
 //======================================================================
 
 describe("Artifact", () => {
-	describe("Constructors", () => {
+	describe("Creation", () => {
 		it("A Blank Artifact can be created", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact).toBeDefined();
 			expect(artifact instanceof Artifact)
 		})
-		it('Should construct a PropertyParty Artifact', () => {
+		it('Should create a PropertyParty Artifact', () => {
 			let artifact = new PropertyParty()
 			expect(artifact).toBeDefined()
 			expect(artifact instanceof PropertyParty).toBeTruthy()
 			expect(artifact instanceof Artifact)
 		})
-		it('Should construct a PropertyTenure Artifact', () => {
+		it('Should create a PropertyTenure Artifact', () => {
 			let artifact = new PropertyTenure()
 			expect(artifact).toBeDefined()
 			expect(artifact instanceof PropertyTenure).toBeTruthy()
 			expect(artifact instanceof Artifact)
 		})
-		it('Should construct a PropertySpatialUnit Artifact', () => {
+		it('Should create a PropertySpatialUnit Artifact', () => {
 			let artifact = new PropertySpatialUnit()
 			expect(artifact).toBeDefined()
 			expect(artifact instanceof PropertySpatialUnit).toBeTruthy()
 			expect(artifact instanceof Artifact)
 		})
-		it('Should construct a ResearchTomogram Artifact', () => {
+		it('Should create a ResearchTomogram Artifact', () => {
 			let artifact = new ResearchTomogram()
 			expect(artifact).toBeDefined()
 			expect(artifact instanceof ResearchTomogram).toBeTruthy()
 			expect(artifact instanceof Artifact)
 		})
 	})
-	describe("Initialization", () => {
+	describe("Construction", () => {
 		it('Create an Artifact from JSON string', () => {
-			let artifact = Artifact(artifact041JSON);
+			let artifact = new Artifact(artifact041JSON);
 			expect(artifact.getTXID()).toBe("5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207")
 		})
 		it("getTXID is undefined if not set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getTXID()).toBeUndefined()
 		})
 		it("it setTXID and getTXID", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setTXID("it-txid")
 			expect(artifact.getTXID()).toBe("it-txid")
 		})
 		it("Get Publisher Name is blank string if main address is not set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getPublisherName()).toBe("")
 		})
 		it("Get Publisher Name is main address if publisher name is not set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setMainAddress("main-address")
 			expect(artifact.getPublisherName()).toBe("main-address")
 		})
 		it("Get Publisher Name is correct when set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setMainAddress("main-address")
 			artifact.setPublisherName("publisher-name")
 			expect(artifact.getPublisherName()).toBe("publisher-name")
 		})
 		it("setMainAddress and getMainAddress", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setMainAddress("main-address")
 			expect(artifact.getMainAddress()).toBe("main-address")
 		})
 		it("setTimestamp and getTimestamp", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			let milisecondsTime = Date.now()
 			let secondsTime = parseInt(milisecondsTime / 1000)
 			artifact.setTimestamp(secondsTime)
 			expect(artifact.getTimestamp()).toEqual(secondsTime)
 		})
 		it("setTimestamp and getTimestamp miliseconds to seconds", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			let milisecondsTime = Date.now()
 			artifact.setTimestamp(milisecondsTime)
 			let secondsTime = parseInt(milisecondsTime / 1000)
 			expect(artifact.getTimestamp()).toEqual(secondsTime)
 		})
 		it("setTimestamp enforces that it is a number", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			let time = "not-time"
 			artifact.setTimestamp(time)
 			expect(artifact.getTimestamp()).toBeUndefined()
 		})
 		it("setTitle and getTitle", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setTitle("title")
 			expect(artifact.getTitle()).toBe("title")
 		})
 		it("getTitle is blank string if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getTitle()).toBe("")
 		})
 		it("setDescription and getDescription", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setDescription("it description")
 			expect(artifact.getDescription()).toBe("it description")
 		})
 		it("getDescription is blank string if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getDescription()).toBe("")
 		})
 		it("setType and getType", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setType("Audio")
 			expect(artifact.getType()).toBe("Audio")
 		})
 		it("setType capitalizeFirstLetter", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setType("audio")
 			expect(artifact.getType()).toBe("Audio")
 		})
 		it("setType doesn't allow non-supported base types", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setType("Newtype")
 			expect(artifact.getType()).toBeUndefined()
 		})
 		it("getType is undefined if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getType()).toBeUndefined()
 		})
 		it("setSubtype and getSubtype", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setSubtype("Basic")
 			expect(artifact.getSubtype()).toBe("Basic")
 		})
 		it("setSubtype capitalizeFirstLetter", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setSubtype("basic")
 			expect(artifact.getSubtype()).toBe("Basic")
 		})
 		it("getSubtype is undefined if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getSubtype()).toBeUndefined()
 		})
 		it("setYear and getYear", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setYear(2018)
 			expect(artifact.getYear()).toBe(2018)
 		})
 		it("setYear restricts to number", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setYear("Year")
 			expect(artifact.getYear()).toBeUndefined()
 		})
 		it("getYear is undefined if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getYear()).toBeUndefined()
 		})
 		it("setNSFW and getNSFW", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setNSFW(true)
 			expect(artifact.getNSFW()).toBe(true)
 		})
 		it("getNSFW is false if not set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getNSFW()).toBe(false)
 		})
 		it("setTags can be defined by array", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setTags(["tag1", "tag2", "tag3"])
 			expect(artifact.getTags()).toEqual(["tag1", "tag2", "tag3"])
 		})
 		it("setTags can be defined from string", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setTags("tag1, tag2, tag3")
 			expect(artifact.getTags()).toEqual(["tag1", "tag2", "tag3"])
 		})
 		it("getTags is blank array if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getTags()).toEqual([])
 		})
 		it("setDetail", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setDetail("artist", "Artist Name")
 			expect(artifact.getDetail("artist")).toBe("Artist Name")
 		})
 		it("getDetail is undefined if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getDetail("artist")).toBeUndefined()
 		})
 		it("setSignature and getSignature", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setSignature("signature")
 			expect(artifact.getSignature()).toBe("signature")
 		})
 		it("getSignature is undefined if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getSignature()).toBeUndefined()
 		})
 		it("setNetwork and getNetwork", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setNetwork("storj")
 			expect(artifact.getNetwork()).toBe("storj")
 		})
 		it("getNetwork is IPFS if not set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getNetwork()).toBe("IPFS")
 		})
 		it("setLocation and getLocation", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setLocation("location")
 			expect(artifact.getLocation()).toBe("location")
 		})
 		it("getLocation is undefined if not set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getLocation()).toBeUndefined()
 		})
 		it("setPaymentFiat and getPaymentFiat", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setPaymentFiat("usd")
 			expect(artifact.getPaymentFiat()).toBe("usd")
 		})
 		it("getPaymentFiat is undefined if not set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getPaymentFiat()).toBeUndefined()
 		})
 		it("setPaymentScale and getPaymentScale", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setPaymentScale(1000)
 			expect(artifact.getPaymentScale()).toBe(1000)
 		})
 		it("setPaymentScale from ratio string", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setPaymentScale("1000:1")
 			expect(artifact.getPaymentScale()).toBe(1000)
 		})
 		it("getPaymentScale is 1 if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getPaymentScale()).toBe(1)
 		})
 		it("setSuggestedTip and getSuggestedTip", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setSuggestedTip([1, 100, 1000])
 			expect(artifact.getSuggestedTip()).toEqual([1, 100, 1000])
 		})
 		it("getSuggestedTip is empty array if undefined", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getSuggestedTip()).toEqual([])
 		})
 		it("addPaymentAddresses and getPaymentAddress", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.addSinglePaymentAddress("flo", "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ")
 			artifact.addSinglePaymentAddress("ltc", "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN")
 			artifact.addSinglePaymentAddress("btc", "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps")
 			expect(artifact.getPaymentAddress(["flo"])).toEqual({flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"})
 		})
 		it("addPaymentAddresses and getPaymentAddresses with input coins", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.addSinglePaymentAddress("flo", "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ")
 			artifact.addSinglePaymentAddress("ltc", "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN")
 			artifact.addSinglePaymentAddress("btc", "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps")
@@ -487,20 +488,19 @@ describe("Artifact", () => {
 				})
 		})
 		it("addSinglePaymentAddress and getPaymentAddresses", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.addSinglePaymentAddress("flo", "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
 			expect(artifact.getPaymentAddresses()).toEqual({flo: "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"})
 		})
 		it("getPaymentAddresses is blank array if unset & no mainAddress is set", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			expect(artifact.getPaymentAddresses()).toEqual({})
 		})
 		it("getPaymentAddresses returns main address if unset", () => {
-			let artifact = Artifact();
+			let artifact = new Artifact();
 			artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
 			expect(artifact.getPaymentAddresses()).toEqual({"flo": "FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k"})
 		})
-
 	})
 })
 
@@ -509,7 +509,7 @@ describe("Artifact", () => {
 // //==================================================================================================
 //
 // it("getPaymentAddress() 042 with string parameter", () => {
-//     let artifact = new Artifact(artifact042Dehydrated);
+//     let artifact = new new Artifact(artifact042Dehydrated);
 //     expect(artifact.getPaymentAddress("btc")).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -518,7 +518,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddress() 042 single item array", () => {
-//     let artifact = new Artifact(artifact042Dehydrated);
+//     let artifact = new new Artifact(artifact042Dehydrated);
 //     expect(artifact.getPaymentAddress(["btc"])).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -528,7 +528,7 @@ describe("Artifact", () => {
 //
 //
 // it("getPaymentAddress() 042 multiple coin array", () => {
-//     let artifact = new Artifact(artifact042Dehydrated);
+//     let artifact = new new Artifact(artifact042Dehydrated);
 //     expect(artifact.getPaymentAddress(["btc", "ltc"])).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -538,12 +538,12 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddress() 042 no params", () => {
-//     let artifact = new Artifact(artifact042Dehydrated);
+//     let artifact = new new Artifact(artifact042Dehydrated);
 //     expect(artifact.getPaymentAddress()).toEqual({})
 // })
 //
 // it("getPaymentAddresses() 042 no params",  () => {
-//     let artifact = new Artifact(artifact042Dehydrated);
+//     let artifact = new new Artifact(artifact042Dehydrated);
 //     expect(artifact.getPaymentAddresses()).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -554,7 +554,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddresses() 042 string params",  () => {
-//     let artifact = new Artifact(artifact042Dehydrated);
+//     let artifact = new new Artifact(artifact042Dehydrated);
 //     expect(artifact.getPaymentAddresses("flo")).toEqual(
 //         {
 //             flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
@@ -563,7 +563,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddresses() 042 single item array param",  () => {
-//     let artifact = new Artifact(artifact042Dehydrated);
+//     let artifact = new new Artifact(artifact042Dehydrated);
 //     expect(artifact.getPaymentAddresses(["flo"])).toEqual(
 //         {
 //             flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
@@ -574,14 +574,14 @@ describe("Artifact", () => {
 // //==================================================================================================
 //
 // it("getPaymentAddress() 041 with no params", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddress()).toEqual(
 //         {}
 //     )
 // })
 //
 // it("getPaymentAddress() 041 with string parameter", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddress("btc")).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -590,7 +590,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddress() 041 with single item array", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddress(["btc"])).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -599,7 +599,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddress() 041 multiple coins", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddress(["btc", "ltc"])).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -609,7 +609,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddresses() 041",  () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddresses()).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -620,7 +620,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddresses() 041 with single string", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddresses("flo")).toEqual(
 //         {
 //             flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
@@ -629,7 +629,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddresses() 041 with single item array", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddresses(["flo"])).toEqual(
 //         {
 //             flo: "F6esyn5opgUDcEdJpujxS9WLfu8Zj9XUZQ"
@@ -638,7 +638,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getPaymentAddresses() 041 with multiple item array", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getPaymentAddresses(["flo", "btc"])).toEqual(
 //         {
 //             btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
@@ -650,33 +650,33 @@ describe("Artifact", () => {
 // //==================================================================================================
 //
 // it("getSupportedCoins() ", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getSupportedCoins()).toEqual(["btc", "ltc", "flo"])
 // })
 //
 // it("getSupportedCoins() with string parameter", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getSupportedCoins("flo")).toEqual("flo")
 // })
 //
 // it("getSupportedCoins() with string parameter bs coin", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getSupportedCoins("kazy")).toEqual("")
 // })
 //
 // it("getSupportedCoins() with coin_array parameter", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getSupportedCoins(["btc", "ltc"])).toEqual(["btc", "ltc"])
 // })
 //
 // it("getSupportedCoins() with non existant payment coin", () => {
-//     let artifact041 = new Artifact(artifact041Payments);
+//     let artifact041 = new new Artifact(artifact041Payments);
 //     expect(artifact041.getSupportedCoins(["tron"])).toEqual([])
 // })
 //
 //
 // it("setRetailerCut and getRetailerCut", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setRetailerCut(10)
 //
@@ -684,7 +684,7 @@ describe("Artifact", () => {
 // })
 //
 // it("setRetailerCut cant be set by a string", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setRetailerCut("string")
 //
@@ -692,13 +692,13 @@ describe("Artifact", () => {
 // })
 //
 // it("getRetailerCut is 0 if unset", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.getRetailerCut()).toBe(0)
 // })
 //
 // it("setPromoterCut and getPromoterCut", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setPromoterCut(10)
 //
@@ -706,7 +706,7 @@ describe("Artifact", () => {
 // })
 //
 // it("setPromoterCut cant be set by a string", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setPromoterCut("string")
 //
@@ -714,13 +714,13 @@ describe("Artifact", () => {
 // })
 //
 // it("getPromoterCut is 0 if unset", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.getPromoterCut()).toBe(0)
 // })
 //
 // it("setMaxDiscount and getMaxDiscount", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setMaxDiscount(30)
 //
@@ -728,7 +728,7 @@ describe("Artifact", () => {
 // })
 //
 // it("setMaxDiscount cant be set by string", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setMaxDiscount("string")
 //
@@ -736,13 +736,13 @@ describe("Artifact", () => {
 // })
 //
 // it("getMaxDiscount is 0 if unset", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.getMaxDiscount()).toBe(0)
 // })
 //
 // it("addFile ArtifactFile object", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	let file = new ArtifactFile();
 //
@@ -752,7 +752,7 @@ describe("Artifact", () => {
 // })
 //
 // it("addFile json object", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	let file = new ArtifactFile();
 //
@@ -762,13 +762,13 @@ describe("Artifact", () => {
 // })
 //
 // it("getFiles is blank array if undefined", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.getFiles()).toEqual([])
 // })
 //
 // it("getThumbnail Image and Thumbnail set", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	let file = new ArtifactFile();
 //
@@ -787,7 +787,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getThumbnail get free Image & not paid thumbnail", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	let file = new ArtifactFile();
 //
@@ -807,13 +807,13 @@ describe("Artifact", () => {
 // })
 //
 // it("getThumbnail is undefined if no files are available", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.getThumbnail()).toBe(undefined)
 // })
 //
 // it("getThumbnail is undefined if no free images are found", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	let file = new ArtifactFile();
 //
@@ -826,7 +826,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getThumbnail is undefined if no free thumbnails are found", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	let file = new ArtifactFile();
 //
@@ -840,7 +840,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getDuration is undefined if no files have a duration", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.addFile(new ArtifactFile())
 // 	artifact.addFile(new ArtifactFile())
@@ -850,7 +850,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getDuration returns the duration of a found file", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.addFile(new ArtifactFile())
 //
@@ -866,7 +866,7 @@ describe("Artifact", () => {
 // })
 //
 // it("isValid requires title and mainAddress to be set", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setTitle("title")
 // 	artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
@@ -875,7 +875,7 @@ describe("Artifact", () => {
 // })
 //
 // it("isValid fails on only title", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setTitle("title")
 //
@@ -883,7 +883,7 @@ describe("Artifact", () => {
 // })
 //
 // it("isValid fails on only mainAddress", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
 //
@@ -891,13 +891,13 @@ describe("Artifact", () => {
 // })
 //
 // it("isPaid no files", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.isPaid()).toBe(false)
 // })
 //
 // it("isPaid only free files", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.addFile(new ArtifactFile())
 // 	artifact.addFile(new ArtifactFile())
@@ -908,7 +908,7 @@ describe("Artifact", () => {
 // })
 //
 // it("isPaid one paid file several free files", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.addFile(new ArtifactFile())
 // 	artifact.addFile(new ArtifactFile())
@@ -921,7 +921,7 @@ describe("Artifact", () => {
 // })
 //
 // it("toJSON", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.toJSON()).toEqual({
 // 		"oip042": {
@@ -939,7 +939,7 @@ describe("Artifact", () => {
 // })
 //
 // it("fromJSON toJSON", () => {
-// 	let artifact = new Artifact({
+// 	let artifact = new new Artifact({
 // 		"oip042": {
 // 			"artifact": {
 // 				"details": {},
@@ -973,7 +973,7 @@ describe("Artifact", () => {
 // })
 //
 // it("import AlexandriaMedia", () => {
-// 	let artifact = new Artifact({
+// 	let artifact = new new Artifact({
 // 		"media-data":{
 // 			"alexandria-media":{
 // 				"torrent":"QmRA3NWM82ZGynMbYzAgYTSXCVM14Wx1RZ8fKP42G6gjgj",
@@ -989,7 +989,7 @@ describe("Artifact", () => {
 // })
 //
 // it("import 041", () => {
-// 	let artifact = new Artifact({"block":2795950,
+// 	let artifact = new new Artifact({"block":2795950,
 // 		"oip-041":{
 // 			"artifact":{
 // 				"publisher":"FEAFV8xroed1CyAx1mUH4iSyXvMZXhj6mZ",
@@ -1010,7 +1010,7 @@ describe("Artifact", () => {
 // })
 //
 // it("import 042", () => {
-// 	let artifact = new Artifact({
+// 	let artifact = new new Artifact({
 // 		"oip042":{
 // 			"artifact":{
 // 				"floAddress":"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k",
@@ -1032,7 +1032,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getMultiparts (too short)", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setMainAddress("mainAddress")
 //
@@ -1042,7 +1042,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getMultiparts", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.setMainAddress("mainAddress")
 //
@@ -1059,7 +1059,7 @@ describe("Artifact", () => {
 // })
 //
 // it("fromMultiparts matches getMultiparts json identifier", () => {
-// 	let artifact = new Artifact([
+// 	let artifact = new new Artifact([
 // 		new Multipart('oip-mp(0,2,mainAddress,,):{"oip042":{"artifact":{"floAddress":"mainAddress","info":{"description":"a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very lo'),
 // 		new Multipart('oip-mp(1,2,mainAddress,,):ng description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description a very long description "},"details":{},"storage":{"network":"IPFS"'),
 // 		new Multipart('oip-mp(2,2,mainAddress,,):,"files":[]},"payment":{}}}}')
@@ -1073,7 +1073,7 @@ describe("Artifact", () => {
 // })
 //
 // it("capitalizeFirstLetter", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	expect(artifact.capitalizeFirstLetter("it")).toBe("it")
 // 	expect(artifact.capitalizeFirstLetter("it")).toBe("it")
@@ -1084,7 +1084,7 @@ describe("Artifact", () => {
 // })
 //
 // it("getClassName", () => {
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 // 	expect(artifact.getClassName()).toBe("Artifact")
 // })
 
@@ -1093,7 +1093,7 @@ describe("Artifact", () => {
 // it("Construct Artifact with floData that has a json: prefix", async (done) => {
 //     let Network = new Index();
 //     let flo_data = await Network.getFloData(oip41_artifact_wJSON)
-//     let art = new Artifact(flo_data)
+//     let art = new new Artifact(flo_data)
 //     expect(art.isValid()).toBeTruthy()
 //     done()
 // }, 10000)
@@ -1102,7 +1102,7 @@ describe("Artifact", () => {
 //     const oip41_artifact_ = "8a5fae038747565fab39b992907ea738a56736806153741610ad53c6c38567eb"
 //     let Network = new Index();
 //     let flo_data = await Network.getFloData(oip41_artifact_)
-//     let art = new Artifact(flo_data)
+//     let art = new new Artifact(flo_data)
 //     // console.log(art)
 //     expect(art.isValid()).toBeTruthy()
 // })
@@ -1111,7 +1111,7 @@ describe("Artifact", () => {
 //     let Network = new Index();
 //     let flo_data = await Network.getFloData(oip41_artifact_wJSON)
 //     if (flo_data.startsWith("json:")) {flo_data = flo_data.slice(5)}
-//     let art = new Artifact(flo_data)
+//     let art = new new Artifact(flo_data)
 //     // console.log(art.isValid())
 // })
 //
@@ -1121,7 +1121,7 @@ describe("Artifact", () => {
 // 		'oip-mp(1,1,FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k,2c5140f5da,H8fjRKrXyMJlxjZLGWxjzdJG/BW5Bn+k+tmud5yGf3sYGhAQDd+aYVtAC1H8LGy+w011kYPjApuF29jrcZPQJP4=):ses\":[]},\"timestamp\":1526153770,\"publisher\":\"FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k\"},\"signature\":\"IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=\"}}'
 // 	]
 //
-// 	let artifact = new Artifact();
+// 	let artifact = new new Artifact();
 //
 // 	artifact.fromMultiparts(multipartStrings);
 //

@@ -3,7 +3,7 @@ import coinselect from 'coinselect'
 import {isValidWIF} from './util'
 import {sign} from './Functions/TXSigner'
 import MultipartX from './OIPComponents/MultipartX'
-import Artifact from './Artifacts/Artifact'
+import Artifact from './OIPComponents/Artifacts/Artifact'
 import {flo, flo_testnet} from './networks'
 
 if (typeof window === "undefined" || typeof window.localStorage === "undefined") {
@@ -15,13 +15,12 @@ if (typeof window === "undefined" || typeof window.localStorage === "undefined")
 	localStorage = window.localStorage
 }
 
-const CHOP_MAX_LEN = 890;
 const FLODATA_MAX_LEN = 1040;
 
 /**
  * Easily publish data onto the FLO chain (mainnet or testnet)
  */
-class OIPPublisher {
+class OIP {
 	/**
 	 * Create a new Publisher. Use in conjuction with the Artifact class to publish valid OIP Records or just post random data onto the chain
 	 *
@@ -67,16 +66,18 @@ class OIPPublisher {
 		this.deserialize()
 	}
 
-	//ToDo::
+	//ToDo:: change item to record
 	/**
-	 * Publish OIP Objects to the FLO Chain (will format it as best it can to the protocol spec)
-	 * @param {string} data - the string data you wish to publish !!Make sure to stringify your objects/classes
+	 * Publish OIP Objects to the FLO Chain
+	 * @param {OIPObject} item - an OIPObject //ToDo:: Create an OIP Object || Record || OIPRecord
 	 * @return {Promise<string|Array<string>>} txid - the txid(s) of the broadcasted messages
 	 */
-	async publish(data) {
-		if (typeof data !== 'string') {
-			throw new Error(`Data must be of type string. Got: ${typeof data}`)
-		}
+	async publish(item) {
+		//check type of item
+		//if json, add json prefix
+		//if protobuf, add protobuf prefix
+		//else send as is
+
 		let broadcast_string = `{oip042:${data}}`
 
 		if (broadcast_string.length > FLODATA_MAX_LEN) {
@@ -90,7 +91,6 @@ class OIPPublisher {
 		} else {
 			let txid
 			try {
-				//ToDo: Make sure Artifacts get json: prefix when stringified
 				txid = await this.publishData(broadcast_string)
 			} catch (err) {
 				throw new Error(`Failed to broadcast message: ${err}`)
@@ -99,11 +99,16 @@ class OIPPublisher {
 		}
 	}
 
+	async register(record) {} //ToDo
+	async edit(record) {} //ToDo
+	async transfer(record) {} //ToDO
+	async deactivate(record) {} //ToDo
+
 	/**
 	 * Publish arbitrary data to the FLO chain
 	 * @param {string} data - String data. Must be below or equal to 1040 characters
 	 * @return {Promise<string>} txid - Returns the id of the transaction that contains the published data
-	 */
+	 */ //ToDo: rename sendToFLOChain
 	async publishData(data) {
 		if (typeof data !== 'string') {
 			throw new Error(`Data must be of type string. Got: ${typeof data}`)
@@ -146,7 +151,7 @@ class OIPPublisher {
 			throw new Error(`Data must be of type string. Got: ${typeof data}`)
 		}
 		let mpx = new MultipartX(data)
-		let mps = mpx.toMultiParts()
+		let mps = mpx.getMultiparts()
 
 		let txids = []
 
@@ -162,12 +167,14 @@ class OIPPublisher {
 					throw new Error(error)
 				}
 			}
+			if (!mp.isValid().success)
+				throw new Error(`Invalid multipart: ${mp.isValid().message}`)
 
 			let txid
 			try {
 				txid = await this.publishData(mp.toString())
 			} catch (err) {
-				throw new Error(`Failed to broadcast mp single: ${err}`)
+				throw new Error(`Failed to broadcast multipart: ${err}`)
 			}
 			txids.push(txid)
 		}
@@ -177,7 +184,7 @@ class OIPPublisher {
 	/**
 	 * Build a valid FLO Raw TX Hex containing floData
 	 * @param {string} [floData=""] - defaults to an empty string
-	 * @param {Object} output - custom output object
+	 * @param {Object} [output] - custom output object
 	 * @return {Promise<string>} hex - Returns raw transaction hex
 	 *
 	 * @example
@@ -260,7 +267,7 @@ class OIPPublisher {
 	/**
 	 * Builds the inputs and outputs to form a valid transaction hex
 	 * @param {string} [floData=""] - defaults to an empty string
-	 * @param {Object} output - custom output object
+	 * @param {Object} [output] - custom output object
 	 * @return {Promise<Object>} selected - Returns the selected inputs to use for the transaction hex
 	 */
 	async buildInputsAndOutputs(floData = "", output) {
@@ -504,4 +511,4 @@ class OIPPublisher {
 
 }
 
-export default OIPPublisher
+export default OIP

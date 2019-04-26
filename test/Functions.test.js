@@ -1,6 +1,6 @@
 import ArtifactPicker from '../src/Functions/ArtifactPicker'
 import {Artifact} from '../src/main'
-import {ResearchTomogram} from '../src/Artifacts/index'
+import {ResearchTomogram} from '../src/OIPComponents/Artifacts/index'
 
 let artifact041JSON = {
 	"artifact": {

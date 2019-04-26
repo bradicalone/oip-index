@@ -1,5 +1,5 @@
-import ARTIFACTS from '../Artifacts/index'
-import Artifact from "../Artifacts/Artifact";
+import ARTIFACTS from '../OIPComponents/Artifacts/index'
+import Artifact from "../OIPComponents/Artifacts/Artifact";
 
 const SUPPORTED_TYPES = ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
 

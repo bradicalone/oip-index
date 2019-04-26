@@ -1,5 +1,9 @@
-class Publisher {
+import OIPRecord from "./OIPRecord";
+
+class Publisher extends OIPRecord{
 	constructor() {
+		super()
+
 		this.txid = undefined
 		this._publisher = {
 			alias: undefined,

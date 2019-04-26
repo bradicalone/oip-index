@@ -2,9 +2,9 @@ import bitcoin from 'bitcoinjs-lib'
 import {verify} from 'bitcoinjs-message'
 import {flo_testnet} from '../src/networks'
 import MPSingle from '../src/OIPComponents/MPSingle'
-import OIPIndex from '../src/OIPIndex'
+import OIPAPI from '../src/OIPAPI'
 
-const index = new OIPIndex()
+const index = new OIPAPI()
 
 describe("MPSingle", () => {
 	describe('Construction', () => {
@@ -58,7 +58,7 @@ describe("MPSingle", () => {
 				`4-6-FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k-8c204c5f39-${mps.getData()}`
 			)
 		})
-		it('from OIPIndex', async () => {
+		it('from OIPAPI', async () => {
 			let mp = await index.getMultipart('1d6392c44629a1fc3eafab4b564a003084e9afad055b5cbdb8fc8c1d3f042d1d')
 			expect(mp.success).toBeTruthy()
 			let mps = new MPSingle(mp.multipart)

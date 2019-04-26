@@ -1,243 +1,120 @@
-import ArtifactFile from '../OIPComponents/ArtifactFile.js';
-import Multipart from '../OIPComponents/Multipart.js';
-import ArtifactPicker from '../Functions/ArtifactPicker'
+import ArtifactFile from '../ArtifactFile.js';
+import Multipart from '../Multipart.js';
 
 const DEFAULT_NETWORK = "IPFS";
 const SUPPORTED_TYPES = ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
 
+const CHOP_MAX_LEN = 370;
+const FLODATA_MAX_LEN = 528;
 
-const CHOP_MAX_LEN = 890;
-const FLODATA_MAX_LEN = 1040;
 /**
  * @typedef {Object} StatusObject
  * @property {Boolean} success - If the attempt was successful
  * @property {string} error - The error text (if there was an error)
+ * @deprecated
  */
 
-/**
- * An Artifact contains metadata about a file/piece of content,
- * along with a location on a network to find that file,
- * and optionally payment information.
- *
- * Create a new Artifact
- * This function is an es5 constructor that returns a new Artifact class based on the version of the artifact/record
- * ##### Examples
- * Create a blank Artifact
- * ```
- * import { Artifact } from 'oip-index'
- *
- * let artifact = Artifact()
- * ```
- * Create an Artifact from JSON
- * ```
- * import { Artifact } from 'oip-index'
- *
- * let artifact = Artifact({
-	"artifact": {
-		"publisher": "FPkvwEHjddvva2smpYwQ4trgudwFcrXJ1X",
-		"payment": {
-			"addresses": [],
-			"retailer": 15,
-			"sugTip": [],
-			"fiat": "USD",
-			"scale": "1000:1",
-			"promoter": 15,
-			"maxdisc": 30
-		},
-		"storage": {
-			"files": [
-				{
-					"fname": "headshot.jpg",
-					"fsize": 100677,
-					"type": "Image"
+
+class Artifact_DEPRECATED {
+	constructor(input) {
+
+		this.artifact = {
+			floAddress: "",
+			info: {},
+			details: {},
+			storage: {network: DEFAULT_NETWORK, files: []},
+			payment: {}
+		}
+
+		this.FileObjects = [];
+		this.Multiparts = [];
+		this.fromMultipart = false;
+
+		if (input) {
+			// If we are being passed in an array, it might be multiparts so try to load from that
+			if (Array.isArray(input) && input.length > 1 && input[0] instanceof Multipart) {
+				this.fromMultiparts(input)
+			} else if (typeof input === "string") {
+				if (input.startsWith("json:")) {
+					input = input.slice(5)
 				}
-			],
-			"location": "QmUjSCcBda9YdEUKVLPQomHzSatwytPqQPAh4fdMiRV8bp",
-			"network": "IPFS"
-		},
-		"type": "Image-Basic",
-		"info": {
-			"title": "Headshot",
-			"extraInfo": {
-				"artist": "David Vasandani",
-				"genre": "People"
+				try {
+					this.fromJSON(JSON.parse(input))
+				} catch (e) {
+				}
+			} else if (typeof input === "object") {
+				this.fromJSON(input)
 			}
-		},
-		"timestamp": 1531065099
-	},
-	"meta": {
-		"block_hash": "a2ca4c3f06032dc4f9df7eca829b42b91da9595dbe9f4623a1c7f92a5508cfb9",
-		"txid": "5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207",
-		"block": 2832215,
-		"time": 1531065167,
-		"type": "oip041"
-	}
-})
- * ```
- * Create an Artifact from a JSON string
- * ```
- * import { Artifact } from 'oip-index'
- *
- * let artifact = new Artifact("{"artifact":{"publisher":"FPkvwEHjddvva2smpYwQ4trgudwFcrXJ1X","payment":{"addresses":[],"retailer":15,"sugTip":[],"fiat":"USD","scale":"1000:1","promoter":15,"maxdisc":30},"storage":{"files":[{"fname":"headshot.jpg","fsize":100677,"type":"Image"}],"location":"QmUjSCcBda9YdEUKVLPQomHzSatwytPqQPAh4fdMiRV8bp","network":"IPFS"},"type":"Image-Basic","info":{"title":"Headshot","extraInfo":{"artist":"David Vasandani","genre":"People"}},"timestamp":1531065099},"meta":{"block_hash":"a2ca4c3f06032dc4f9df7eca829b42b91da9595dbe9f4623a1c7f92a5508cfb9","txid":"5f399eef8f93c03502efbd51691350cbacbf3c16eba228409bf7453ffff78207","block":2832215,"time":1531065167,"type":"oip041"}}")
- * ```
- * @class Artifact
- * @param  {Array<Multipart>|string|Object} input - Pass in either an array of Multiparts, an Artifact JSON string, or an Artifact JSON object to be loaded from
- * @return {Artifact}
- */
-export default function Artifact(input) {
-	if (!(this instanceof Artifact)) {
-		//return new Artifact based on type of input
-		return ArtifactPicker(input)
-	}
-
-	this.artifactType = 'generic'
-	this.artifactSubtype = 'record'
-
-	this._source = input
-
-	this.artifact = {
-		floAddress: "",
-		info: {},
-		details: {},
-		storage: {network: DEFAULT_NETWORK, files: []},
-		payment: {},
-		type: undefined,
-		subtype: undefined,
-		signature: undefined,
-		timestamp: undefined,
-	}
-
-	this.meta = {
-		block: undefined,
-		block_hash: undefined,
-		deactivated: false,
-		signature: undefined,
-		time: undefined,
-		tx: undefined,
-		txid: undefined,
-		type: undefined,
-	}
-
-	this.FileObjects = [];
-
-	/**
-	 * Returns the Artifact Type (to be used before class initialization)
-	 * @returns {string}
-	 */
-	Artifact.prototype.getArtifactType = function () {
-		return "generic"
+		}
 	}
 
 	/**
-	 * Return the Artifact Subtype (to be used before class initialization)
-	 * @returns {string}
-	 */
-	Artifact.prototype.getArtifactSubtype = function () {
-		return 'record'
-	}
-
-	/**
-	 * Returns the Artifact Type and Subtype Concatenated (to be used before class initialization)
-	 * @returns {string} return the artifact type concatenated with the artifact subtype
+	 * Set the TXID of the OIP Class
+	 * @param {string} txid - The TXID that identifies the OIP Class
 	 * @example
-	 * //return
-	 * "type-subtype"
+	 * artifact.setTXID("1cb19b83dd20614d05ea64fffb111d588cf513ee65aa488953944fc7fe95e2c4")
 	 */
-	Artifact.prototype.getTypeAndSubtype = function () {
-		return 'generic-record'
+	setTXID(txid) {
+		this.txid = txid;
 	}
 
 	/**
-	 * Returns the Artifact Type (to be used after class initialization)
-	 * @returns {string} return the artifact type concatenated with the artifact subtype
+	 * Get the TXID of the OIP Class
+	 * @return {string} Returns the TXID of the OIP Class, or `undefined` if the txid has not been set
 	 * @example
-	 * //return
-	 * "type-subtype"
+	 * var txid = artifact.getTXID()
 	 */
-	Artifact.prototype.getInternalTypeAndSubtype = function () {
-		return this.artifactType + '-' + this.artifactSubtype
-	}
-
-	/**
-	 * Returns the original data fed to the constructor
-	 * @returns {*}
-	 */
-	Artifact.prototype._getSource = function () {
-		return this._source
-	}
-
-	/**
-	 * Set source data (DANGEROUS!!). Resets the original data fed into the constructor
-	 * @param data
-	 * @private
-	 */
-	Artifact.prototype._setSourceData = function (data) {
-		this._source = data
-	}
-
-	/**
-	 * Set TXID
-	 * @param txid
-	 */
-	Artifact.prototype.setTXID = function (txid) {
-		this.meta.txid = txid
-	}
-
-	/**
-	 * Get TXID
-	 * @return {string} txid
-	 */
-	Artifact.prototype.getTXID = function () {
-		return this.meta.txid
+	getTXID() {
+		return this.txid;
 	}
 
 	/**
 	 * Set the Publisher name String, please note that this does not set it when you publish to the blockchain!
-	 * @param {string} publisherName - The Publisher Name you wish to set the Artifact to
+	 * @param {string} publisherName - The Publisher Name you wish to set the Artifact_DEPRECATED to
 	 * @example
 	 * artifact.setPublisherName("My Publisher Name")
 	 */
-	Artifact.prototype.setPublisherName = function (pubName) {
+	setPublisherName(pubName) {
 		this.publisherName = pubName;
 	}
 
 	/**
-	 * Get the Publisher Name for the Artifact
+	 * Get the Publisher Name for the Artifact_DEPRECATED
 	 * @example
-	 * let pubName = artifact.getPublisherName()
+	 * var pubName = artifact.getPublisherName()
 	 * @return {string} Returns the Publisher Name if defined, or the Main Address if the publisher name is undefined
 	 */
-	Artifact.prototype.getPublisherName = function () {
+	getPublisherName() {
 		return this.publisherName || this.getMainAddress()
 	}
 
 	/**
-	 * Set the Main Address that you will be signing the Artifact with
+	 * Set the Main Address that you will be signing the Artifact_DEPRECATED with
 	 * @example
 	 * artifact.setMainAddress("FLZXRaHzVPxJJfaoM32CWT4GZHuj2rx63k")
-	 * @param {string} address - The Main Address that will be signing the Artifact
+	 * @param {string} address - The Main Address that will be signing the Artifact_DEPRECATED
 	 */
-	Artifact.prototype.setMainAddress = function (address) {
+	setMainAddress(address) {
 		this.artifact.floAddress = address;
 	}
 
 	/**
-	 * Get the Main Address that the Artifact is signed with
+	 * Get the Main Address that the Artifact_DEPRECATED is signed with
 	 * @example
-	 * let mainAddress = artifact.getMainAddress()
+	 * var mainAddress = artifact.getMainAddress()
 	 * @return {string}
 	 */
-	Artifact.prototype.getMainAddress = function () {
+	getMainAddress() {
 		return this.artifact.floAddress
 	}
 
 	/**
-	 * Set publish/signature timestamp for the Artifact
+	 * Set publish/signature timestamp for the Artifact_DEPRECATED
 	 * @example
 	 * artifact.setTimestamp(Date.now())
-	 * @param {number} time - The Timestamp you wish to set the Artifact to
+	 * @param {number} time - The Timestamp you wish to set the Artifact_DEPRECATED to
 	 */
-	Artifact.prototype.setTimestamp = function (time) {
+	setTimestamp(time) {
 		if (typeof time === "number") {
 			if (String(time).length === 13) {
 				let seconds_time_string = parseInt(time / 1000)
@@ -249,62 +126,62 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Get the publish/signature timestamp for the Artifact
+	 * Get the publish/signature timestamp for the Artifact_DEPRECATED
 	 * @example
-	 * let timestamp = artifact.getTimestamp()
+	 * var timestamp = artifact.getTimestamp()
 	 * @return {number} Returns `undefined` if timestamp is not yet set
 	 */
-	Artifact.prototype.getTimestamp = function () {
+	getTimestamp() {
 		return this.artifact.timestamp
 	}
 
 	/**
-	 * Set the Artifact Title
+	 * Set the Artifact_DEPRECATED Title
 	 * @example
 	 * artifact.setTitle("Example Title")
-	 * @param {string} title - The desired Title you wish to set the Artifact to
+	 * @param {string} title - The desired Title you wish to set the Artifact_DEPRECATED to
 	 */
-	Artifact.prototype.setTitle = function (title) {
+	setTitle(title) {
 		this.artifact.info.title = title;
 	}
 
 	/**
-	 * Get the Artifact Title
+	 * Get the Artifact_DEPRECATED Title
 	 * @example
-	 * let title = artifact.getTitle()
+	 * var title = artifact.getTitle()
 	 * @return {string}
 	 */
-	Artifact.prototype.getTitle = function () {
+	getTitle() {
 		return this.artifact.info.title || ""
 	}
 
 	/**
-	 * Set the Description of the Artifact
+	 * Set the Description of the Artifact_DEPRECATED
 	 * @example
 	 * artifact.setDescription("My Description")
 	 * @param {string} description - The Description you wish to set
 	 */
-	Artifact.prototype.setDescription = function (description) {
+	setDescription(description) {
 		this.artifact.info.description = description;
 	}
 
 	/**
-	 * Get the Description of the Artifact
+	 * Get the Description of the Artifact_DEPRECATED
 	 * @example
-	 * let description = artifact.getDescription()
+	 * var description = artifact.getDescription()
 	 * @return {string}
 	 */
-	Artifact.prototype.getDescription = function () {
+	getDescription() {
 		return this.artifact.info.description || ""
 	}
 
 	/**
-	 * Set the Type of the Artifact
+	 * Set the Type of the Artifact_DEPRECATED
 	 * @example
 	 * artifact.setType("Video")
-	 * @param {string} type - Must be one of the following supported Artifact Main Types ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
+	 * @param {string} type - Must be one of the following supported Artifact_DEPRECATED Main Types ["Audio", "Video", "Image", "Text", "Software", "Web", "Research", "Property"]
 	 */
-	Artifact.prototype.setType = function (type) {
+	setType(type) {
 		type = this.capitalizeFirstLetter(type);
 
 		if (SUPPORTED_TYPES.indexOf(type) === -1) {
@@ -315,34 +192,34 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Get the Type of the Artifact
+	 * Get the Type of the Artifact_DEPRECATED
 	 * @example
-	 * let type = artifact.getType()
+	 * var type = artifact.getType()
 	 * @return {string}
 	 */
-	Artifact.prototype.getType = function () {
+	getType() {
 		return this.artifact.type
 	}
 
 	/**
-	 * Set the Subtype of the Artifact
+	 * Set the Subtype of the Artifact_DEPRECATED
 	 * @example
 	 * artifact.setSubtype("Album")
-	 * @param {string} subtype - The desired Subtype for the Artifact
+	 * @param {string} subtype - The desired Subtype for the Artifact_DEPRECATED
 	 */
-	Artifact.prototype.setSubtype = function (subtype) {
+	setSubtype(subtype) {
 		subtype = this.capitalizeFirstLetter(subtype);
 
 		this.artifact.subtype = subtype;
 	}
 
 	/**
-	 * Get the Subtype of the Artifact
+	 * Get the Subtype of the Artifact_DEPRECATED
 	 * @example
-	 * let subtype = artifact.getSubtype()
+	 * var subtype = artifact.getSubtype()
 	 * @return {string}
 	 */
-	Artifact.prototype.getSubtype = function () {
+	getSubtype() {
 		return this.artifact.subtype
 	}
 
@@ -352,7 +229,7 @@ export default function Artifact(input) {
 	 * artifact.setYear(2018)
 	 * @param {number} year - The Year that the content was originally published
 	 */
-	Artifact.prototype.setYear = function (year) {
+	setYear(year) {
 		if (typeof year === "number")
 			this.artifact.info.year = year;
 	}
@@ -360,40 +237,40 @@ export default function Artifact(input) {
 	/**
 	 * Get the Year that the content was originally published
 	 * @example
-	 * let year = artifact.getYear()
+	 * var year = artifact.getYear()
 	 * @return {number}
 	 */
-	Artifact.prototype.getYear = function () {
+	getYear() {
 		return this.artifact.info.year
 	}
 
 	/**
-	 * Set if the Artifact is NSFW
+	 * Set if the Artifact_DEPRECATED is NSFW
 	 * @example
 	 * artifact.setNSFW(true)
-	 * @param {Boolean} nsfwToggle - `true` or `false` depending on the content of the Artifact
+	 * @param {Boolean} nsfwToggle - `true` or `false` depending on the content of the Artifact_DEPRECATED
 	 */
-	Artifact.prototype.setNSFW = function (nsfwToggle) {
+	setNSFW(nsfwToggle) {
 		this.artifact.info.nsfw = nsfwToggle;
 	}
 
 	/**
-	 * Get if the Artifact is marked NSFW
+	 * Get if the Artifact_DEPRECATED is marked NSFW
 	 * @example
-	 * let nsfw = artifact.getNSFW()
+	 * var nsfw = artifact.getNSFW()
 	 * @return {Boolean}
 	 */
-	Artifact.prototype.getNSFW = function () {
+	getNSFW() {
 		return this.artifact.info.nsfw || false
 	}
 
 	/**
-	 * Set the Tags for the Artifact
+	 * Set the Tags for the Artifact_DEPRECATED
 	 * @example
 	 * artifact.setTags(["Tag 1", "Tag 2", "Tag 3"])
 	 * @param {Array.<string>} tags - Pass in an Array of tags
 	 */
-	Artifact.prototype.setTags = function (tags) {
+	setTags(tags) {
 		if (Array.isArray(tags)) {
 			this.artifact.info.tags = tags;
 		} else {
@@ -406,67 +283,66 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Get the Tags for the Artifact
+	 * Get the Tags for the Artifact_DEPRECATED
 	 * @example
-	 * let tags = artifact.getTags()
+	 * var tags = artifact.getTags()
 	 * @return {Array.<string>}
 	 */
-	Artifact.prototype.getTags = function () {
+	getTags() {
 		return this.artifact.info.tags || []
 	}
 
 	/**
-	 * Set a specific Detail on the Artifact
+	 * Set a specific Detail on the Artifact_DEPRECATED
 	 * @param {string} detail - Where should we place this detail (i.e. "artist")
 	 * @example
 	 * artifact.setDetail("artist", "Artist Name")
 	 * @param {Object} info - The item you wish to set to the detail node
 	 */
-	Artifact.prototype.setDetail = function (detail, info) {
+	setDetail(detail, info) {
 		this.artifact.details[detail] = info
 	}
 
 	/**
-	 * Get a specific Detail back from the Artifact
+	 * Get a specific Detail back from the Artifact_DEPRECATED
 	 * @param  {string} detail - The detail you want pack (i.e. "artist")
 	 * @example
-	 * let artist = artifact.getDetail("artist")
+	 * var artist = artifact.getDetail("artist")
 	 * @return {Object}
 	 */
-	Artifact.prototype.getDetail = function (detail) {
+	getDetail(detail) {
 		return this.artifact.details[detail]
 	}
 
 	/**
-	 * Set the Signature of the Artifact
+	 * Set the Signature of the Artifact_DEPRECATED
 	 * @example
 	 * artifact.setSignature("IO0i5yhuwDy5p93VdNvEAna6vsH3UmIert53RedinQV+ScLzESIX8+QrL4vsquCjaCY0ms0ZlaSeTyqRDXC3Iw4=")
-	 * @param {string} signature - The signature of the Artifact
+	 * @param {string} signature - The signature of the Artifact_DEPRECATED
 	 */
-	Artifact.prototype.setSignature = function (signature) {
+	setSignature(signature) {
 		this.artifact.signature = signature
-		this.meta.signature = signature
 	}
 
 	/**
-	 * Get the Signature of the Artifact
+	 * Get the Signature of the Artifact_DEPRECATED
 	 * @example
-	 * let signature = artifact.getSignature()
+	 * var signature = artifact.getSignature()
 	 * @return {string} Returns `undefined` if signature is not set
 	 */
-	Artifact.prototype.getSignature = function () {
+	getSignature() {
 		return this.artifact.signature
 	}
 
 	/**
-	 * Set the Storage Network of the Artifact
+	 * Set the Storage Network of the Artifact_DEPRECATED
 	 * @example <caption>Set Network to IPFS</caption
 	 * artifact.setNetwork("IPFS")
 	 * @example <caption>Set Network to Storj (Support coming Soon)</caption
 	 * artifact.setNetwork("Storj")
 	 * @param {string} network - The Storage Network where we can find the file at Location
 	 */
-	Artifact.prototype.setNetwork = function (network) {
+	setNetwork(network) {
 		if (network === "ipfs")
 			network = "IPFS"
 
@@ -474,12 +350,12 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Get the Storage Network for the Artifact
+	 * Get the Storage Network for the Artifact_DEPRECATED
 	 * @example
-	 * let mainAddress = artifact.getMainAddress()
+	 * var mainAddress = artifact.getMainAddress()
 	 * @return {string}
 	 */
-	Artifact.prototype.getNetwork = function () {
+	getNetwork() {
 		return this.artifact.storage.network
 	}
 
@@ -489,17 +365,17 @@ export default function Artifact(input) {
 	 * artifact.setLocation("QmNmVHfXuh5Tub76H1fog7wSM8of4Njfm2j1oTg8ZYUBZm")
 	 * @param {string} location - The Location of the files on the Storage Network
 	 */
-	Artifact.prototype.setLocation = function (location) {
+	setLocation(location) {
 		this.artifact.storage.location = location;
 	}
 
 	/**
 	 * Get the Storage Location
 	 * @example
-	 * let location = artifact.getLocation()
+	 * var location = artifact.getLocation()
 	 * @return {string}
 	 */
-	Artifact.prototype.getLocation = function () {
+	getLocation() {
 		return this.artifact.storage.location
 	}
 
@@ -509,17 +385,17 @@ export default function Artifact(input) {
 	 * artifact.setPaymentFiat("usd")
 	 * @param {string} fiat - The Fiat type you wish to accept
 	 */
-	Artifact.prototype.setPaymentFiat = function (fiat) {
+	setPaymentFiat(fiat) {
 		this.artifact.payment.fiat = fiat;
 	}
 
 	/**
 	 * Get the Fiat type to be used in Payment Calculations
 	 * @example
-	 * let fiat = artifact.getPaymentFiat()
+	 * var fiat = artifact.getPaymentFiat()
 	 * @return {string} Returns undefined if no fiat is set
 	 */
-	Artifact.prototype.getPaymentFiat = function t() {
+	getPaymentFiat() {
 		return this.artifact.payment.fiat
 	}
 
@@ -529,17 +405,17 @@ export default function Artifact(input) {
 	 * artifact.setPaymentScale(1000)
 	 * @param {number} newScale - The new Scale that should be used
 	 */
-	Artifact.prototype.setPaymentScale = function (newScale) {
+	setPaymentScale(newScale) {
 		this.artifact.payment.scale = newScale;
 	}
 
 	/**
 	 * Get the payment scale for use in Payment Calculations
 	 * @example
-	 * let scale = artifact.getPaymentScale()
+	 * var scale = artifact.getPaymentScale()
 	 * @return {number} Returns 1 if no payment scale is set (aka, 1:1 scale)
 	 */
-	Artifact.prototype.getPaymentScale = function () {
+	getPaymentScale() {
 		//	Check if scale is a string
 		// 		If so, check if the string is a number, or represented as a ratio
 		// 			return the parsed number or ratio bound
@@ -565,35 +441,35 @@ export default function Artifact(input) {
 	 * artifact.setSuggestedTip([10, 100, 1000])
 	 * @param {Array<number>} suggestedTipArray - The Suggested Tips you wish to define
 	 */
-	Artifact.prototype.setSuggestedTip = function (suggestedTipArray) {
+	setSuggestedTip(suggestedTipArray) {
 		this.artifact.payment.tips = suggestedTipArray;
 	}
 
 	/**
 	 * Get what the user has defined as their suggested tip values
 	 * @example
-	 * let tips = artifact.getSuggestedTip()
+	 * var tips = artifact.getSuggestedTip()
 	 * @return {Array<number>}
 	 */
-	Artifact.prototype.getSuggestedTip = function () {
+	getSuggestedTip() {
 		return this.artifact.payment.tips || []
 	}
 
 	/**
 	 * !!! NOT YET IMPLEMENTED !!!
-	 * Add Token Rule to the Artifact
-	 * @param {TokenRule} tokenRule - The Token Rule to add to the Artifact
+	 * Add Token Rule to the Artifact_DEPRECATED
+	 * @param {TokenRule} tokenRule - The Token Rule to add to the Artifact_DEPRECATED
 	 */
-	Artifact.prototype.addTokenRule = function (tokenRule) {
+	addTokenRule(tokenRule) {
 		this.artifact.payment.tokens.push(tokenRule);
 	}
 
 	/**
 	 * !!! NOT YET IMPLEMENTED !!!
-	 * Get Token Rules from the Artifact
+	 * Get Token Rules from the Artifact_DEPRECATED
 	 * @return {Array.<TokenRule>}
 	 */
-	Artifact.prototype.getTokenRules = function () {
+	getTokenRules() {
 		return this.artifact.payment.tokens
 	}
 
@@ -602,7 +478,7 @@ export default function Artifact(input) {
 	 * @param {string} coin - The string coin ticker
 	 * @param {string} address - Base58 Public Key to send payments
 	 */
-	Artifact.prototype.addSinglePaymentAddress = function (coin, address) {
+	addSinglePaymentAddress(coin, address) {
 		if (!this.artifact.payment.addresses)
 			this.artifact.payment.addresses = {};
 		let tmpObj = {};
@@ -614,12 +490,12 @@ export default function Artifact(input) {
 	 * Get the Address(es) to send Payments to for specific coins
 	 * @param {(string|Array.<string>)} coins - A string or an array of strings of the coins you wish to fetch the addresses for
 	 * @example
-	 * let address = artifact.getPaymentAddress(["btc", "ltc"])
+	 * var address = artifact.getPaymentAddress(["btc", "ltc"])
 	 * { btc: "19HuaNprtc8MpG6bmiPoZigjaEu9xccxps",
 		ltc: "LbpjYYPwYBjoPQ44PrNZr7nTq7HkYgcoXN"}
 	 * @return {Object} - keyValue => [string][string] === [coin][address]
 	 */
-	Artifact.prototype.getPaymentAddress = function (coins) {
+	getPaymentAddress(coins) {
 		if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === {}) && this.getMainAddress() && this.getMainAddress() !== "")
 			return {flo: this.getMainAddress()}
 
@@ -642,10 +518,10 @@ export default function Artifact(input) {
 	/**
 	 * Get the Addresses to send Payment to
 	 * @example
-	 * let addresses = artifact.getPaymentAddresses()
+	 * var addresses = artifact.getPaymentAddresses()
 	 * @return {Object} - keyValue => [string][string] === [coin][address]
 	 */
-	Artifact.prototype.getPaymentAddresses = function (coins) {
+	getPaymentAddresses(coins) {
 		if ((!this.artifact.payment.addresses || this.artifact.payment.addresses === {}) && this.getMainAddress() && this.getMainAddress() !== "")
 			return {flo: this.getMainAddress()}
 
@@ -673,10 +549,10 @@ export default function Artifact(input) {
 	 * Get the supported payment coins
 	 * @param {(string|Array.<String>)} [coins] - coins you want to check against
 	 * @example
-	 * let supportedCoins = artifact.getSupportedCoins()
+	 * var supportedCoins = artifact.getSupportedCoins()
 	 * @return {(String|Array.<String>)}
 	 */
-	Artifact.prototype.getSupportedCoins = function (coins) {
+	getSupportedCoins(coins) {
 		let coin_check = coins || undefined
 		let supported_coins = [];
 		let addrs = this.getPaymentAddresses()
@@ -714,10 +590,10 @@ export default function Artifact(input) {
 	/**
 	 * Get the Addresses to send Tips to
 	 * @example
-	 * let addresses = artifact.getPaymentAddresses()
+	 * var addresses = artifact.getPaymentAddresses()
 	 * @return {Object} - keyValue => [string][string] === [coin][address]
 	 */
-	Artifact.prototype.getTipAddresses = function () {
+	getTipAddresses() {
 		return this.getPaymentAddresses()
 	}
 
@@ -727,7 +603,7 @@ export default function Artifact(input) {
 	 * artifact.setRetailerCut(10)
 	 * @param {number} newCut - The new cut you want sent to Retailers
 	 */
-	Artifact.prototype.setRetailerCut = function (newCut) {
+	setRetailerCut(newCut) {
 		if (typeof newCut === "number")
 			this.artifact.payment.retailer = newCut;
 	}
@@ -735,10 +611,10 @@ export default function Artifact(input) {
 	/**
 	 * Get the cut that the user wants to send to Retailers for selling their content
 	 * @example
-	 * let retailerCut = artifact.getRetailerCut()
+	 * var retailerCut = artifact.getRetailerCut()
 	 * @return {number}
 	 */
-	Artifact.prototype.getRetailerCut = function () {
+	getRetailerCut() {
 		return this.artifact.payment.retailer || 0
 	}
 
@@ -748,7 +624,7 @@ export default function Artifact(input) {
 	 * artifact.setPromoterCut(10)
 	 * @param {number} newCut - The new cut you want sent to Retailers
 	 */
-	Artifact.prototype.setPromoterCut = function (newCut) {
+	setPromoterCut(newCut) {
 		if (typeof newCut === "number")
 			this.artifact.payment.promoter = newCut;
 	}
@@ -756,10 +632,10 @@ export default function Artifact(input) {
 	/**
 	 * Get the cut that the user wants to send to Promoters for sharing their content
 	 * @example
-	 * let promoterCut = artifact.getPromoterCut()
+	 * var promoterCut = artifact.getPromoterCut()
 	 * @return {number}
 	 */
-	Artifact.prototype.getPromoterCut = function () {
+	getPromoterCut() {
 		return this.artifact.payment.promoter || 0
 	}
 
@@ -769,7 +645,7 @@ export default function Artifact(input) {
 	 * artifact.setMaxDiscount(20)
 	 * @param {number} newMax - The new maximim discount percentage
 	 */
-	Artifact.prototype.setMaxDiscount = function (newMax) {
+	setMaxDiscount(newMax) {
 		if (typeof newMax === "number")
 			this.artifact.payment.maxdisc = newMax;
 	}
@@ -777,18 +653,18 @@ export default function Artifact(input) {
 	/**
 	 * Get the maximum discount percent that Retailers can discount the content by during a sale
 	 * @example
-	 * let maxDiscount = artifact.getMaxDiscount()
+	 * var maxDiscount = artifact.getMaxDiscount()
 	 * @return {number}
 	 */
-	Artifact.prototype.getMaxDiscount = function () {
+	getMaxDiscount() {
 		return this.artifact.payment.maxdisc || 0
 	}
 
 	/**
-	 * Add a File to the Artifact
+	 * Add a File to the Artifact_DEPRECATED
 	 * @param {ArtifactFile} file - The file you wish to add
 	 */
-	Artifact.prototype.addFile = function (file) {
+	addFile(file) {
 		if (file instanceof ArtifactFile) {
 			this.FileObjects.push(new ArtifactFile(file.toJSON(), this));
 		} else if (typeof file === "object" || typeof file === "string") {
@@ -797,10 +673,10 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Get all the Files on the Artifact
+	 * Get all the Files on the Artifact_DEPRECATED
 	 * @return {Array.<ArtifactFile>}
 	 */
-	Artifact.prototype.getFiles = function () {
+	getFiles() {
 		return this.FileObjects
 	}
 
@@ -808,14 +684,14 @@ export default function Artifact(input) {
 	 * Get the Thumbnail file if it exists
 	 * @return {ArtifactFile} Returns undefined if no file is matched
 	 */
-	Artifact.prototype.getThumbnail = function () {
-		for (let file of this.getFiles()) {
+	getThumbnail() {
+		for (var file of this.getFiles()) {
 			if (file.getType() === "Image" && file.getSubtype() === "Thumbnail" && file.getSuggestedPlayCost() === 0) {
 				return file;
 			}
 		}
 
-		for (let file of this.getFiles()) {
+		for (var file of this.getFiles()) {
 			if (file.getType() === "Image" && file.getSuggestedPlayCost() === 0) {
 				return file;
 			}
@@ -825,12 +701,12 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Get the "simple" Duration of the Artifact.
+	 * Get the "simple" Duration of the Artifact_DEPRECATED.
 	 * This gets the duration of the first file that has a duration.
 	 * @return {number} Returns undefined if there is no match to a duration
 	 */
-	Artifact.prototype.getDuration = function () {
-		for (let file of this.getFiles()) {
+	getDuration() {
+		for (var file of this.getFiles()) {
 			if (!isNaN(file.getDuration())) {
 				return file.getDuration();
 			}
@@ -839,12 +715,12 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Check if an Artifact is Valid and has all the required fields to be Published
+	 * Check if an Artifact_DEPRECATED is Valid and has all the required fields to be Published
 	 * @return {StatusObject}
 	 */
-	Artifact.prototype.isValid = function () {
+	isValid() {
 		if (!this.artifact.info.title || this.artifact.info.title === "") {
-			return {success: false, error: "Artifact Title is a Required Field"}
+			return {success: false, error: "Artifact_DEPRECATED Title is a Required Field"}
 		}
 		if (!this.artifact.floAddress || this.artifact.floAddress === "") {
 			return {success: false, error: "floAddress is a Required Field!"}
@@ -854,14 +730,14 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Check if the Artifact is Paid. An Artifact is defined as paid if any files have a cost.
+	 * Check if the Artifact_DEPRECATED is Paid. An Artifact_DEPRECATED is defined as paid if any files have a cost.
 	 * @return {Boolean}
 	 */
-	Artifact.prototype.isPaid = function () {
+	isPaid() {
 		let files = this.getFiles();
 
 		if (files) {
-			for (let file of files) {
+			for (var file of files) {
 				if (file.isPaid()) {
 					return true;
 				}
@@ -872,180 +748,81 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Set block [height]
-	 */
-	Artifact.prototype.setBlock = function (block) {
-		this.meta.block = block
-	}
-
-	/**
-	 * Get block [height]
-	 */
-	Artifact.prototype.getBlock = function () {
-		return this.meta.block
-	}
-
-	/**
-	 * Set block hash
-	 * @param blockHash
-	 */
-	Artifact.prototype.setBlockHash = function (blockHash) {
-		this.meta.block_hash = blockHash
-	}
-
-	/**
-	 * Get block hash
-	 */
-	Artifact.prototype.getBlockHash = function () {
-		return this.meta.block_hash
-	}
-
-	/**
-	 * Set deactivation status
-	 * @param {boolean} status
-	 */
-	Artifact.prototype.setDeactivated = function (status) {
-		this.meta.deactivated = status
-	}
-
-	/**
-	 * Get deactivation status
-	 * @returns {boolean}
-	 */
-	Artifact.prototype.getDeactivated = function () {
-		return this.meta.deactivated
-	}
-
-	/**
-	 * Set time (unix timestamp of block creation)
-	 * @param time
-	 */
-	Artifact.prototype.setTime = function (time) {
-		this.meta.time = time
-	}
-
-	/**
-	 * Get the unix timestamp of the block creation)
-	 * @returns {undefined|*}
-	 */
-	Artifact.prototype.getTime = function () {
-		return this.meta.time
-	}
-
-	/**
-	 * Set Artifact Version type
-	 * @param type
-	 */
-	Artifact.prototype.setVersionType = function (type) {
-		this.meta.type = type
-	}
-
-	/**
-	 * Get Artifact Version type
-	 */
-	Artifact.prototype.getVersionType = function () {
-		return this.meta.type
-	}
-
-	/**
-	 * Get the Artifact object
+	 * Get the Artifact_DEPRECATED JSON. This is the "Dehydrated" version of this class.
 	 * @return {Object}
 	 */
-	Artifact.prototype.getArtifact = function () {
-		return this.artifact
-	}
-
-	/**
-	 * Get the Meta Object
-	 * @return {Object}
-	 */
-	Artifact.prototype.getMeta = function() {
-		return this.meta
-	}
-
-	/**
-	 * Get the Artifact JSON. This is the "Dehydrated" version of this class.
-	 * @return {Object}
-	 */
-	Artifact.prototype.toJSON = function () {
+	toJSON() {
 		this.artifact.storage.files = [];
 
-		for (let file of this.FileObjects) {
+		for (var file of this.FileObjects) {
 			this.artifact.storage.files.push(file.toJSON())
 		}
 
-		let retJSON = {
-			artifact: this.getArtifact(),
-			meta: this.getMeta()
+		var retJSON = {
+			oip042: {
+				artifact: this.artifact
+			}
 		}
 
-
+		if (this.txid) {
+			retJSON.txid = this.txid;
+		}
+		if (this.publisherName) {
+			retJSON.publisherName = this.publisherName;
+		}
 		return JSON.parse(JSON.stringify(retJSON))
 	}
 
 	/**
-	 * Load the Artifact from JSON. This "Hydrates" this class with the "Dehydrated" info.
-	 * @param  {Object} artifact - The specific Artifact JSON
+	 * Load the Artifact_DEPRECATED from JSON. This "Hydrates" this class with the "Dehydrated" info.
+	 * @param  {Object} artifact - The specific Artifact_DEPRECATED JSON
 	 * @return {StatusObject}
 	 */
-	Artifact.prototype.fromJSON = function (artifact) {
+	fromJSON(artifact) {
 		if (artifact) {
-			if (!artifact.meta) {
-				if (artifact['media-data']) {
-					if (artifact['media-data']['alexandria-media']) {
-						this.setVersionType("alexandria-media")
-						return this.importAlexandriaMedia(artifact['media-data']['alexandria-media'])
-					} else {
-						return {success: false, error: "No Artifact_DEPRECATED under Version!"}
-					}
-				} else if (artifact['oip-041']) {
-					this.setVersionType("oip041")
-					if (artifact['oip-041'].signature) {
-						this.setSignature(artifact['oip-041'].signature)
-					}
-					if (artifact['oip-041'].artifact) {
-						return this.import041(artifact['oip-041'].artifact)
-					} else {
-						return {success: false, error: "No Artifact_DEPRECATED under Version!"}
-					}
-				} else if (artifact.oip042) {
-					if (artifact.oip042.signature) {
-						this.setSignature(artifact.oip042.signature)
-					}
-					if (artifact.oip042.artifact) {
-						this.setVersionType("oip042")
-						return this.import042(artifact.oip042.artifact)
-					} else if (artifact.oip042.publish && artifact.oip042.publish.artifact) {
-						return this.import042(artifact.oip042.publish.artifact)
-					} else {
-						return {success: false, error: "No Artifact_DEPRECATED under Version!"}
-					}
-				}
+			if (artifact.txid) {
+				this.setTXID(artifact.txid)
+			}
+			if (artifact.publisherName) {
+				this.setPublisherName(artifact.publisherName)
 			}
 
-			this.setBlock(artifact.meta.block)
-			this.setBlockHash(artifact.meta.block_hash)
-			this.setDeactivated(artifact.meta.deactivated || false)
-			this.setSignature(artifact.meta.signature)
-			this.setTXID(artifact.meta.txid);
-			this.setTime(artifact.meta.time)
-			this.setVersionType(artifact.meta.type)
+			if (artifact['media-data']) {
+				if (artifact['media-data']['alexandria-media']) {
+					return this.importAlexandriaMedia(artifact['media-data']['alexandria-media'])
+				} else {
+					return {success: false, error: "No Artifact_DEPRECATED under Version!"}
+				}
+			} else if (artifact['oip-041']) {
+				if (artifact['oip-041'].signature) {
+					this.setSignature(artifact['oip-041'].signature)
+				}
 
-			switch (artifact.meta.type) {
-				case 'alexandria-media':
-					this.importAlexandriaMedia(artifact.artifact)
-					break
-				case 'oip041':
-					this.import041(artifact.artifact)
-					break
-				case 'oip042':
-					this.import042(artifact.artifact)
-					break
-				default:
-					return {success: false, error: 'Unsupported media type. Check artifact.meta.type', detail: artifact}
+				if (artifact['oip-041'].artifact) {
+					return this.import041(artifact['oip-041'].artifact)
+				} else {
+					return {success: false, error: "No Artifact_DEPRECATED under Version!"}
+				}
+			} else if (artifact.oip042) {
+				if (artifact.oip042.signature) {
+					this.setSignature(artifact.oip042.signature)
+				}
+				if (artifact.oip042.artifact) {
+					return this.import042(artifact.oip042.artifact)
+				} else if (artifact.oip042.publish && artifact.oip042.publish.artifact) {
+					return this.import042(artifact.oip042.publish.artifact)
+				} else if (artifact.oip042.floAddress) {
+					// @TODO: Remove this once OIPd is fixed!
+					// Returned info is Malformed!!! Remove this code!
+					return this.import042(artifact.oip042)
+				} else {
+					return {success: false, error: "No Artifact_DEPRECATED under Version!"}
+				}
+			} else {
+				return {success: false, error: "Artifact_DEPRECATED is Not a Supported Version!", detail: artifact}
 			}
 		} else {
-			return {success: false, error: "Artifact Not Provided!"}
+			return {success: false, error: "Artifact_DEPRECATED Not Provided!"}
 		}
 	}
 
@@ -1053,15 +830,11 @@ export default function Artifact(input) {
 	 * Returns a string version of the .toJSON() function
 	 * @return {string}
 	 */
-	Artifact.prototype.toString = function () {
+	toString() {
 		return JSON.stringify(this.toJSON())
 	}
 
-	/**
-	 * Hydrate an alexandria-media JSON object
-	 * @param artifact
-	 */
-	Artifact.prototype.importAlexandriaMedia = function (artifact) {
+	importAlexandriaMedia(artifact) {
 		if (artifact.publisher) {
 			this.setMainAddress(artifact.publisher)
 		}
@@ -1069,7 +842,7 @@ export default function Artifact(input) {
 			this.setTimestamp(artifact.timestamp)
 		}
 		if (artifact.type) {
-			let type = artifact.type;
+			var type = artifact.type;
 
 			if (type === "music") {
 				type = "Audio"
@@ -1103,58 +876,52 @@ export default function Artifact(input) {
 			}
 
 			if (artifact.info['extra-info']) {
-				let tmpFiles = [];
-				let hadFiles = false;
-				for (let key in artifact.info['extra-info']) {
+				var tmpFiles = [];
+				var hadFiles = false;
+				for (var key in artifact.info['extra-info']) {
 					if (artifact.info['extra-info'].hasOwnProperty(key)) {
-						switch (key) {
-							case 'tags':
-								this.setTags(artifact.info['extra-info'][key])
-								break
-							case 'Bitcoin Address':
-								this.addSinglePaymentAddress("btc", artifact.info['extra-info'][key])
-								break
-							case 'DHT Hash':
-								let hash = artifact.info['extra-info'][key]
-								this.setLocation(hash);
-								break
-							case 'filename':
-								if (artifact.info['extra-info'][key] !== "none")
-									tmpFiles.push({fname: artifact.info['extra-info'][key]})
-								break
-							case 'posterFrame':
-								tmpFiles.push({
-									fname: artifact.info['extra-info'][key],
-									type: "Image",
-									subtype: "Thumbnail"
-								})
-								break
-							case 'runtime':
-								this.setDetail("duration", artifact.info['extra-info'][key]);
-								break
-							case 'files':
-								let fileList = artifact.info['extra-info'][key];
+						if (key === "tags") {
+							this.setTags(artifact.info['extra-info'][key])
+						} else if (key === "Bitcoin Address") {
+							this.addSinglePaymentAddress("btc", artifact.info['extra-info'][key])
+						} else if (key === "DHT Hash") {
+							var hash = artifact.info['extra-info'][key]
 
-								for (let file of fileList) {
-									this.addFile(file);
-								}
+							this.setLocation(hash);
+						} else if (key === "filename") {
+							if (artifact.info['extra-info'][key] !== "none")
+								tmpFiles.push({fname: artifact.info['extra-info'][key]})
+						} else if (key === "posterFrame") {
+							tmpFiles.push({
+								fname: artifact.info['extra-info'][key],
+								type: "Image",
+								subtype: "Thumbnail"
+							})
+						} else if (key === "runtime") {
+							this.setDetail("duration", artifact.info['extra-info'][key]);
+						} else if (key === "files") {
+							var fileList = artifact.info['extra-info'][key];
 
-								if (this.FileObjects.length > 0)
-									hadFiles = true;
-								break
-							default:
-								this.setDetail(key, artifact.info['extra-info'][key])
+							for (var file of fileList) {
+								this.addFile(file);
+							}
+
+							if (this.FileObjects.length > 0)
+								hadFiles = true;
+						} else {
+							this.setDetail(key, artifact.info['extra-info'][key]);
 						}
 					}
 				}
+
 				if (!hadFiles) {
-					for (let file of tmpFiles) {
+					for (var file of tmpFiles) {
 						this.addFile(file);
 					}
 				}
 			}
 		}
-		if (artifact.payment) { //toDo
+		if (artifact.payment) {
 			// if (artifact.payment.type && artifact.payment.type === "tip"){
 			// 	this.setPaymentFiat(artifact.payment.fiat);
 			// }
@@ -1167,11 +934,7 @@ export default function Artifact(input) {
 		}
 	}
 
-	/**
-	 * Hydrate an oip041 JSON object
-	 * @param artifact
-	 */
-	Artifact.prototype.import041 = function (artifact) {
+	import041(artifact) {
 		if (artifact.publisher) {
 			this.setMainAddress(artifact.publisher)
 		}
@@ -1180,8 +943,8 @@ export default function Artifact(input) {
 		}
 		if (artifact.type) {
 			if (artifact.type.split("-").length === 2) {
-				let type = artifact.type.split("-")[0];
-				let subtype = artifact.type.split("-")[1];
+				var type = artifact.type.split("-")[0];
+				var subtype = artifact.type.split("-")[1];
 
 				this.setType(type);
 				this.setSubtype(subtype);
@@ -1207,7 +970,7 @@ export default function Artifact(input) {
 			}
 
 			if (artifact.info.extraInfo) {
-				for (let key in artifact.info.extraInfo) {
+				for (var key in artifact.info.extraInfo) {
 					if (artifact.info.extraInfo.hasOwnProperty(key)) {
 						this.setDetail(key, artifact.info.extraInfo[key]);
 					}
@@ -1223,7 +986,7 @@ export default function Artifact(input) {
 				this.setLocation(artifact.storage.location);
 			}
 			if (artifact.storage.files) {
-				for (let file of artifact.storage.files) {
+				for (var file of artifact.storage.files) {
 					this.addFile(file);
 				}
 			}
@@ -1240,12 +1003,12 @@ export default function Artifact(input) {
 				this.setSuggestedTip(artifact.payment.sugTip)
 			}
 			if (artifact.payment.tokens && Array.isArray(artifact.payment.tokens)) {
-				for (let token of artifact.payment.tokens) {
+				for (var token of artifact.payment.tokens) {
 					this.addTokenRule(token)
 				}
 			}
 			if (artifact.payment.addresses) {
-				for (let address of artifact.payment.addresses) {
+				for (var address of artifact.payment.addresses) {
 					this.addSinglePaymentAddress(address.token, address.address)
 				}
 			}
@@ -1261,11 +1024,7 @@ export default function Artifact(input) {
 		}
 	}
 
-	/**
-	 * Hydrate an oip042 JSON object
-	 * @param artifact
-	 */
-	Artifact.prototype.import042 = function (artifact) {
+	import042(artifact) {
 		if (artifact.floAddress) {
 			this.setMainAddress(artifact.floAddress)
 		}
@@ -1300,7 +1059,7 @@ export default function Artifact(input) {
 		}
 
 		if (artifact.details) {
-			for (let key in artifact.details) {
+			for (var key in artifact.details) {
 				if (artifact.details.hasOwnProperty(key)) {
 					this.setDetail(key, artifact.details[key]);
 				}
@@ -1315,7 +1074,7 @@ export default function Artifact(input) {
 				this.setLocation(artifact.storage.location);
 			}
 			if (artifact.storage.files) {
-				for (let file of artifact.storage.files) {
+				for (var file of artifact.storage.files) {
 					this.addFile(file);
 				}
 			}
@@ -1332,12 +1091,12 @@ export default function Artifact(input) {
 				this.setSuggestedTip(artifact.payment.sugTip)
 			}
 			if (artifact.payment.tokens && Array.isArray(artifact.payment.tokens)) {
-				for (let token of artifact.payment.tokens) {
+				for (var token of artifact.payment.tokens) {
 					this.addTokenRule(token)
 				}
 			}
 			if (artifact.payment.addresses) {
-				for (let coin in artifact.payment.addresses) {
+				for (var coin in artifact.payment.addresses) {
 					this.addSinglePaymentAddress(coin, artifact.payment.addresses[coin])
 				}
 			}
@@ -1354,16 +1113,16 @@ export default function Artifact(input) {
 	}
 
 	/**
-	 * Get the Multiparts that make up the Artifact
-	 * @return {Array.<Multipart>} Returns undefined if the Artifact is too short to be a Multipart
+	 * Get the Multiparts that make up the Artifact_DEPRECATED
+	 * @return {Array.<Multipart>} Returns undefined if the Artifact_DEPRECATED is too short to be a Multipart
 	 */
-	Artifact.prototype.getMultiparts = function () {
-		let jsonString = this.toString();
+	getMultiparts() {
+		var jsonString = this.toString();
 
 		if (jsonString.length > FLODATA_MAX_LEN || this.fromMultipart) {
-			let exactMatch = false;
+			var exactMatch = false;
 
-			let oldArtifact = new Artifact();
+			var oldArtifact = new Artifact_DEPRECATED();
 			oldArtifact.fromMultiparts(this.Multiparts)
 
 			if (oldArtifact.toString() === jsonString)
@@ -1372,15 +1131,15 @@ export default function Artifact(input) {
 			if (!exactMatch) {
 				this.Multiparts = [];
 
-				let chunks = [];
+				var chunks = [];
 				while (jsonString.length > CHOP_MAX_LEN) {
 					chunks[chunks.length] = jsonString.slice(0, CHOP_MAX_LEN);
 					jsonString = jsonString.slice(CHOP_MAX_LEN);
 				}
 				chunks[chunks.length] = jsonString;
 
-				for (let c in chunks) {
-					let mp = new Multipart();
+				for (var c in chunks) {
+					var mp = new Multipart();
 
 					mp.setPartNumber(parseInt(c));
 					mp.setTotalParts(chunks.length - 1);
@@ -1409,13 +1168,13 @@ export default function Artifact(input) {
 		}
 	}
 
-	Artifact.prototype.fromMultiparts = function (multipartArray) {
+	fromMultiparts(multipartArray) {
 		if (Array.isArray(multipartArray)) {
-			for (let part in multipartArray) {
+			for (var part in multipartArray) {
 				if (multipartArray[part] instanceof Multipart) {
 					this.Multiparts[part] = multipartArray[part];
 				} else {
-					let mp = new Multipart();
+					var mp = new Multipart();
 					mp.fromString(multipartArray[part]);
 					this.Multiparts.push(mp);
 				}
@@ -1427,9 +1186,9 @@ export default function Artifact(input) {
 				})
 			}
 
-			let jsonString = "";
+			var jsonString = "";
 
-			for (let multiP of this.Multiparts) {
+			for (var multiP of this.Multiparts) {
 				jsonString += multiP.getChoppedStringData();
 			}
 
@@ -1447,30 +1206,18 @@ export default function Artifact(input) {
 		}
 	}
 
-	Artifact.prototype.capitalizeFirstLetter = function (string) {
+	capitalizeFirstLetter(string) {
 		return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 	}
 
 	/**
 	 * Get the Class Name.
 	 * This is used to check the passed object in ArtifactFile (since InstanceOf could not be done).
-	 * @return {string} Returns "Artifact"
+	 * @return {string} Returns "Artifact_DEPRECATED"
 	 */
-	Artifact.prototype.getClassName = function () {
-		return "Artifact"
-	}
-
-	//constructor
-	if (input) {
-		if (typeof input === "string") {
-			if (input.startsWith("json:")) {
-				input = input.slice(5)
-			}
-			try {
-				this.fromJSON(JSON.parse(input))
-			} catch (e) {console.error('Error parsing input in Artifact constructor', e)}
-		} else if (typeof input === "object") {
-			this.fromJSON(input)
-		}
+	getClassName() {
+		return "Artifact_DEPRECATED"
 	}
 }
+
+module.exports = Artifact_DEPRECATED

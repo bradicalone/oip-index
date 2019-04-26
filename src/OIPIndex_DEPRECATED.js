@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Artifact from './Artifacts/Artifact_DEPRECATED';
+import Artifact from './OIPComponents/Artifacts/Artifact_DEPRECATED';
 import Multipart from './OIPComponents/Multipart'
 
 

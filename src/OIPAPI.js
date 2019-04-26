@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MPSingle from './OIPComponents/MPSingle'
 import FloDataTX from './OIPComponents/FloDataTX'
-import Artifact from './Artifacts/Artifact'
+import Artifact from './OIPComponents/Artifacts/Artifact'
 
 /**
  * The Transaction ID on the Blockchain.
@@ -15,7 +15,7 @@ import Artifact from './Artifacts/Artifact'
 const hydrateArray = (artifacts) => {
 	let tmpArray = []
 	for (let art of artifacts) {
-		tmpArray.push(Artifact(art))
+		tmpArray.push(new Artifact(art))
 	}
 	return tmpArray
 }
@@ -31,7 +31,7 @@ const hydrateFloDataTX = (floDataTXs) => {
 const localhost = "http://localhost:1606"
 const defaultOIPdURL = "http://snowflake.oip.fun:1606";
 
-class OIPIndex {
+class OIPAPI {
 	/**
 	 * Spawn a new OIP Index with a specific OIPd URL
 	 * @param  {Object} [settings] - The Settings to use for the Index
@@ -93,7 +93,7 @@ class OIPIndex {
 		if (res && res.data) {
 			let artifacts = res.data.results
 			if (artifacts.length === 0)
-				return {success: true, message: `No artifacts found with query: ${query}`, artifacts}
+				return {success: true, warning: `No artifacts found with query: ${query}`, artifacts}
 			return {success: true, artifacts: hydrateArray(artifacts)}
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res.data}
@@ -122,10 +122,10 @@ class OIPIndex {
 			let resultArray = res.data.results
 
 			if (resultArray.length === 0) {
-				return {success: false, error: "No results found", response: res.data}
+				return {success: true, artifact: resultArray, warning: "No results found"}
 			} else if (resultArray.length > 1) {
-				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
-			} else return {success: true, artifact: Artifact(resultArray[0])}
+				return {success: true, warning: "Multiple artifacts found, possible collision", artifacts: resultArray}
+			} else return {success: true, artifact: new Artifact(resultArray[0])}
 
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res.data}
@@ -160,7 +160,7 @@ class OIPIndex {
 			else errors.push(res.artifact)
 		}
 		if (errors.length > 0) {
-			return {success: false, error: 'Not [all artifacts] found', errors, artifacts}
+			return {success: true, warning: 'Not [all artifacts] found', error: errors, artifacts}
 		} else {
 			return {success: true, artifacts: artifacts}
 		}
@@ -193,9 +193,9 @@ class OIPIndex {
 		if (res && res.data) {
 			let artifacts = res.data.results
 			if (artifacts.length === 0)
-				return {success: false, error: 'No artifacts found', response: res.data}
+				return {success: true, artifacts, warning: 'No artifacts found'}
 			if (artifacts.length > 0 && artifacts.length < limit)
-				return {success: true, artifacts: hydrateArray(artifacts), message: 'Not all requested artifacts were found'}
+				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
 			if (artifacts.length === limit)
 				return {success: true, artifacts: hydrateArray(artifacts)}
 		} else {
@@ -226,10 +226,11 @@ class OIPIndex {
 		} catch (err) {
 			return {success: false, error: err}
 		}
+
 		if (res && res.data) {
 			let artifacts = res.data.results
 			if (artifacts.length === 0)
-				return {success: false, error: 'No artifacts found', response: res.data}
+				return {success: true, artifacts: res.data.results, warning: 'No artifacts found'}
 			if (artifacts.length > 0 && artifacts.length < limit)
 				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
 			if (artifacts.length === limit) {
@@ -262,12 +263,11 @@ class OIPIndex {
 
 		if (res && res.data) {
 			let resultArray = res.data.results
-
 			if (resultArray.length === 0) {
-				return {success: false, error: "No results found", response: res.data}
+				return {success: true, warning: "No results found", artifact: undefined}
 			} else if (resultArray.length > 1) {
 				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
-			} else return {success: true, artifact: Artifact(resultArray[0])}
+			} else return {success: true, artifact: new Artifact(resultArray[0])}
 
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res.data}
@@ -302,7 +302,7 @@ class OIPIndex {
 			else errors.push(res.artifact)
 		}
 		if (errors.length > 0) {
-			return {success: false, error: 'Not [all artifacts] found', errors, artifacts}
+			return {success: true, warning: 'Not [all artifacts] found', error: errors, artifacts}
 		} else {
 			return {success: true, artifacts: artifacts}
 		}
@@ -334,13 +334,12 @@ class OIPIndex {
 		if (res && res.data) {
 			let artifacts = res.data.results
 			if (artifacts.length === 0)
-				return {success: false, error: 'No artifacts found', response: res.data}
+				return {success: true, warning: 'No artifacts found', artifacts}
 			if (artifacts.length > 0 && artifacts.length < limit)
 				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
 			if (artifacts.length === limit) {
 				return {success: true, artifacts: hydrateArray(artifacts)}
 			}
-
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res}
 		}
@@ -372,7 +371,7 @@ class OIPIndex {
 		if (res && res.data) {
 			let artifacts = res.data.results
 			if (artifacts.length === 0)
-				return {success: false, error: 'No artifacts found', response: res.data}
+				return {success: true, error: 'No artifacts found', artifacts}
 			if (artifacts.length > 0 && artifacts.length < limit)
 				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
 			if (artifacts.length === limit) {
@@ -406,10 +405,10 @@ class OIPIndex {
 			let resultArray = res.data.results
 
 			if (resultArray.length === 0) {
-				return {success: false, error: "No results found", response: res.data}
+				return {success: true, warning: "No results found", artifact: undefined}
 			} else if (resultArray.length > 1) {
 				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
-			} else return {success: true, artifact: Artifact(resultArray[0])}
+			} else return {success: true, artifact: new Artifact(resultArray[0])}
 
 		} else {
 			return {success: false, error: 'No data returned from axios request', response: res.data}
@@ -444,7 +443,7 @@ class OIPIndex {
 			else errors.push(res.artifact)
 		}
 		if (errors.length > 0) {
-			return {success: false, error: 'Not [all artifacts] found', errors, artifacts}
+			return {success: true, warning: 'Not [all artifacts] found', errors, artifacts}
 		} else {
 			return {success: true, artifacts: artifacts}
 		}
@@ -633,4 +632,4 @@ class OIPIndex {
 	}
 }
 
-export default OIPIndex;
+export default OIPAPI;

@@ -1,9 +1,9 @@
-import OIPIndex from '../src/OIPIndex'
+import OIPAPI from '../src/OIPAPI'
 import MPSingle from "../src/OIPComponents/MPSingle";
-let index = new OIPIndex()
+let index = new OIPAPI()
 
-describe('OIPIndex API', () => {
-	describe('OIPIndex API Functions', () => {
+describe('OIPAPI', () => {
+	describe('OIPAPI Functions', () => {
 		it('GET search index by query | searchArtifacts()', async () => {
 			let q = 'ryan'
 			let response = await index.searchArtifacts(q)
@@ -49,7 +49,7 @@ describe('OIPIndex API', () => {
 			let response = await index.getLatest041Artifacts(limit)
 			expect(response.success).toBeTruthy()
 			let artifacts = response.artifacts
-			expect(artifacts.length).toEqual(limit)
+			if (!response.warning) expect(artifacts.length).toEqual(limit)
 			for (let art of artifacts) {
 				expect(art.getVersionType()).toEqual("oip041")
 				expect(art.isValid().success).toBeTruthy()
@@ -68,7 +68,7 @@ describe('OIPIndex API', () => {
 			const txid3 = 'b4e6c9e86d14ca3565e57fed8b482d742a7a1cff0dd4cabfe9e3ea29efb3211c'
 			let txArray = [txid1, txid2, txid3]
 			let response = await index.get041Artifacts(txArray)
-			// console.log(response)
+			console.log(response)
 			expect(response.success).toBeTruthy()
 			let artifacts = response.artifacts
 			expect(artifacts.length).toEqual(txArray.length)

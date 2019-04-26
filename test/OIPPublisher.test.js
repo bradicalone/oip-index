@@ -2,7 +2,7 @@ import bitcoin from 'bitcoinjs-lib'
 
 import {flo_testnet} from '../src/networks'
 import {isValidWIF} from '../src/util'
-import OIPPublisher from '../src/OIPPublisher'
+import OIP from '../src/OIP'
 
 const network = flo_testnet.network
 
@@ -17,11 +17,11 @@ const ECPair = bitcoin.ECPair.fromWIF(wif, network)
 describe(`OIP Publisher`, () => {
 	describe('Initialization', () => {
 		it(`Should construct successfully with valid WIF`, () => {
-			let pub = new OIPPublisher(wif, "testnet")
-			expect(pub).toBeInstanceOf(OIPPublisher)
+			let pub = new OIP(wif, "testnet")
+			expect(pub).toBeInstanceOf(OIP)
 		})
 		it(`Should construct unsuccessfully with an invalid WIF`, () => {
-			let pub = new OIPPublisher(wif, "mainnet")
+			let pub = new OIP(wif, "mainnet")
 			expect(pub.success).toBeFalsy()
 		})
 	})
@@ -30,23 +30,42 @@ describe(`OIP Publisher`, () => {
 			expect(isValidWIF(wif, network)).toBeTruthy()
 			expect(ECPair.publicKey).toBeDefined()
 			expect(ECPair.privateKey).toBeDefined()
+			// console.log(typeof ECPair, ECPair.network)
 		})
 	})
 	describe('Transaction Builder', () => {
 		it('fetch UTXO | getUTXO', async () => {
-			let pub = new OIPPublisher(wif, "testnet")
+			let pub = new OIP(wif, "testnet")
 			let utxo = await pub.getUTXO()
 			// console.log(utxo)
 			expect(utxo).toBeDefined()
 			expect(Array.isArray(utxo)).toBeTruthy()
 		})
+		// it('build tx hex | buildTXHex', async () => {
+		// 	let op = new OIP(wif, "testnet")
+		// 	let hex = await op.buildTXHex("ryan")
+		// 	let btx = bitcoin.Transaction.fromHex(hex)
+		// })
 	})
 	describe('Publishing', () => {
 		it('build and broadcast TX hex | publishData', async () => {
-			let pub = new OIPPublisher(wif, "testnet")
-			let txid = await pub.publishData(`publish test: ${Date.now()}`)
+			let pub = new OIP(wif, "testnet")
+			let txid = await pub.publishData(`RC`)
 			expect(typeof txid === 'string').toBeTruthy()
 			// console.log(txid)
+		})
+	})
+	describe('Send TX', () => {
+		it('Send a TX', async () => {
+			let pub = new OIP(wif,  "testnet")
+			let output = {
+				address: "oNAydz5TjkhdP3RPuu3nEirYQf49Jrzm4S",
+				value: Math.floor(0.0001 * flo_testnet.satPerCoin)
+			}
+			let txid = await pub.sendTX(output, "sending testnet funds")
+			// console.log(txid)
+			expect(txid).toBeDefined()
+			expect(typeof txid === 'string').toBeTruthy()
 		})
 	})
 })

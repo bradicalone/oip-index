@@ -9,17 +9,17 @@ import wif from 'wif'
  */
 function isValidWIF (key, network) {
 	try {
-		let dec = wif.decode(key);
+	let dec = wif.decode(key);
 
-		if (network) {
-			return dec.version === network.wif
-		} else {
-			return true
-		}
-	} catch (e) {
-		console.error(e);
-		return false
+	if (network) {
+		return dec.version === network.wif
+	} else {
+		return true
 	}
+} catch (e) {
+	console.error(e);
+	return false
+}
 }
 
 module.exports = {
