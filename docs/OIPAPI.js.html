@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      MultipartX - Documentation
+      OIPAPI.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -80,763 +82,655 @@
   <div id="main">
     
       <h1 class="page-title">
-        MultipartX
+        OIPAPI.js
       </h1>
     
 
     
+      
 
 <section>
-  <header>
-    
-      <h2>
-        
-        MultipartX
-        
-      </h2>
-
-      
-        <div class="class-description">
-          <p>An OIP Multipart Converter (X); converts large data into OIP Multiparts and vice versa</p>
-        </div>
-      
-    
-  </header>
-
   <article>
-    <div class="container-overview">
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-    <h2>Constructor</h2>
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#MultipartX">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="MultipartX">
-      <span class="type-signature"></span>new MultipartX<span class="signature">(input)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>input</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    |
-
-    <span class="param-type">
-      Array.&lt;<a href="MPSingle.html">MPSingle</a>>
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>String data or OIP Multiparts (MPSingle)s (hint: can pass in an JSON object)</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line10">line 10</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-      <h3 class="subsection-title">Methods</h3>
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#fromMultiparts">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="fromMultiparts">
-      <span class="type-signature"></span>fromMultiparts<span class="signature">(MPSingles)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Takes in an array of {MPSingle} for later method use</p>
-  </div>
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>MPSingles</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      Array.&lt;<a href="MPSingle.html">MPSingle</a>>
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>an array of multiparts {MPSingle}</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line81">line 81</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#fromString">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="fromString">
-      <span class="type-signature"></span>fromString<span class="signature">(jsonString)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Splits the jsonString input into multiparts</p>
-  </div>
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>jsonString</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>string data that is too long to fit onto one FLO transaction</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line33">line 33</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#getMultiparts">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="getMultiparts">
-      <span class="type-signature"></span>getMultiparts<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="MPSingle.html">MPSingle</a>>}</span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Return Multiparts array</p>
-  </div>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line94">line 94</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-  <div class="param-desc">
-    <p>multiparts</p>
-  </div>
-
-
-
-  <dl class="param-type">
-    <dt>Type: </dt>
-    <dd>
-      
-    <span class="param-type">
-      Array.&lt;<a href="MPSingle.html">MPSingle</a>>
-    </span>
-
-    
-
-
-    </dd>
-  </dl>
-
-
-    
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#toString">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="toString">
-      <span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Returns the assembled data from the multiparts</p>
-  </div>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line62">line 62</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-  <div class="param-desc">
-    <p>assembled</p>
-  </div>
-
-
-
-  <dl class="param-type">
-    <dt>Type: </dt>
-    <dd>
-      
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-    </dd>
-  </dl>
-
-
-    
-
-      
-    
-
-    
-
-    
+    <pre class="prettyprint source linenums"><code>import axios from 'axios';
+import MPSingle from './OIPComponents/MPSingle'
+import FloDataTX from './OIPComponents/FloDataTX'
+import Artifact from './OIPComponents/Artifacts/Artifact'
+
+/**
+ * The Transaction ID on the Blockchain.
+ * @typedef {string} TXID
+ * @example &lt;caption>Full TXID Reference&lt;/caption>
+ * 8a83ecb7812ca2770814d996529e153b07b103424cd389b800b743baa9604c5b
+ * @example &lt;caption>Shortened TXID Reference&lt;/caption>
+ * 8a83ec
+ */
+
+const hydrateArray = (artifacts) => {
+	let tmpArray = []
+	for (let art of artifacts) {
+		tmpArray.push(new Artifact(art))
+	}
+	return tmpArray
+}
+
+const hydrateFloDataTX = (floDataTXs) => {
+	let tmpArray = []
+	for (let data of floDataTXs) {
+		tmpArray.push(new FloDataTX(data))
+	}
+	return tmpArray
+}
+	//ToDo: change to 'https' when ready
+const localhost = "http://localhost:1606"
+const defaultOIPdURL = "http://snowflake.oip.fun:1606";
+
+class OIPAPI {
+	/**
+	 * Spawn a new OIP Index with a specific OIPd URL
+	 * @param  {Object} [settings] - The Settings to use for the Index
+	 * @param {string} [settings.OIPdURL="https://snowflake.oip.fun/alexandria/v2"] [description]
+	 * @return {Index}
+	 */
+	constructor(settings) {
+		if (settings &amp;&amp; settings.OIPdURL) {
+			this.setOIPdURL(settings.OIPdURL)
+			//ToDo: switch back to defaultOIPdURL
+		} else this.setOIPdURL(defaultOIPdURL)
+	}
+
+	setOIPdURL(OIPdURL) {
+		this.url = OIPdURL;
+
+		this.index = new axios.create({
+			baseURL: this.url,
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+			},
+		})
+	}
+
+	getOIPdURL() {
+		return this.url
+	}
+
+	getNetwork() {
+		return this.index
+	}
+
+	/**
+	 * Search The Index for Artifacts that match your search query
+	 * @param {string} query - your search query
+	 * @param {number} [limit=100] - max num of results
+	 * @return {Promise&lt;Object>}
+	 * //return example
+	 * {success: true, artifacts: artifacts, ...}
+	 *
+	 * //or error
+	 * {success: false, error: error, ...}
+	 */
+	async searchArtifacts(query, limit) {
+		if (typeof query !== 'string') {
+			return {success: false, error: `'query' must be of type string`}
+		}
+		let res;
+		try {
+			res = await this.index.get(`/artifact/search`, {
+				params: {
+					q: query
+				},
+				limit
+			})
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: true, warning: `No artifacts found with query: ${query}`, artifacts}
+			return {success: true, artifacts: hydrateArray(artifacts)}
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res.data}
+		}
+	}
+
+	/**
+	 * Get an Artifact from the Index by TXID
+	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
+	 * @return {Promise&lt;Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
+	 * @example
+	 * //return example
+	 * {success: true, artifact: Artifact}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getArtifact(txid) {
+		let res
+		try {
+			res = await this.index.get(`/artifact/get/${txid}`);
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let resultArray = res.data.results
+
+			if (resultArray.length === 0) {
+				return {success: true, artifact: resultArray, warning: "No results found"}
+			} else if (resultArray.length > 1) {
+				return {success: true, warning: "Multiple artifacts found, possible collision", artifacts: resultArray}
+			} else return {success: true, artifact: new Artifact(resultArray[0])}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res.data}
+		}
+	}
+
+	/**
+	 * Get multiple Artifacts by their TXID
+	 * @param {Array.&lt;string>} txids - an array of transaction IDs
+	 * @return {Promise&lt;Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: artifacts>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getArtifacts(txids) {
+		if (!Array.isArray(txids)) {
+			return {success: false, error: `'txids' must be an Array of transaction IDs`}
+		}
+		let artifacts = []
+		let errors = []
+		for (let txid of txids) {
+			let res
+			try {
+				res = await this.getArtifact(txid)
+			} catch (err) {
+				return {success: false, error: err}
+			}
+			if (res.success) artifacts.push(res.artifact)
+			else errors.push(res.artifact)
+		}
+		if (errors.length > 0) {
+			return {success: true, warning: 'Not [all artifacts] found', error: errors, artifacts}
+		} else {
+			return {success: true, artifacts: artifacts}
+		}
+	}
+
+	/**
+	 * Get the Latest Artifacts published to the Index
+	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
+	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
+	 * @return {Promise&lt;Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: Array.&lt;Artifact>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getLatestArtifacts(limit = 100, nsfw = false) {
+		let res
+		try {
+			res = await this.index.get(`/artifact/get/latest/${limit}`, {
+				params: {
+					nsfw
+				}
+			});
+		} catch (err) {
+			return {success: false, error: err}
+		}
+
+		if (res &amp;&amp; res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: true, artifacts, warning: 'No artifacts found'}
+			if (artifacts.length > 0 &amp;&amp; artifacts.length &lt; limit)
+				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
+			if (artifacts.length === limit)
+				return {success: true, artifacts: hydrateArray(artifacts)}
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res.data}
+		}
+	}
+
+	/**
+	 * Get the Latest OIP041 Artifacts published to the Index
+	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
+	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
+	 * @return {Promise&lt;Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: Array.&lt;Artifact>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getLatest041Artifacts(limit = 100, nsfw = false) {
+		let res
+		try {
+			res = await this.index.get(`/oip041/artifact/get/latest/${limit}`, {
+				params: {
+					nsfw
+				}
+			});
+		} catch (err) {
+			return {success: false, error: err}
+		}
+
+		if (res &amp;&amp; res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: true, artifacts: res.data.results, warning: 'No artifacts found'}
+			if (artifacts.length > 0 &amp;&amp; artifacts.length &lt; limit)
+				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
+			if (artifacts.length === limit) {
+				return {success: true, artifacts: hydrateArray(artifacts)}
+			}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res}
+		}
+	}
+
+	/**
+	 * Get an OIP041 Artifact from the Index by TXID
+	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
+	 * @return {Promise&lt;Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
+	 * @example
+	 * //return example
+	 * {success: true, artifact: Artifact}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async get041Artifact(txid) {
+		let res
+		try {
+			res = await this.index.get(`/oip041/artifact/get/${txid}`);
+		} catch (err) {
+			return {success: false, error: err}
+		}
+
+		if (res &amp;&amp; res.data) {
+			let resultArray = res.data.results
+			if (resultArray.length === 0) {
+				return {success: true, warning: "No results found", artifact: undefined}
+			} else if (resultArray.length > 1) {
+				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
+			} else return {success: true, artifact: new Artifact(resultArray[0])}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res.data}
+		}
+	}
+
+	/**
+	 * Get multiple OIP041 Artifacts by their TXID
+	 * @param {Array.&lt;string>} txids - an array of transaction IDs
+	 * @return {Promise&lt;Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: artifacts>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async get041Artifacts(txids) {
+		if (!Array.isArray(txids)) {
+			return {success: false, error: `'txids' must be an Array of transaction IDs`}
+		}
+		let artifacts = []
+		let errors = []
+		for (let txid of txids) {
+			let res
+			try {
+				res = await this.get041Artifact(txid)
+			} catch (err) {
+				return {success: false, error: err}
+			}
+			if (res.success) artifacts.push(res.artifact)
+			else errors.push(res.artifact)
+		}
+		if (errors.length > 0) {
+			return {success: true, warning: 'Not [all artifacts] found', error: errors, artifacts}
+		} else {
+			return {success: true, artifacts: artifacts}
+		}
+	}
+
+	/**
+	 * Get the Latest OIP042 Artifacts published to the Index
+	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
+	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
+	 * @return {Promise&lt;Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: Array.&lt;Artifact>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getLatest042Artifacts(limit = 100 , nsfw = false) {
+		let res
+		try {
+			res = await this.index.get(`/oip042/artifact/get/latest/${limit}`, {
+				params: {
+					nsfw
+				}
+			});
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: true, warning: 'No artifacts found', artifacts}
+			if (artifacts.length > 0 &amp;&amp; artifacts.length &lt; limit)
+				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
+			if (artifacts.length === limit) {
+				return {success: true, artifacts: hydrateArray(artifacts)}
+			}
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res}
+		}
+	}
+
+	/**
+	 * Get the Latest Alexandria Media Artifacts published to the Index
+	 * @param {number} [limit=100] - The amount of artifacts you want returns ( max: 1000 )
+	 * @param {boolean} [nsfw=false] - not safe for work artifacts (don't be sick!)
+	 * @return {Promise&lt;Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: Array.&lt;Artifact>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getLatestAlexandriaMediaArtifacts(limit = 100, nsfw = false) {
+		let res
+		try {
+			res = await this.index.get(`/alexandria/artifact/get/latest/${limit}`, {
+				params: {
+					nsfw
+				}
+			});
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let artifacts = res.data.results
+			if (artifacts.length === 0)
+				return {success: true, error: 'No artifacts found', artifacts}
+			if (artifacts.length > 0 &amp;&amp; artifacts.length &lt; limit)
+				return {success: true, artifacts: hydrateArray(artifacts), warning: 'Not all requested artifacts were found'}
+			if (artifacts.length === limit) {
+				return {success: true, artifacts: hydrateArray(artifacts)}
+			}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res}
+		}
+	}
+
+	/**
+	 * Get an Alexandria Media Artifact from the Index by TXID
+	 * @param {string} txid  - transaction id of the artifact you wish to retrieve
+	 * @return {Promise&lt;Object>} Returns a Promise that will resolve to an Artifact or an object containing an error
+	 * @example
+	 * //return example
+	 * {success: true, artifact: Artifact}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getAlexandriaMediaArtifact(txid) {
+		let res
+		try {
+			res = await this.index.get(`/alexandria/artifact/get/${txid}`);
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let resultArray = res.data.results
+
+			if (resultArray.length === 0) {
+				return {success: true, warning: "No results found", artifact: undefined}
+			} else if (resultArray.length > 1) {
+				return {success: false, error: "Multiple artifacts found, possible collision", artifacts: resultArray}
+			} else return {success: true, artifact: new Artifact(resultArray[0])}
+
+		} else {
+			return {success: false, error: 'No data returned from axios request', response: res.data}
+		}
+	}
+
+	/**
+	 * Get one or more Alexandria Media Artifacts by their TXID
+	 * @param {Array.&lt;string>} txids - an array of transaction IDs
+	 * @return {Promise&lt;Object>}
+	 * @example
+	 * //return example
+	 * {success: true, artifacts: artifacts}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async getAlexandriaMediaArtifacts(txids) {
+		if (!Array.isArray(txids)) {
+			return {success: false, error: `'txids' must be an Array of transaction IDs`}
+		}
+		let artifacts = []
+		let errors = []
+		for (let txid of txids) {
+			let res
+			try {
+				res = await this.getAlexandriaMediaArtifact(txid)
+			} catch (err) {
+				return {success: false, error: err}
+			}
+			if (res.success) artifacts.push(res.artifact)
+			else errors.push(res.artifact)
+		}
+		if (errors.length > 0) {
+			return {success: true, warning: 'Not [all artifacts] found', errors, artifacts}
+		} else {
+			return {success: true, artifacts: artifacts}
+		}
+	}
+
+	/**
+	 * Search all the floData published into the Flo Blockchain, this is provided by a connection to an OIPd server
+	 * @param {string} query - your search query
+	 * @param {number} [limit] - max num of results
+	 * @return {Promise&lt;Object>}
+	 * //return example
+	 * {success: true, floData: Array.&lt;FloDataTXs>}
+	 *
+	 * //or error
+	 * {success: false, error: error}
+	 */
+	async searchFloData(query, limit) {
+		if (typeof query !== 'string') {
+			return {success: false, error: `'query' must be of type string`}
+		}
+		let res;
+		try {
+			res = await this.index.get(`/floData/search`, {
+				params: {
+					q: query
+				},
+				limit
+			})
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let txs = res.data.results
+			//ToDo: consider not initializing a class for tx data
+			return {success: true, txs: hydrateFloDataTX(txs)}
+		} else {
+			return {success: false, error: 'Missing axios data response', response: res.data}
+		}
+	}
+
+	/**
+	 * Get floData by TXID
+	 * @param {string} txid - the transaction id you wish to grab the floData from
+	 */
+	async getFloData(txid) {
+		let res;
+		try {
+			res = await this.index.get(`/floData/get/${txid}`)
+		} catch (err) {
+			return {sucess: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let results = res.data.results
+			if (results.length === 0) {
+				return {success: false, error: 'No floData found', response: res.data}
+			} else if (results.length > 1) {
+				return {success: false, error: 'Collision: multiple data points found', response: res.data}
+			} else {
+				return {success: true, floData: res.data.results[0].tx.floData}
+			}
+		} else {
+			return {success: false, error: 'Missing data', response: res.data}
+		}
+
+	}
+
+	/**
+	 * Get a Multipart by its TXID
+	 * @param txid
+	 * @return {Promise&lt;Object>}
+	 */
+	async getMultipart(txid) {
+		let res;
+		try {
+			res = await this.index.get(`/multipart/get/id/${txid}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let total = res.data.total
+			let results = res.data.results
+			let multiparts = []
+			for (let mp of results) {
+				multiparts.push(new MPSingle(mp))
+			}
+			if (!total) {
+				return {success: false, message: "No parts found", responseData: res.data}
+			} else if (total > 1) {
+				return {success: false, message: "Collision: mulitple parts found with single ID", multiparts}
+			} else {
+				return {success: true, multipart: multiparts[0]}
+			}
+		} else {
+			return {success: false, error: "Missing axios data response", response: res}
+		}
+
+	}
+
+	/**
+	 * Get OIP Multiparts by the First TXID Reference
+	 * @param {string} ref - the TXID reference of the first multipart
+	 * @param {number} [limit] - max num of results
+	 * @return {Promise&lt;Object>}
+	 */
+	async getMultiparts(ref, limit) {
+		let res;
+		let querystring = `/multipart/get/ref/${ref}`
+		if (limit) querystring += `/${limit}`
+		try {
+			res = await this.index.get(querystring)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let total = res.data.total
+			let results = res.data.results
+			let multiparts = []
+			for (let mp of results) {
+				multiparts.push(new MPSingle(mp))
+			}
+			return {success: true, multiparts, total}
+
+		} else {
+			return {success: false, error: "Missing axios data response", response: res}
+		}
+
+	}
+
+	/**
+	 * Get a historian data point by its txid
+	 * @param {string} txid
+	 * @return {Promise&lt;Object>}
+	 */
+	async getHistorianData(txid) {
+		let res
+		try {
+			res = await this.index.get(`historian/get/${txid}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let result = res.data.results
+			if (Array.isArray(result)) {
+				if (result.length === 1) {
+					result = result[0]
+				}
+				return {success: true, result}
+			}
+		} else {
+			return {success: false, response: res.data, error: "No data returned from axios request"}
+		}
+	}
+
+	/**
+	 * Get the latest historian data points
+	 * @param {number} [limit=100]
+	 * @return {Promise&lt;{Object}>}
+	 */
+	async getLastestHistorianData(limit = 100) {
+		let res
+		try {
+			res = await this.index.get(`historian/get/latest/${limit}`)
+		} catch (err) {
+			return {success: false, error: err}
+		}
+		if (res &amp;&amp; res.data) {
+			let results = res.data.results
+			return {success: true, results}
+		} else {
+			return {success: false, response: res.data, error: "No data returned from axios request"}
+		}
+	}
+
+	/**
+	 * Get OIP Daemon specs
+	 * @return {Promise&lt;Object>}
+	 */
+	async getVersion() {
+		let res
+		try {
+			res = await this.index.get('/version')
+		} catch (err) {
+			return {success: false, error: "Missing axios data response", response: res}
+		}
+		return res.data
+	}
+}
+
+export default OIPAPI;
+</code></pre>
   </article>
 </section>
 
-
+    
 
 
   </div>

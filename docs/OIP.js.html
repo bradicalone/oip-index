@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      MultipartX - Documentation
+      OIP.js - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -80,763 +82,533 @@
   <div id="main">
     
       <h1 class="page-title">
-        MultipartX
+        OIP.js
       </h1>
     
 
     
+      
 
 <section>
-  <header>
-    
-      <h2>
-        
-        MultipartX
-        
-      </h2>
-
-      
-        <div class="class-description">
-          <p>An OIP Multipart Converter (X); converts large data into OIP Multiparts and vice versa</p>
-        </div>
-      
-    
-  </header>
-
   <article>
-    <div class="container-overview">
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-    <h2>Constructor</h2>
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#MultipartX">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="MultipartX">
-      <span class="type-signature"></span>new MultipartX<span class="signature">(input)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>input</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    |
-
-    <span class="param-type">
-      Array.&lt;<a href="MPSingle.html">MPSingle</a>>
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>String data or OIP Multiparts (MPSingle)s (hint: can pass in an JSON object)</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line10">line 10</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-      <h3 class="subsection-title">Methods</h3>
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#fromMultiparts">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="fromMultiparts">
-      <span class="type-signature"></span>fromMultiparts<span class="signature">(MPSingles)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Takes in an array of {MPSingle} for later method use</p>
-  </div>
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>MPSingles</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      Array.&lt;<a href="MPSingle.html">MPSingle</a>>
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>an array of multiparts {MPSingle}</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line81">line 81</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#fromString">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="fromString">
-      <span class="type-signature"></span>fromString<span class="signature">(jsonString)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Splits the jsonString input into multiparts</p>
-  </div>
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>jsonString</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>string data that is too long to fit onto one FLO transaction</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line33">line 33</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#getMultiparts">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="getMultiparts">
-      <span class="type-signature"></span>getMultiparts<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="MPSingle.html">MPSingle</a>>}</span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Return Multiparts array</p>
-  </div>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line94">line 94</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-  <div class="param-desc">
-    <p>multiparts</p>
-  </div>
-
-
-
-  <dl class="param-type">
-    <dt>Type: </dt>
-    <dd>
-      
-    <span class="param-type">
-      Array.&lt;<a href="MPSingle.html">MPSingle</a>>
-    </span>
-
-    
-
-
-    </dd>
-  </dl>
-
-
-    
-
-      
-        
-
-<br />
-<br />
-<hr />
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#toString">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="toString">
-      <span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Returns the assembled data from the multiparts</p>
-  </div>
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="OIPComponents_MultipartX.js.html">OIPComponents/MultipartX.js</a>, <a href="OIPComponents_MultipartX.js.html#line62">line 62</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-  <div class="param-desc">
-    <p>assembled</p>
-  </div>
-
-
-
-  <dl class="param-type">
-    <dt>Type: </dt>
-    <dd>
-      
-    <span class="param-type">
-      string
-    </span>
-
-    
-
-
-    </dd>
-  </dl>
-
-
-    
-
-      
-    
-
-    
-
-    
+    <pre class="prettyprint source linenums"><code>import bitcoin from 'bitcoinjs-lib'
+import coinselect from 'coinselect'
+import {isValidWIF} from './util'
+import {sign} from './Functions/TXSigner'
+import MultipartX from './OIPComponents/MultipartX'
+import Artifact from './OIPComponents/Artifacts/Artifact'
+import {flo, flo_testnet} from './networks'
+
+if (typeof window === "undefined" || typeof window.localStorage === "undefined") {
+	if (typeof localStorage === "undefined") {
+		var LocalStorage = require('node-localstorage').LocalStorage;
+		var localStorage = new LocalStorage('./localStorage');
+	}
+} else {
+	localStorage = window.localStorage
+}
+
+const FLODATA_MAX_LEN = 1040;
+
+/**
+ * Easily publish data onto the FLO chain (mainnet or testnet)
+ */
+class OIP {
+	/**
+	 * Create a new Publisher. Use in conjuction with the Artifact class to publish valid OIP Records or just post random data onto the chain
+	 *
+	 * ##### Example
+	 * Instantiate and use a Publisher
+	 * ```
+	 * let wif = "cRVa9rNx5N1YKBw8PhavegJPFCiYCfC4n8cYmdc3X1Y6TyFZGG4B"
+	 * network = "testnet" //defaults to mainnet
+	 * let publisher = new OIPPublisher(wif, network)
+	 *
+	 * //Publish arbitrary data
+	 * publisher.publishData('Hello, Testnet)').then(txid => txid).catch(err => err)
+	 *
+	 * //Publish data when using the OIP Spec
+	 * let artifact = new Artifact()
+	 * publisher.publish(artifact.toString()).then(response => response).catch(err => err)
+	 * ```
+	 *
+	 * @class
+	 * @param {string} wif - private key in Wallet Import Format (WIF)
+	 * @param {string} [network="mainnet"] - Use "testnet" for testnet
+	 *
+	 * @return {OIPPublisher|Object}
+	 */
+	//ToDo:: Switch to mainnet for prod
+	constructor(wif, network = "testnet") {
+		if (network === "testnet")
+			network = flo_testnet
+		else network = flo
+
+		if (!isValidWIF(wif, network.network)) {
+			return {success: false, message: "Invalid WIF", wif, network: network.network}
+		}
+
+		this.coininfo = network
+		this.network = network.network
+		this.explorer = network.explorer
+		this.ECPair = bitcoin.ECPair.fromWIF(wif, this.network)
+		this.p2pkh = bitcoin.payments.p2pkh({pubkey: this.ECPair.publicKey, network: this.network}).address
+		this.spentTransactions = []
+		this.history = []
+
+		this.deserialize()
+	}
+
+	//ToDo:: change item to record
+	/**
+	 * Publish OIP Objects to the FLO Chain
+	 * @param {OIPObject} item - an OIPObject //ToDo:: Create an OIP Object || Record || OIPRecord
+	 * @return {Promise&lt;string|Array&lt;string>>} txid - the txid(s) of the broadcasted messages
+	 */
+	async publish(item) {
+		//check type of item
+		//if json, add json prefix
+		//if protobuf, add protobuf prefix
+		//else send as is
+
+		let broadcast_string = `{oip042:${data}}`
+
+		if (broadcast_string.length > FLODATA_MAX_LEN) {
+			let txids
+			try {
+				txids = await this.publishMultiparts(broadcast_string)
+			} catch (err) {
+				throw new Error(`Failed to publish multiparts: ${err}`)
+			}
+			return txids
+		} else {
+			let txid
+			try {
+				txid = await this.publishData(broadcast_string)
+			} catch (err) {
+				throw new Error(`Failed to broadcast message: ${err}`)
+			}
+			return txid
+		}
+	}
+
+	async register(record) {} //ToDo
+	async edit(record) {} //ToDo
+	async transfer(record) {} //ToDO
+	async deactivate(record) {} //ToDo
+
+	/**
+	 * Publish arbitrary data to the FLO chain
+	 * @param {string} data - String data. Must be below or equal to 1040 characters
+	 * @return {Promise&lt;string>} txid - Returns the id of the transaction that contains the published data
+	 */ //ToDo: rename sendToFLOChain
+	async publishData(data) {
+		if (typeof data !== 'string') {
+			throw new Error(`Data must be of type string. Got: ${typeof data}`)
+		}
+		if (data.length > 1040) {
+			return `Error: data length exceeds 1040 characters. Try using OIPPublisher.publish(data) instead.`
+		}
+		let hex
+		try {
+			hex = await this.buildTXHex(data)
+		} catch (err) {
+			throw new Error(`Error building TX Hex: ${err}`)
+		}
+		let txid
+		try {
+			txid = await this.broadcastRawHex(hex)
+		} catch (err) {
+			throw new Error(`Error broadcasting TX Hex: ${err}`)
+		}
+
+		// Add txid to spentTransactions for each spent input
+		for (let inp of this.selected.inputs) {
+			if (this.p2pkh === inp.address) {
+				this.addSpentTransaction(inp.txId)
+			}
+		}
+
+		this.save(txid, hex)
+
+		return txid
+	}
+
+	/**
+	 * Publish data that exceeds the maximum floData length in multiple parts
+	 * @param {string} data - The data you wish to publish
+	 * @return {Promise&lt;Array.&lt;String>>} txids - An array of transaction IDs
+	 */
+	async publishMultiparts(data) {
+		if (typeof data !== 'string') {
+			throw new Error(`Data must be of type string. Got: ${typeof data}`)
+		}
+		let mpx = new MultipartX(data)
+		let mps = mpx.getMultiparts()
+
+		let txids = []
+
+		for (let mp of mps) {
+			if (txids.length > 0) {
+				//set reference, addr, and sign
+				mp.setReference(txids[0])
+				mp.setAddress(this.p2pkh)
+				let {success, signature, error} = mp.signSelf(this.ECPair)
+				if (success) {
+					mp.setSignature(signature)
+				} else {
+					throw new Error(error)
+				}
+			}
+			if (!mp.isValid().success)
+				throw new Error(`Invalid multipart: ${mp.isValid().message}`)
+
+			let txid
+			try {
+				txid = await this.publishData(mp.toString())
+			} catch (err) {
+				throw new Error(`Failed to broadcast multipart: ${err}`)
+			}
+			txids.push(txid)
+		}
+		return txids
+	}
+
+	/**
+	 * Build a valid FLO Raw TX Hex containing floData
+	 * @param {string} [floData=""] - defaults to an empty string
+	 * @param {Object} [output] - custom output object
+	 * @return {Promise&lt;string>} hex - Returns raw transaction hex
+	 *
+	 * @example
+	 * ```
+	 * let output = {
+	 *		address: `{p2pkh}`,
+	 *		value: 100000 //satoshis
+	 *	}
+	 * ```
+	 */
+	async buildTXHex(floData = "", output) {
+		let selected
+		try {
+			selected = await this.buildInputsAndOutputs(floData, output)
+		} catch (err) {
+			throw new Error(`Failed to build inputs and outputs: ${err}`)
+		}
+
+		this.selected = selected
+		// console.log('selected: ', selected)
+		let {inputs, outputs, fee} = selected
+
+		// inputs and outputs will be undefined if no solution was found
+		if (!inputs || !outputs) {
+			throw new Error("No Inputs or Outputs selected! Fail!")
+		}
+
+		let txb = new bitcoin.TransactionBuilder(this.network)
+
+		txb.setVersion(this.coininfo.txVersion) //1: w/o floData, 2: w/ floData
+
+		inputs.forEach(input => txb.addInput(input.txId, input.vout))
+
+		// Check if we are paying to ourself, if so, merge the outputs to just a single output.
+		// Check if we have two outputs (i.e. pay to and change)
+		if (outputs.length === 2) {
+			// If the first input is sending to the from address, and there is a change output,
+			// then merge the outputs.
+			if (outputs[0].address === this.p2pkh &amp;&amp; !outputs[1].address) {
+				let totalToSend = outputs[0].value + outputs[1].value
+				outputs = [{
+					address: this.p2pkh,
+					value: totalToSend
+				}]
+			} else {
+				//send the original amount to the first address and send the rest to yourself as change
+				if (outputs[0].address !== this.p2pkh &amp;&amp; !outputs[1].address) {
+					outputs[1].address = this.p2pkh
+				}
+			}
+		}
+
+		outputs.forEach(output => {
+			if (!output.address) {
+				throw new Error(`Missing output address: ${outputs}`)
+			}
+			txb.addOutput(output.address, output.value)
+		})
+
+		let extraBytes = this.coininfo.getExtraBytes({floData})
+
+		for (let i in inputs) {
+			if (this.p2pkh !== inputs[i].address) throw new Error(`Invalid inputs. Addresses don't match: ${inputs} &amp; ${this.p2pkh}`)
+			sign(txb, extraBytes, parseInt(i), this.ECPair)
+		}
+
+		let builtHex
+
+		try {
+			builtHex = txb.build().toHex();
+		} catch (e) {
+			throw new Error("Unable to build Transaction Hex! \n" + e)
+		}
+
+		builtHex += extraBytes
+
+		return builtHex
+	}
+
+	/**
+	 * Builds the inputs and outputs to form a valid transaction hex
+	 * @param {string} [floData=""] - defaults to an empty string
+	 * @param {Object} [output] - custom output object
+	 * @return {Promise&lt;Object>} selected - Returns the selected inputs to use for the transaction hex
+	 */
+	async buildInputsAndOutputs(floData = "", output) {
+		let utxo
+		try {
+			utxo = await this.getUTXO()
+		} catch (err) {
+			throw err
+		}
+
+		if (utxo.length === 0) {
+			throw new Error(`P2PKH: ${this.p2pkh} has no unspent transaction outputs.`)
+		}
+
+		let formattedUtxos = utxo.map(utxo => {
+			return {
+				address: utxo.address,
+				txId: utxo.txid,
+				vout: utxo.vout,
+				scriptPubKey: utxo.scriptPubKey,
+				value: utxo.satoshis,
+				confirmations: utxo.confirmations
+			}
+		})
+
+		output = output || {
+			address: this.p2pkh,
+			value: Math.floor(0.0001 * this.coininfo.satPerCoin)
+		}
+
+		let targets = [output]
+
+		let extraBytes = this.coininfo.getExtraBytes({floData});
+		let extraBytesLength = extraBytes.length
+
+		// console.log(formattedUtxos)
+
+		let utxosNoUnconfirmed = formattedUtxos.filter(utx => utx.confirmations > 0)
+
+		// console.log(utxosNoUnconfirmed)
+
+		let selected = coinselect(utxosNoUnconfirmed, targets, Math.ceil(this.coininfo.feePerByte), extraBytesLength)
+
+		// Check if we are able to build inputs/outputs off only unconfirmed transactions with confirmations > 0
+		if (!selected.inputs || selected.inputs.length === 0 || !selected.outputs || selected.outputs.length === 0 || !selected.fee) {
+			selected = coinselect(formattedUtxos, targets, Math.ceil(this.coininfo.feePerByte), extraBytesLength)
+		}
+
+		return selected
+	}
+
+	/**
+	 * Get Unspent Transaction Outputs for the given keypair
+	 * @return {Promise&lt;Array.&lt;Object>>} utxo - Returns unspent transaction outputs
+	 */
+	async getUTXO() {
+		let utxo
+		try {
+			utxo = await this.explorer.getAddressUtxo(this.p2pkh)
+		} catch (err) {
+			throw new Error(`Error fetching UTXO: ${err}`)
+		}
+
+
+		return this.removeSpent(utxo)
+	}
+
+	/**
+	 * Removes already spent transactions (that are kept in local memory)
+	 * @param unspentTransactions
+	 * @return {Array.&lt;Object>}
+	 */
+	removeSpent(unspentTransactions) {
+		if (!unspentTransactions || !Array.isArray(unspentTransactions))
+			return
+
+		let unspent = [];
+
+		for (let tx of unspentTransactions) {
+			let spent = false
+			for (let txid of this.spentTransactions) {
+				if (txid === tx.txid) {
+					spent = true;
+				}
+			}
+
+			if (!spent)
+				unspent.push(tx);
+		}
+
+		return unspent;
+	}
+
+	/**
+	 * Add a spent transaction to local memory
+	 * @param {string} txid - transaction id
+	 * @return {void}
+	 */
+	addSpentTransaction(txid) {
+		this.spentTransactions.push(txid);
+	}
+
+	/**
+	 * Broadcast raw transaction hex to the FLO chain
+	 * @param hex
+	 * @return {Promise&lt;string>} txid - Returns a transaction id
+	 */
+	async broadcastRawHex(hex) {
+		let response
+		try {
+			response = await this.explorer.broadcastRawTransaction(hex)
+		} catch (err) {
+			throw new Error(`Failed to broadcast TX Hex: ${err}`)
+		}
+		let txid
+
+		/** Handle { txid: "txid" } */
+		if (response &amp;&amp; typeof response.txid === "string")
+			txid = response.txid
+
+		/**
+		 * Handle
+		 * {
+		 *    txid: {
+		 *        result: '05d2dd88d69cc32717d315152bfb474b0b1b561ae9a477aae091714c4ab216ac',
+		 *        error: null,
+		 *        id: 47070
+		 *     }
+		 * }
+		 */
+		if (response &amp;&amp; response.txid &amp;&amp; response.txid.result) {
+			txid = response.txid.result
+		}
+
+		/**
+		 * Handle
+		 * {
+		 *     result: '05d2dd88d69cc32717d315152bfb474b0b1b561ae9a477aae091714c4ab216ac',
+		 *     error: null,
+		 *     id: 47070
+		 * }
+		 */
+		if (response &amp;&amp; response.result) {
+			txid = response.result
+		}
+
+		return txid
+	}
+
+	async sendTX(output, floData) {
+		if (floData &amp;&amp; typeof floData !== 'string') {
+			throw new Error(`Data must be of type string. Got: ${typeof floData}`)
+		}
+		if (floData.length > 1040) {
+			return `Error: data length exceeds 1040 characters.`
+		}
+		let hex
+		try {
+			hex = await this.buildTXHex(floData, output)
+		} catch (err) {
+			throw new Error(`Error building TX Hex: ${err}`)
+		}
+		let txid
+		try {
+			txid = await this.broadcastRawHex(hex)
+		} catch (err) {
+			throw new Error(`Error broadcasting TX Hex: ${err}`)
+		}
+
+		// Add txid to spentTransactions for each spent input
+		for (let inp of this.selected.inputs) {
+			if (this.p2pkh === inp.address) {
+				this.addSpentTransaction(inp.txId)
+			}
+		}
+
+		this.save(txid, hex)
+
+		return txid
+	}
+
+	/**
+	 * Saves a transaction to localStorage and memory
+	 * @param {string} txid
+	 * @param {string} hex
+	 */
+	save(txid, hex) {
+		let tmpObj = {}
+		tmpObj[txid] = hex
+
+		this.history.push(tmpObj)
+		this.serialize()
+	}
+
+	/**
+	 * Stores important local variables to localStorage such as spent transactions and publish history
+	 */
+	serialize() {
+		let serialized = {
+			spentTransactions: this.spentTransactions,
+			history: this.history
+		}
+
+		localStorage.setItem('publisher_history', JSON.stringify(serialized))
+	}
+
+	/**
+	 * Imports publisher history from localStorage
+	 */
+	deserialize() {
+		let deserialized = JSON.parse(localStorage.getItem('publisher_history'))
+		if (!deserialized)
+			deserialized = {}
+
+		if (deserialized.spentTransactions) {
+			this.spentTransactions = deserialized.spentTransactions
+		}
+
+		if (deserialized.history) {
+			this.history = deserialized.history
+		}
+	}
+
+	/**
+	 * Returns publisher history variables
+	 * @return {{history: Array, spentTransactions: Array}}
+	 */
+	getHistory() {
+		return {
+			history: this.history,
+			spentTransactions: this.spentTransactions
+		}
+	}
+
+	/**
+	 * Deletes the publisher history from localStorage
+	 */
+	deleteHistory() {
+		localStorage.removeItem('publisher_history')
+	}
+
+}
+
+export default OIP</code></pre>
   </article>
 </section>
 
-
+    
 
 
   </div>
